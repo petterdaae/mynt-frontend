@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mynt-frontend
+  namespace: default
+  labels:
+    app: mynt-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mynt-frontend
+  template:
+    metadata:
+      labels:
+        app: mynt-frontend
+    spec:
+      containers:
+        - name: mynt-frontend
+          image: petterdaae/mynt-frontend:$COMMIT_SHA1
+          ports:
+            - containerPort: 80
+              name: http
+ 
