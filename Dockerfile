@@ -3,6 +3,8 @@
 # BUILD IMAGE
 FROM node:14-alpine as build-stage
 
+RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
+
 WORKDIR /app
 
 # Install dependencies
