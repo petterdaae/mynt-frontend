@@ -1,12 +1,13 @@
-import { Button } from 'antd';
-import styled from 'styled-components';
 import { Route, Switch } from "react-router-dom";
-import Signin from "./views/signin";
+import ProtectedRoute from "./auth/protected-route";
+import Login from "./views/login";
+import Authenticated from "./views/authenticated";
 
 function App() {
   return (
     <Switch>
-      <Route path="/" component={Signin} />
+      <Route exact path="/" component={Login} />
+      <ProtectedRoute path="/authenticated" component={Authenticated} />
     </Switch>
   );
 }
