@@ -1,22 +1,13 @@
 import { Button } from 'antd';
 import styled from 'styled-components';
-
-const Wrapper = styled.div`
-  text-align: center;
-`;
-
-const StyledButton = styled(Button)`
-  display: inline-block;
-  margin-top: 200px;
-`;
+import { Route, Switch } from "react-router-dom";
+import Signin from "./views/signin";
 
 function App() {
   return (
-    <Wrapper>
-      <StyledButton type="primary" size="large">
-        Sign in
-      </StyledButton>
-    </Wrapper>
+    <Switch>
+      <Route path="/" component={Signin} />
+    </Switch>
   );
 }
 
