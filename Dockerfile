@@ -1,9 +1,7 @@
 # The first image is for compiling the client files, the second is for serving.
 
 # BUILD IMAGE
-FROM node:14-alpine as build-stage
-
-RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
+FROM node:14.8.0-alpine as build-stage
 
 WORKDIR /app
 
