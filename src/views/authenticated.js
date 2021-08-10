@@ -12,7 +12,7 @@ const StyledButton = styled(Button)`
 `;
 
 function Authenticated() {
-    const { logout, user, getAccessTokenSilently } = useAuth0();
+    const { logout, user } = useAuth0();
     return (
         <Wrapper>
             <StyledButton
@@ -26,24 +26,6 @@ function Authenticated() {
             >
                 Sign out
             </StyledButton>
-            <StyledButton
-                type="primary"
-                size="large"
-                onClick={async () => {
-                    const token = await getAccessTokenSilently();
-                    const response = await fetch(
-                        process.env.REACT_APP_BACKEND_URL + '/authenticated',
-                        {
-                            headers: {
-                                'Authorization': `Bearer ${token}`
-                            }
-                        });
-                    console.log(response.status);
-                }}
-            >
-                Check authentication
-            </StyledButton>
-
             {user && <div>{user.email}</div>}
         </Wrapper>
     );
