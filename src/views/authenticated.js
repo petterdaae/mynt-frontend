@@ -17,6 +17,7 @@ function Authenticated() {
                 type="primary"
                 size="large"
                 onClick={async () => {
+                    // TODO : Should credentials be same-origin?
                     await fetch(`${process.env.REACT_APP_BACKEND_URL}/authenticated`, { credentials: 'include' });
                 }}
             >
