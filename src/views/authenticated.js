@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { Button } from 'antd';
-import { useAuth0 } from "@auth0/auth0-react";
 
 const Wrapper = styled.div`
   text-align: center;
@@ -12,21 +11,18 @@ const StyledButton = styled(Button)`
 `;
 
 function Authenticated() {
-    const { logout, user } = useAuth0();
     return (
         <Wrapper>
             <StyledButton
                 type="primary"
                 size="large"
-                onClick={() =>
-                    logout({
-                        returnTo: window.location.origin
-                    })
-                }
+                onClick={async () => {
+                    // TODO : Should credentials be same-origin?
+                    await fetch(`${process.env.REACT_APP_BACKEND_URL}/authenticated`, { credentials: 'include' });
+                }}
             >
-                Sign out
+                Check authentication
             </StyledButton>
-            {user && <div>{user.email}</div>}
         </Wrapper>
     );
 }
