@@ -17,7 +17,7 @@ function Login() {
                 type="primary"
                 size="large"
                 onClick={() => {
-                    window.location.replace("http://localhost:8080/auth/redirect");
+                    window.location.replace(`${process.env.REACT_APP_BACKEND_URL}/auth/redirect`);
                 }}
             >
                 Sign in
