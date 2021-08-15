@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '../components';
+import { Table } from '../components';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -9,7 +9,7 @@ const Wrapper = styled.div`
 const Components = () => {
     return (
         <Wrapper>
-            <Button>Click me now!</Button>
+            <Table />
         </Wrapper>
     );
 };
