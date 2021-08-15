@@ -1,7 +1,7 @@
 const white = '#ffffff';
-const light = '#c8d8e4';
-const lighter = '#f2f2f2';
-const dark = '#52ab98';
-const darker = '#2b6777';
+const grey = '#dddfd4';
+const yellow = '#fae596';
+const green = '#3fb0ac';
+const darkGreen = '#173e43';
 
-export { white, light, lighter, dark, darker };
+export { white, grey, yellow, green, darkGreen };

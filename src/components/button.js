@@ -1,16 +1,20 @@
 import styled from 'styled-components';
-import { dark, darker, white } from './color';
+import { darkGreen, white } from './color';
 import { base } from './size';
 
-// TODO : Put filter brightness in some variable
 const StyledButton = styled.button`
-    background-color: #173e43;
     padding-top: ${2 * base}px;
     padding-bottom: ${2 * base}px;
     padding-left: ${5 * base}px;
     padding-right: ${5 * base}px;
     border-radius: ${base}px;
-    border: 2px solid #173e43;
+
+    background-color: ${darkGreen};
+    border: 2px solid ${darkGreen};
+
+    font-family: "Source Sans Pro";
+    font-weight: bold;
+    color: ${white};
 
     &:hover {
         cursor: pointer;
@@ -20,16 +24,9 @@ const StyledButton = styled.button`
     &:active {
         box-shadow: rgba(100, 100, 111, 0.5) 0px 7px 29px 0px;
     }
-
-    font-family: "Source Sans Pro";
-    color: ${white};
 `;
 
-/**
- * @kind 'outlined'
- * 
- */
-function Button({ kind, children }) {
+function Button({ children }) {
     return <StyledButton>{children}</StyledButton>
 }
 
