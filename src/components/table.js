@@ -6,7 +6,6 @@ const StyledTable = styled.table`
     width: 100%;
     border-spacing: 0;
     text-align: left;
-    font-family: "Source Sans Pro";
     color: ${darkGreen};
 `;
 

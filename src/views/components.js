@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from '../components';
+import { Table, Navigation } from '../components';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -23,9 +23,9 @@ const data = [
 
 const Components = () => {
     return (
-        <Wrapper>
+        <Navigation>
             <Table data={data} headers={headers} />
-        </Wrapper>
+        </Navigation>
     );
 };
 
