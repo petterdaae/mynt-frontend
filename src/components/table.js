@@ -38,13 +38,10 @@ const StyledTh = styled.th`
     padding-top: ${3 * base}px;
 `;
 
-function Table({ data }) {
+function Table({ headers, data }) {
     return <StyledTable>
         <StyledTr>
-            <StyledTh>Date</StyledTh>
-            <StyledTh>Description</StyledTh>
-            <StyledTh>Amount</StyledTh>
-            <StyledTh>Category</StyledTh>
+            {headers.map(header => <StyledTh>{header}</StyledTh>)}
         </StyledTr>
         {data.map(item =>
             <StyledTr>
