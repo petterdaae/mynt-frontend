@@ -1,6 +1,9 @@
 import styled from 'styled-components';
-import { darkGreen, white, yellow } from './color';
+import { darkGreen, green, white, yellow } from './color';
 import { base } from './size';
+import { FaHome, FaWallet, FaShapes, FaCog } from "react-icons/fa";
+import { useHistory, useLocation } from 'react-router-dom';
+
 
 const Wrapper = styled.div`
     display: flex;
@@ -11,30 +14,41 @@ const Navigation = styled.div`
     display: flex;
     flex-direction: column;
     background-color: ${darkGreen};
+    width: ${64 * base}px;
 `;
 
 const NavigationHeader = styled.div`
     color: ${white};
-    margin: ${6 * base}px;
-    margin-left: ${6 * base}px;
-    margin-right: ${6 * base}px;
+    padding: ${6 * base}px;
+    padding-top: ${32 * base}px;
+    background: ${green};
+    font-size: ${6 * base}px;
+    font-weight: bold;
 
-    padding-bottom: ${6 * base}px;
-    border-bottom: 1px solid ${yellow};
+    margin-bottom: ${6 * base}px;
+    border-bottom: 4px solid ${yellow};
 `;
 
-const NavigationItem = styled.div`
+const StyledNavigationItem = styled.div`
     color: ${white};
+    font-size: ${4 * base}px;
 
+    display: flex;
+    height: ${8 * base}px;
+    align-items: center;
     padding: ${2 * base}px;
     padding-left: ${6 * base}px;
-    padding-right: ${6 * base}px;
 
     &:hover {
         background-color: ${yellow};
         color: ${darkGreen};
         cursor: pointer;
     }
+
+    ${props => props.active && `
+        background-color: ${yellow};
+        color: ${darkGreen};
+    `}
 `;
 
 const Content = styled.div`
@@ -42,15 +56,25 @@ const Content = styled.div`
     padding: ${16 * base}px;
 `;
 
+const iconStyle = `
+    height: 100%;
+    padding-right: ${2 * base}px;
+`;
+
+const StyledFaHome = styled(FaHome)`${iconStyle}`;
+const StyledFaWallet = styled(FaWallet)`${iconStyle}`;
+const StyledFaShapes = styled(FaShapes)`${iconStyle}`;
+const StyledFaCog = styled(FaCog)`${iconStyle}`;
+
 function Component({ children }) {
     return (
         <Wrapper>
             <Navigation>
-                <NavigationHeader>Petter Daae</NavigationHeader>
-                <NavigationItem>Dashboard</NavigationItem>
-                <NavigationItem>Spending</NavigationItem>
-                <NavigationItem>Categories</NavigationItem>
-                <NavigationItem>Settings</NavigationItem>
+                <NavigationHeader>Mynt</NavigationHeader>
+                <NavigationItem path="/authenticated/dashboard"><StyledFaHome /> Dashboard</NavigationItem>
+                <NavigationItem path="/authenticated/spendings"><StyledFaWallet /> Spendings</NavigationItem>
+                <NavigationItem path="/authenticated/categories"><StyledFaShapes /> Categories</NavigationItem>
+                <NavigationItem path="/authenticated/settings"><StyledFaCog /> Settings</NavigationItem>
             </Navigation>
             <Content>
                 {children}
@@ -58,5 +82,20 @@ function Component({ children }) {
         </Wrapper>
     );
 }
+
+function NavigationItem({ children, path }) {
+    const history = useHistory();
+    const location = useLocation();
+
+    return (
+        <StyledNavigationItem
+            onClick={() => history.push(path)}
+            active={location.pathname === path}
+        >
+            {children}
+        </StyledNavigationItem>
+    );
+}
+
 
 export default Component;

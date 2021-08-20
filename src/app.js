@@ -1,24 +1,23 @@
 import { Route, Switch } from "react-router-dom";
-import Login from "./views/login";
-import Authenticated from "./views/authenticated";
-import UpdateSbankenSecrets from "./views/updateSbankenSecrets";
-import Components from "./views/components";
-
-import styled from "styled-components";
-
-const Wrapper = styled.div`
-`;
+import { Login, Dashboard, Spendings, Categories, Settings } from "./views";
+import { Navigation } from "./components";
 
 function App() {
     return (
-        <Wrapper>
+        <div>
             <Switch>
                 <Route exact path="/" component={Login} />
-                <Route path="/authenticated" component={Authenticated} />
-                <Route path="/settings" component={UpdateSbankenSecrets} />
-                <Route path="/components" component={Components} />
+                <Route path="/authenticated" component={Login}>
+                    <Navigation>
+                        <Route path="/authenticated/dashboard" component={Dashboard} />
+                        <Route path="/authenticated/spendings" component={Spendings} />
+                        <Route path="/authenticated/categories" component={Categories} />
+                        <Route path="/authenticated/settings" component={Settings} />
+                    </Navigation>
+                </Route>
+
             </Switch>
-        </Wrapper>
+        </div>
     );
 }
 

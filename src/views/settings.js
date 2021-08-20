@@ -6,7 +6,7 @@ const StyledForm = styled(Form)`
     width: 500px;
 `;
 
-function UpdateSbankenSecrets() {
+function Settings() {
     const onFinish = (values) => {
         fetch(`${process.env.REACT_APP_BACKEND_URL}/user/secrets/sbanken`, {
             method: 'PUT',
@@ -40,4 +40,4 @@ function UpdateSbankenSecrets() {
     );
 };
 
-export default UpdateSbankenSecrets;
+export default Settings;
