@@ -3,7 +3,7 @@ import { base } from '../components/size';
 import { Input, Button } from '../components';
 import { useState } from 'react';
 
-const StyledForm = styled.div`
+const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     width: 40%;
@@ -35,21 +35,33 @@ function Settings() {
             setClientId('');
             setClientSecret('');
         } else {
+            // TODO : Add banner message instead
             console.log("Error!");
         }
     };
+
+    const synchronizeSbankenData = async () => {
+        const result = await fetch(`${process.env.REACT_APP_BACKEND_URL}/synchronize/sbanken`, {
+            method: 'POST',
+            credentials: 'include'
+        });
+    }
 
     return (
         <div>
             <h1>Settings</h1>
 
             <h2>Sbanken Credentials</h2>
-
-            <StyledForm>
+            <Wrapper>
                 <StyledInput placeholder="Client ID" value={clientId} onChange={e => setClientId(e.target.value)} />
                 <StyledInput placeholder="Client Secret" value={clientSecret} onChange={e => setClientSecret(e.target.value)} />
                 <Button onClick={onSubmit}>Update</Button>
-            </StyledForm>
+            </Wrapper>
+
+            <h2>Synchronize Data</h2>
+            <Wrapper>
+                <Button onClick={synchronizeSbankenData}>Synchronize Sbanken Data</Button>
+            </Wrapper>
         </div>
     );
 };
