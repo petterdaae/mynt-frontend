@@ -1,42 +1,56 @@
 import styled from 'styled-components';
-import { Form, Input, Button } from 'antd';
+import { base } from '../components/size';
+import { Input, Button } from '../components';
+import { useState } from 'react';
 
-const StyledForm = styled(Form)`
-    margin-top: 50px;
-    width: 500px;
+const StyledForm = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+`;
+
+const StyledInput = styled(Input)`
+    margin-bottom: ${4 * base}px;
 `;
 
 function Settings() {
-    const onFinish = (values) => {
-        fetch(`${process.env.REACT_APP_BACKEND_URL}/user/secrets/sbanken`, {
+    const [clientId, setClientId] = useState('');
+    const [clientSecret, setClientSecret] = useState('');
+
+    const onSubmit = async () => {
+        console.log("Yay");
+
+        const result = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/secrets/sbanken`, {
             method: 'PUT',
             credentials: 'include',
-            body: JSON.stringify(values)
+            body: JSON.stringify({
+                sbanken_client_id: clientId,
+                sbanken_client_secret: clientSecret
+            })
         });
+
+        if (result.status === 204) {
+            // TODO : Add banner message instead
+            console.log("Success!");
+            setClientId('');
+            setClientSecret('');
+        } else {
+            console.log("Error!");
+        }
     };
 
     return (
-        <StyledForm
-            name="basic"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
-            initialValues={{ remember: true }}
-            onFinish={onFinish}
-        >
-            <Form.Item label="Sbanken ClientID" name="sbanken_client_id">
-                <Input />
-            </Form.Item>
+        <div>
+            <h1>Settings</h1>
 
-            <Form.Item label="Sbanken Client Secret" name="sbanken_client_secret">
-                <Input.Password />
-            </Form.Item>
+            <h2>Sbanken Credentials</h2>
 
-            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button type="primary" htmlType="submit">
-                    Update
-                </Button>
-            </Form.Item>
-        </StyledForm>
+            <StyledForm>
+                <StyledInput placeholder="Client ID" value={clientId} onChange={e => setClientId(e.target.value)} />
+                <StyledInput placeholder="Client Secret" value={clientSecret} onChange={e => setClientSecret(e.target.value)} />
+                <Button onClick={onSubmit}>Update</Button>
+            </StyledForm>
+        </div>
     );
 };
 

@@ -53,7 +53,9 @@ const StyledNavigationItem = styled.div`
 
 const Content = styled.div`
     flex: 1;
-    padding: ${16 * base}px;
+    padding: 20%;
+    padding-top: ${16 * base}px;
+    padding-bottom: 0;
 `;
 
 const iconStyle = `

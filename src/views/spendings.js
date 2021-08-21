@@ -1,5 +1,5 @@
 function Spendings() {
-    return <div>Hello</div>;
+    return <h1>Spendings</h1>;
 }
 
 export default Spendings;
