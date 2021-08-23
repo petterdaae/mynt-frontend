@@ -1,22 +1,19 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { darkGreen, white, yellow } from "./color";
 import { base } from "./size";
 
 const Wrapper = styled.div`
-  background-color: ${darkGreen};
-  color: ${white};
-  width: 300px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   padding: ${5 * base}px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 `;
 
 const NameAndAmount = styled.div`
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid ${yellow};
-  font-size: ${6 * base}px;
   font-weight: bold;
   padding-bottom: ${2 * base}px;
 `;

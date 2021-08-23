@@ -1,16 +1,24 @@
-import { Table, AccountCard } from "../components";
+import { AccountCard } from "../components";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
+import Table from "../components/transaction_list";
 import { base } from "../components/size";
 
 const StyledAccountCard = styled(AccountCard)`
-  margin-left: ${base}px;
-  margin-bottom: ${base}px;
-  display: inline-block;
+  margin: ${2 * base}px;
+  width: ${1400 / 3 - 2 * 8}px;
+`;
 
-  &:last-child {
-    margin: 0;
-  }
+const StyledTable = styled(Table)`
+  margin: ${2 * base}px;
+  width: ${1400 - 4 * base}px;
+`;
+
+const AccountsWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
 `;
 
 function Dashboard() {
@@ -43,11 +51,12 @@ function Dashboard() {
 
   return (
     <>
-      <h1>Dashboard</h1>
-      {accounts.map((account) => (
-        <StyledAccountCard key={account.id} account={account} />
-      ))}
-      <Table
+      <AccountsWrapper>
+        {accounts.map((account) => (
+          <StyledAccountCard key={account.id} account={account} />
+        ))}
+      </AccountsWrapper>
+      <StyledTable
         headers={["Accounting Date", "Text", "Amount"]}
         data={transactions}
       />

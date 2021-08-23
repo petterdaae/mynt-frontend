@@ -1,6 +1,7 @@
 import { Route, Switch } from "react-router-dom";
 import { Login, Dashboard, Spendings, Categories, Settings } from "./views";
-import { Navigation } from "./components";
+// import { Navigation } from "./components";
+import Navigation from "./components/top_nav";
 
 function App() {
   return (
