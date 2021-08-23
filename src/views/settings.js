@@ -4,13 +4,11 @@ import { Input, Button } from "../components";
 import { useState } from "react";
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 40%;
+  width: 900px;
 `;
 
 const StyledInput = styled(Input)`
-  margin-bottom: ${4 * base}px;
+  margin-right: ${4 * base}px;
 `;
 
 function Settings() {
@@ -52,8 +50,6 @@ function Settings() {
 
   return (
     <div>
-      <h1>Settings</h1>
-
       <h2>Sbanken Credentials</h2>
       <Wrapper>
         <StyledInput
