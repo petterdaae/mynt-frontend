@@ -21,7 +21,7 @@ const AccountsWrapper = styled.div`
   width: 100%;
 `;
 
-function Dashboard() {
+function Home() {
   const [transactions, setTransactions] = useState([]);
   const [accounts, setAccounts] = useState([]);
 
@@ -53,4 +53,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default Home;
