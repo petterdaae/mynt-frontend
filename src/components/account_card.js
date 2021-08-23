@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { base } from "./size";
+import { formatCurrency } from "../utils/currency";
 
 const Wrapper = styled.div`
   box-sizing: border-box;
@@ -23,11 +24,6 @@ const AccountNumber = styled.div`
   font-style: italic;
   padding-top: ${2 * base}px;
 `;
-
-function formatCurrency(amount) {
-  const decimals = amount % 100;
-  return `${Math.floor(amount / 100)}.${decimals < 10 ? "0" : ""}${decimals}`;
-}
 
 function AccountCard({ account, className }) {
   return (

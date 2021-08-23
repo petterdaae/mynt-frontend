@@ -1,7 +1,7 @@
 import { AccountCard } from "../components";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import Table from "../components/transaction_list";
+import TransactionList from "../components/transaction_list";
 import { base } from "../components/size";
 
 const StyledAccountCard = styled(AccountCard)`
@@ -9,7 +9,7 @@ const StyledAccountCard = styled(AccountCard)`
   width: ${1400 / 3 - 2 * 8}px;
 `;
 
-const StyledTable = styled(Table)`
+const StyledTransactionList = styled(TransactionList)`
   margin: ${2 * base}px;
   width: ${1400 - 4 * base}px;
 `;
@@ -25,23 +25,15 @@ function Dashboard() {
   const [transactions, setTransactions] = useState([]);
   const [accounts, setAccounts] = useState([]);
 
-  useEffect(async () => {
+  useEffect(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/transactions`, {
       credentials: "include",
     })
       .then((res) => res.json())
-      .then((data) =>
-        setTransactions(
-          data.map((transaction) => ({
-            accounting_date: transaction.accounting_date,
-            text: transaction.text,
-            amount: transaction.amount,
-          }))
-        )
-      );
+      .then((data) => setTransactions(data));
   }, [setTransactions]);
 
-  useEffect(async () => {
+  useEffect(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/accounts`, {
       credentials: "include",
     })
@@ -56,10 +48,7 @@ function Dashboard() {
           <StyledAccountCard key={account.id} account={account} />
         ))}
       </AccountsWrapper>
-      <StyledTable
-        headers={["Accounting Date", "Text", "Amount"]}
-        data={transactions}
-      />
+      <StyledTransactionList data={transactions} />
     </>
   );
 }

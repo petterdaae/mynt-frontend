@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { base } from "./size";
 import PropTypes from "prop-types";
+import { formatCurrency } from "../utils/currency";
 
 const StyledTable = styled.table`
   border-spacing: 0;
@@ -9,16 +10,7 @@ const StyledTable = styled.table`
     rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 `;
 
-const StyledTr = styled.tr`
-  &:hover {
-  }
-
-  &:first-child {
-    &:hover {
-      background-color: transparent;
-    }
-  }
-`;
+const StyledTr = styled.tr``;
 
 const StyledTd = styled.td`
   padding-top: ${3 * base}px;
@@ -27,6 +19,9 @@ const StyledTd = styled.td`
   padding-right: ${6 * base}px;
 
   border-top: 1px solid grey;
+  ${(props) => props.color && `color: ${props.color};`}
+  ${(props) => props.right && `text-align: right;`}
+  ${(props) => props.bold && `font-weight: bold;`}
 `;
 
 const StyledTh = styled.th`
@@ -34,31 +29,33 @@ const StyledTh = styled.th`
   padding-right: ${6 * base}px;
   padding-bottom: ${3 * base}px;
   padding-top: ${3 * base}px;
+  ${(props) => props.right && `text-align: right;`}
 `;
 
-function Table({ headers, data, className }) {
+function TransactionList({ data, className }) {
   return (
     <StyledTable className={className}>
       <StyledTr>
-        {headers.map((header) => (
-          <StyledTh key={header}>{header}</StyledTh>
-        ))}
+        <StyledTh>Date</StyledTh>
+        <StyledTh>Description</StyledTh>
+        <StyledTh right>Amount</StyledTh>
       </StyledTr>
       {data.map((item) => (
-        <StyledTr key={item}>
-          {Object.keys(item).map((key) => (
-            <StyledTd key={key}>{item[key]}</StyledTd>
-          ))}
+        <StyledTr key={item.id}>
+          <StyledTd>{item.accounting_date}</StyledTd>
+          <StyledTd>{item.text}</StyledTd>
+          <StyledTd color={item.amount < 0 ? "red" : "green"} right bold>
+            {formatCurrency(item.amount)}
+          </StyledTd>
         </StyledTr>
       ))}
     </StyledTable>
   );
 }
 
-Table.propTypes = {
-  headers: PropTypes.arrayOf(PropTypes.string).isRequired,
+TransactionList.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   className: PropTypes.string,
 };
 
-export default Table;
+export default TransactionList;
