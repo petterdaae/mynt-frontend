@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { darkGreen, white } from "./color";
 import { base } from "./size";
 
 const StyledButton = styled.button`
@@ -9,12 +8,7 @@ const StyledButton = styled.button`
   padding-right: ${5 * base}px;
   border-radius: ${base}px;
 
-  background-color: ${darkGreen};
-  border: 2px solid ${darkGreen};
-
-  font-family: "Source Sans Pro";
   font-weight: bold;
-  color: ${white};
 
   &:hover {
     cursor: pointer;

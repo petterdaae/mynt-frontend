@@ -2,16 +2,16 @@ import { AccountCard } from "../components";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import TransactionList from "../components/transaction_list";
-import { base } from "../components/size";
+import { base, breakpoint } from "../components/size";
 
 const StyledAccountCard = styled(AccountCard)`
   margin: ${2 * base}px;
-  width: ${1400 / 3 - 2 * 8}px;
+  width: ${breakpoint / 3 - 4 * base}px;
 `;
 
 const StyledTransactionList = styled(TransactionList)`
   margin: ${2 * base}px;
-  width: ${1400 - 4 * base}px;
+  width: ${breakpoint - 4 * base}px;
 `;
 
 const AccountsWrapper = styled.div`

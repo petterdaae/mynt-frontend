@@ -1,14 +1,14 @@
 import styled from "styled-components";
 import { useHistory, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
-import { base } from "./size";
+import { base, breakpoint } from "../components/size";
 
 const Wrapper = styled.div`
-  width: 1400px;
+  width: ${breakpoint}px;
   margin: auto;
   overflow: hidden;
 
-  @media (max-width: 1400px) {
+  @media (max-width: ${breakpoint}px) {
     width: auto;
   }
 `;

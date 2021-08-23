@@ -1,7 +1,12 @@
 import { Route, Switch } from "react-router-dom";
-import { Login, Dashboard, Spendings, Categories, Settings } from "./views";
-// import { Navigation } from "./components";
-import Navigation from "./components/top_nav";
+import {
+  Authenticated,
+  Login,
+  Dashboard,
+  Spendings,
+  Categories,
+  Settings,
+} from "./views";
 
 function App() {
   return (
@@ -9,12 +14,12 @@ function App() {
       <Switch>
         <Route exact path="/" component={Login} />
         <Route path="/authenticated" component={Login}>
-          <Navigation>
+          <Authenticated>
             <Route path="/authenticated/dashboard" component={Dashboard} />
             <Route path="/authenticated/spendings" component={Spendings} />
             <Route path="/authenticated/categories" component={Categories} />
             <Route path="/authenticated/settings" component={Settings} />
-          </Navigation>
+          </Authenticated>
         </Route>
       </Switch>
     </div>
