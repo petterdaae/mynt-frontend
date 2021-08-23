@@ -44,13 +44,10 @@ function Settings() {
   };
 
   const synchronizeSbankenData = async () => {
-    const result = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/synchronize/sbanken`,
-      {
-        method: "POST",
-        credentials: "include",
-      }
-    );
+    await fetch(`${process.env.REACT_APP_BACKEND_URL}/synchronize/sbanken`, {
+      method: "POST",
+      credentials: "include",
+    });
   };
 
   return (
