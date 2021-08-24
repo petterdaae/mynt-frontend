@@ -4,7 +4,7 @@ import { Input, Button } from "../components";
 import { useState } from "react";
 
 const Wrapper = styled.div`
-  width: 900px;
+  margin: ${4 * base}px;
 `;
 
 const StyledInput = styled(Input)`
@@ -16,8 +16,6 @@ function Settings() {
   const [clientSecret, setClientSecret] = useState("");
 
   const onSubmit = async () => {
-    console.log("Yay");
-
     const result = await fetch(
       `${process.env.REACT_APP_BACKEND_URL}/user/secrets/sbanken`,
       {
@@ -50,8 +48,8 @@ function Settings() {
 
   return (
     <div>
-      <h2>Sbanken Credentials</h2>
       <Wrapper>
+        <h2>Sbanken Credentials</h2>
         <StyledInput
           placeholder="Client ID"
           value={clientId}
@@ -65,8 +63,8 @@ function Settings() {
         <Button onClick={onSubmit}>Update</Button>
       </Wrapper>
 
-      <h2>Synchronize Data</h2>
       <Wrapper>
+        <h2>Synchronize Data</h2>
         <Button onClick={synchronizeSbankenData}>
           Synchronize Sbanken Data
         </Button>

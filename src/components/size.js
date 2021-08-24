@@ -1,4 +1,4 @@
 const base = 4;
-const breakpoint = 1400;
+const breakpoint = 1100;
 
 export { base, breakpoint };

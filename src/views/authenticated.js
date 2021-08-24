@@ -10,6 +10,7 @@ const ContentWrapper = styled.div`
   overflow: hidden;
 
   margin-top: ${18 * base}px;
+  height: calc(100% - ${18 * base}px);
   @media (max-width: ${breakpoint}px) {
     width: auto;
   }
@@ -20,31 +21,29 @@ const NavigationWrapper = styled.div`
   position: fixed;
   top: 0;
   width: 100%;
+
   background: white;
   border-bottom: 1px solid lightgray;
-  /*
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
-    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-    */
+  display: flex;
 `;
 
 const Navigation = styled.div`
   width: ${breakpoint}px;
   margin: auto;
-  overflow: hidden;
   @media (max-width: ${breakpoint}px) {
     width: auto;
   }
 
   display: flex;
-  justify-content: space-evenly;
-  margin-bottom: ${2 * base}px;
+  justify-content: space-between;
+  align-items: center;
+  height: ${14 * base}px;
 `;
 
 const StyledNavigationItem = styled.div`
   color: ${weakFontColor};
-  margin-top: ${4 * base}px;
-  margin-bottom: ${4 * base}px;
+  margin-right: ${8 * base}px;
+  margin-left: ${8 * base}px;
 
   &:hover {
     color: ${mainFontColor};
@@ -56,7 +55,6 @@ const StyledNavigationItem = styled.div`
     if (props.active) {
       return `
         color: ${mainFontColor};
-        font-weight: bold;
       `;
     }
   }}
@@ -72,6 +70,8 @@ function Authenticated({ children }) {
       <NavigationWrapper>
         <Navigation>
           <NavigationItem path="/authenticated/dashboard" name="Home" />
+          <NavigationItem path="/authenticated/settings" name="Spendings" />
+          <NavigationItem path="/authenticated/settings" name="Categories" />
           <NavigationItem path="/authenticated/settings" name="Settings" />
         </Navigation>
       </NavigationWrapper>
