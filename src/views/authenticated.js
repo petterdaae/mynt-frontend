@@ -41,8 +41,16 @@ const Navigation = styled.div`
 
 const StyledNavigationItem = styled.div`
   color: ${weakFontColor};
-  margin-right: ${8 * base}px;
-  margin-left: ${8 * base}px;
+  margin-left: ${base}px;
+  margin-right: ${base}px;
+
+  &:first-child {
+    margin-left: ${8 * base}px;
+  }
+
+  &:last-child {
+    margin-right: ${8 * base}px;
+  }
 
   &:hover {
     color: ${mainFontColor};
