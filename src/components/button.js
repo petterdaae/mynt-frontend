@@ -1,22 +1,25 @@
 import styled from "styled-components";
 import { base } from "./size";
+import { mainFontColor } from "./color";
 
 const StyledButton = styled.button`
   padding-top: ${2 * base}px;
   padding-bottom: ${2 * base}px;
   padding-left: ${5 * base}px;
   padding-right: ${5 * base}px;
-  border-radius: ${base}px;
+  background-color: #fff;
+  border: none;
+  border: 1px solid lightgray;
 
-  font-weight: bold;
+  outline: none;
 
   &:hover {
     cursor: pointer;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border: 1px solid ${mainFontColor};
   }
 
   &:active {
-    box-shadow: rgba(100, 100, 111, 0.5) 0px 7px 29px 0px;
+    background-color: lightgray;
   }
 `;
 
