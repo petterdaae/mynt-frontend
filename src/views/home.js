@@ -7,11 +7,18 @@ import { base, breakpoint } from "../components/size";
 const StyledAccountCard = styled(AccountCard)`
   margin: ${2 * base}px;
   width: ${breakpoint / 3 - 4 * base}px;
+
+  @media (max-width: ${breakpoint}px) {
+    width: 100%;
+  }
 `;
 
 const StyledTransactionList = styled(TransactionList)`
   margin: ${2 * base}px;
   width: ${breakpoint - 4 * base}px;
+  @media (max-width: ${breakpoint}px) {
+    width: auto;
+  }
 `;
 
 const AccountsWrapper = styled.div`

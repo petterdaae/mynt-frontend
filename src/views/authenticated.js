@@ -10,7 +10,6 @@ const ContentWrapper = styled.div`
   overflow: hidden;
 
   margin-top: ${18 * base}px;
-  height: calc(100% - ${18 * base}px);
   @media (max-width: ${breakpoint}px) {
     width: auto;
   }
