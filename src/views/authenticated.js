@@ -9,7 +9,7 @@ const ContentWrapper = styled.div`
   margin: auto;
   overflow: hidden;
 
-  margin-top: ${32 * base}px;
+  margin-top: ${18 * base}px;
   @media (max-width: ${breakpoint}px) {
     width: auto;
   }
@@ -21,8 +21,11 @@ const NavigationWrapper = styled.div`
   top: 0;
   width: 100%;
   background: white;
+  border-bottom: 1px solid lightgray;
+  /*
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
     rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    */
 `;
 
 const Navigation = styled.div`
@@ -35,25 +38,25 @@ const Navigation = styled.div`
 
   display: flex;
   justify-content: space-evenly;
-  font-size: ${5 * base}px;
   margin-bottom: ${2 * base}px;
 `;
 
 const StyledNavigationItem = styled.div`
-  font-weight: bold;
   color: ${weakFontColor};
-  margin-top: ${8 * base}px;
-  margin-bottom: ${8 * base}px;
+  margin-top: ${4 * base}px;
+  margin-bottom: ${4 * base}px;
 
   &:hover {
     color: ${mainFontColor};
     cursor: pointer;
+    text-decoration: underline;
   }
 
   ${(props) => {
     if (props.active) {
       return `
         color: ${mainFontColor};
+        font-weight: bold;
       `;
     }
   }}
