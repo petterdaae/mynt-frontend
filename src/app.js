@@ -14,7 +14,7 @@ function App() {
         <Route exact path="/" component={Login} />
         <Route path="/authenticated" component={Login}>
           <Authenticated>
-            <Route path="/authenticated/dashboard" component={Home} />
+            <Route path="/authenticated/home" component={Home} />
             <Route path="/authenticated/settings" component={Settings} />
           </Authenticated>
         </Route>
