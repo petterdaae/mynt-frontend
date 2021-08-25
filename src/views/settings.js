@@ -5,10 +5,12 @@ import { useState } from "react";
 
 const Wrapper = styled.div`
   margin: ${4 * base}px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const StyledInput = styled(Input)`
-  margin-right: ${4 * base}px;
+  margin-bottom: ${4 * base}px;
 `;
 
 function Settings() {
