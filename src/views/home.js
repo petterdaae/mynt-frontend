@@ -33,19 +33,25 @@ function Home() {
   const [accounts, setAccounts] = useState([]);
 
   useEffect(() => {
+    const controller = new AbortController();
     fetch(`${process.env.REACT_APP_BACKEND_URL}/transactions`, {
       credentials: "include",
+      signal: controller.signal,
     })
       .then((res) => res.json())
       .then((data) => setTransactions(data));
+    return () => controller?.abort();
   }, [setTransactions]);
 
   useEffect(() => {
+    const controller = new AbortController();
     fetch(`${process.env.REACT_APP_BACKEND_URL}/accounts`, {
       credentials: "include",
+      signal: controller.signal,
     })
       .then((res) => res.json())
       .then((data) => setAccounts(data));
+    return () => controller?.abort();
   }, [setAccounts]);
 
   if (accounts.length === 0 || transactions.length === 0) {
