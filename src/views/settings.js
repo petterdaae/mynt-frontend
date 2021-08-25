@@ -48,6 +48,13 @@ function Settings() {
     });
   };
 
+  const deleteData = async () => {
+    await fetch(`${process.env.REACT_APP_BACKEND_URL}/synchronize/delete`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+  };
+
   return (
     <div>
       <Wrapper>
@@ -70,6 +77,10 @@ function Settings() {
         <Button onClick={synchronizeSbankenData}>
           Synchronize Sbanken Data
         </Button>
+      </Wrapper>
+      <Wrapper>
+        <h2>Delete data</h2>
+        <Button onClick={deleteData}>Delete all my data</Button>
       </Wrapper>
     </div>
   );
