@@ -48,6 +48,10 @@ function Home() {
       .then((data) => setAccounts(data));
   }, [setAccounts]);
 
+  if (accounts.length === 0 || transactions.length === 0) {
+    return <></>;
+  }
+
   return (
     <>
       <AccountsWrapper>
