@@ -12,12 +12,10 @@ function App() {
     <Wrapper>
       <Switch>
         <Route exact path="/" component={Login} />
-        <Route path="/authenticated" component={Login}>
-          <Authenticated>
-            <Route path="/authenticated/home" component={Home} />
-            <Route path="/authenticated/settings" component={Settings} />
-          </Authenticated>
-        </Route>
+        <Authenticated>
+          <Route path="/authenticated/home" component={Home} />
+          <Route path="/authenticated/settings" component={Settings} />
+        </Authenticated>
       </Switch>
     </Wrapper>
   );
