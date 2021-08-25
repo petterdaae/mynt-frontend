@@ -3,6 +3,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import { base, breakpoint } from "../components/size";
 import { mainFontColor, weakFontColor } from "../components/color";
+import { useEffect } from "react";
 
 const ContentWrapper = styled.div`
   width: ${breakpoint}px;
@@ -72,11 +73,38 @@ const Content = styled.div`
 `;
 
 function Authenticated({ children }) {
+  useEffect(() => {
+    // Fetch auth expiry cookie and redirect to login if not available
+    const authExpiry = getCookie("auth_expiry");
+    if (!authExpiry) {
+      window.location.replace(`/`);
+      return;
+    }
+
+    // Redirect to login if auth is expired
+    const now = Date.now() / 1000;
+    if (authExpiry <= now) {
+      window.location.replace(`/`);
+      return;
+    }
+
+    // Set timeout so that the user is redirected to login
+    // when the auth cookie expires
+    const padding = 60;
+    const timeout = setTimeout(() => {
+      window.location.replace(`/`);
+    }, (authExpiry - now - padding) * 1000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
+
   return (
     <>
       <NavigationWrapper>
         <Navigation>
-          <NavigationItem path="/authenticated/dashboard" name="Home" />
+          <NavigationItem path="/authenticated/home" name="Home" />
           <NavigationItem path="/authenticated/settings" name="Spendings" />
           <NavigationItem path="/authenticated/settings" name="Categories" />
           <NavigationItem path="/authenticated/settings" name="Settings" />
@@ -87,6 +115,12 @@ function Authenticated({ children }) {
       </ContentWrapper>
     </>
   );
+}
+
+function getCookie(name) {
+  const value = "; " + document.cookie;
+  const parts = value.split("; " + name + "=");
+  if (parts.length === 2) return parts.pop().split(";").shift();
 }
 
 Authenticated.propTypes = {

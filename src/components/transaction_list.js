@@ -82,20 +82,22 @@ function TransactionList({ data, className }) {
   return (
     <Wrapper className={className}>
       <StyledTable>
-        <StyledTr>
-          <StyledTh>Date</StyledTh>
-          <StyledTh>Description</StyledTh>
-          <StyledTh right>Amount</StyledTh>
-        </StyledTr>
-        {data.map((item) => (
-          <StyledTr key={item.id}>
-            <StyledTd>{item.accounting_date}</StyledTd>
-            <StyledTd>{item.text}</StyledTd>
-            <StyledTd color={item.amount < 0 ? red : green} right bold>
-              {formatCurrency(item.amount)}
-            </StyledTd>
+        <tbody>
+          <StyledTr>
+            <StyledTh>Date</StyledTh>
+            <StyledTh>Description</StyledTh>
+            <StyledTh right>Amount</StyledTh>
           </StyledTr>
-        ))}
+          {data.map((item) => (
+            <StyledTr key={item.id}>
+              <StyledTd>{item.accounting_date}</StyledTd>
+              <StyledTd>{item.text}</StyledTd>
+              <StyledTd color={item.amount < 0 ? red : green} right bold>
+                {formatCurrency(item.amount)}
+              </StyledTd>
+            </StyledTr>
+          ))}
+        </tbody>
       </StyledTable>
       <MobileTransactionList>
         {data.map((item) => (
