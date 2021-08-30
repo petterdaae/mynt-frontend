@@ -29,6 +29,7 @@ const exampleData = [
               {
                 id: 4,
                 name: "Category 4",
+                children: [],
               },
             ],
           },
@@ -37,6 +38,7 @@ const exampleData = [
       {
         id: 3,
         name: "Category 3",
+        children: [],
       },
     ],
   },
@@ -47,10 +49,12 @@ const exampleData = [
       {
         id: 5,
         name: "Category 5",
+        children: [],
       },
       {
         id: 6,
         name: "Category 6",
+        children: [],
       },
     ],
   },
@@ -61,10 +65,12 @@ const exampleData = [
       {
         id: 8,
         name: "Category 8",
+        children: [],
       },
       {
         id: 9,
         name: "Category 9",
+        children: [],
       },
     ],
   },
