@@ -5,6 +5,13 @@ import { useCallback, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import Button from "./button";
 
+import {
+  MdAirplanemodeActive,
+  MdPieChartOutlined,
+  MdColorLens,
+  MdCameraAlt,
+} from "react-icons/md";
+
 const exampleData = [
   {
     id: 1,
@@ -75,6 +82,17 @@ const StyledCategory = styled(Category)`
 
 const CategoryName = styled.div`
   display: inline-block;
+  vertical-align: middle;
+`;
+
+const StyledIcon = styled(RandomIcon)`
+  margin-right: ${3 * base}px;
+  vertical-align: middle;
+  height: ${5 * base}px;
+  width: ${5 * base}px;
+  background: lightblue;
+  border-radius: 50%;
+  padding: ${2 * base}px;
 `;
 
 const StyledButton = styled(Button)`
@@ -132,6 +150,7 @@ function Categories({ categories, setBreadcrumb, className }) {
 function Category({ category, className, onClick }) {
   return (
     <div className={className} onClick={onClick}>
+      <StyledIcon />
       <CategoryName>{category.name}</CategoryName>
     </div>
   );
@@ -181,6 +200,21 @@ function getCategoryNamesFromBreadCrumb(categories, breadcrumb, depth) {
   ];
 }
 
+function RandomIcon({ className }) {
+  const icons = [
+    MdAirplanemodeActive,
+    MdPieChartOutlined,
+    MdColorLens,
+    MdCameraAlt,
+  ];
+
+  const random = Math.floor(Math.random() * icons.length);
+
+  const Random = icons[random];
+
+  return <Random className={className} />;
+}
+
 Categories.propTypes = {
   categories: PropTypes.array,
   setBreadcrumb: PropTypes.func,
@@ -196,6 +230,10 @@ Category.propTypes = {
 BreadCrumb.propTypes = {
   categories: PropTypes.array,
   breadcrumb: PropTypes.array,
+};
+
+RandomIcon.propTypes = {
+  className: PropTypes.string,
 };
 
 export default CategoriesList;
