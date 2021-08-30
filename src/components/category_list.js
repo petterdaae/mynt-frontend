@@ -2,7 +2,6 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { base } from "./size";
 import { useCallback, useState } from "react";
-import { FaArrowLeft } from "react-icons/fa";
 import Button from "./button";
 
 import {
@@ -10,6 +9,7 @@ import {
   MdPieChartOutlined,
   MdColorLens,
   MdCameraAlt,
+  MdArrowBack,
 } from "react-icons/md";
 
 const exampleData = [
@@ -78,6 +78,10 @@ const StyledCategory = styled(Category)`
   padding: ${4 * base}px;
   border: 1px solid #ccc;
   border-top: none;
+  &:hover {
+    cursor: pointer;
+    background: whitesmoke;
+  }
 `;
 
 const CategoryName = styled.div`
@@ -119,7 +123,7 @@ function CategoriesList() {
   return (
     <>
       <StyledButton onClick={navigateBack}>
-        <FaArrowLeft />
+        <MdArrowBack />
       </StyledButton>
       <BreadCrumb breadcrumb={breadcrumb} categories={exampleData} />
       <StyledCategories
