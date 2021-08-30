@@ -110,6 +110,10 @@ const StyledBreadcrumbPart = styled.span`
   ${(props) => props.current && "text-decoration: none;"}
 `;
 
+const NewButton = styled(Button)`
+  float: right;
+`;
+
 function CategoriesList() {
   const [breadcrumb, setBreadcrumb] = useState([]);
 
@@ -126,6 +130,7 @@ function CategoriesList() {
         <MdArrowBack />
       </StyledButton>
       <BreadCrumb breadcrumb={breadcrumb} categories={exampleData} />
+      <NewButton>New category</NewButton>
       <StyledCategories
         categories={getCategoryFromBreadcrumb(exampleData, breadcrumb, 0)}
         depth={0}
