@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { base } from "./size";
 import { useCallback, useState } from "react";
 import Button from "./button";
+import TextInput from "./text_input";
 
 import {
   MdAirplanemodeActive,
@@ -71,7 +72,6 @@ const exampleData = [
 
 const StyledCategories = styled(Categories)`
   border-top: 1px solid #ccc;
-  margin-bottom: ${4 * base}px;
 `;
 
 const StyledCategory = styled(Category)`
@@ -114,6 +114,16 @@ const NewButton = styled(Button)`
   float: right;
 `;
 
+const NewCategoryWrapper = styled.div`
+  padding: ${4 * base}px;
+  border: 1px solid #ccc;
+  border-top: none;
+`;
+
+const CreateButton = styled(Button)`
+  margin-left: ${2 * base}px;
+`;
+
 function CategoriesList() {
   const [breadcrumb, setBreadcrumb] = useState([]);
 
@@ -136,6 +146,11 @@ function CategoriesList() {
         depth={0}
         setBreadcrumb={setBreadcrumb}
       />
+      <NewCategoryWrapper>
+        <StyledIcon></StyledIcon>
+        <TextInput placeholder="Name" />
+        <CreateButton>Create</CreateButton>
+      </NewCategoryWrapper>
     </>
   );
 }
