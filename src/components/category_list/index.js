@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { base } from "./size";
+import { base } from "../size";
 import { useCallback, useState } from "react";
-import Button from "./button";
-import TextInput from "./text_input";
+import Button from "../button";
+import TextInput from "../text_input";
+import BreadCrumb from "./breadcrumb";
 
 import {
   MdAirplanemodeActive,
@@ -109,17 +110,6 @@ const StyledButton = styled(Button)`
   margin-bottom: ${4 * base}px;
 `;
 
-const StyledBreadcrumbPart = styled.span`
-  padding-left: ${4 * base}px;
-  padding-right: ${4 * base}px;
-
-  ${(props) => props.current && "text-decoration: none;"}
-`;
-
-const NewButton = styled(Button)`
-  float: right;
-`;
-
 const NewCategoryWrapper = styled.div`
   padding: ${4 * base}px;
   border: 1px solid #ccc;
@@ -128,6 +118,7 @@ const NewCategoryWrapper = styled.div`
 
 const CreateButton = styled(Button)`
   margin-left: ${2 * base}px;
+  float: right;
 `;
 
 function CategoriesList() {
@@ -146,7 +137,6 @@ function CategoriesList() {
         <MdArrowBack />
       </StyledButton>
       <BreadCrumb breadcrumb={breadcrumb} categories={exampleData} />
-      <NewButton>New category</NewButton>
       <StyledCategories
         categories={getCategoryFromBreadcrumb(exampleData, breadcrumb, 0)}
         depth={0}
@@ -155,7 +145,7 @@ function CategoriesList() {
       <NewCategoryWrapper>
         <StyledIcon></StyledIcon>
         <TextInput placeholder="Name" />
-        <CreateButton>Create</CreateButton>
+        <CreateButton>Create new category</CreateButton>
       </NewCategoryWrapper>
     </>
   );
@@ -186,29 +176,6 @@ function Category({ category, className, onClick }) {
   );
 }
 
-function BreadCrumb({ categories, breadcrumb }) {
-  const categoryNames = getCategoryNamesFromBreadCrumb(
-    categories,
-    breadcrumb,
-    0
-  );
-  return (
-    <>
-      {categoryNames.map((name, index) => (
-        <>
-          <StyledBreadcrumbPart
-            key={index}
-            current={index === categoryNames.length - 1}
-          >
-            {name}
-          </StyledBreadcrumbPart>
-          {index !== categoryNames.length - 1 && <span>{">"}</span>}
-        </>
-      ))}
-    </>
-  );
-}
-
 function getCategoryFromBreadcrumb(categories, breadcrumb, depth) {
   if (breadcrumb.length === depth) return categories;
   return getCategoryFromBreadcrumb(
@@ -216,18 +183,6 @@ function getCategoryFromBreadcrumb(categories, breadcrumb, depth) {
     breadcrumb,
     depth + 1
   );
-}
-
-function getCategoryNamesFromBreadCrumb(categories, breadcrumb, depth) {
-  if (breadcrumb.length === depth) return [];
-  return [
-    categories[breadcrumb[depth]].name,
-    ...getCategoryNamesFromBreadCrumb(
-      categories[breadcrumb[depth]].children,
-      breadcrumb,
-      depth + 1
-    ),
-  ];
 }
 
 function RandomIcon({ className }) {
@@ -255,11 +210,6 @@ Category.propTypes = {
   category: PropTypes.object.isRequired,
   onClick: PropTypes.func,
   className: PropTypes.string,
-};
-
-BreadCrumb.propTypes = {
-  categories: PropTypes.array,
-  breadcrumb: PropTypes.array,
 };
 
 RandomIcon.propTypes = {
