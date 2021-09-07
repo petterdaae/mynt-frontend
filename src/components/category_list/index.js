@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { base } from "../size";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useRef } from "react";
 import Button from "../button";
 import TextInput from "../text_input";
 import BreadCrumb from "./breadcrumb";
@@ -12,62 +12,17 @@ const exampleData = [
   {
     id: 1,
     name: "Category 1",
-    children: [
-      {
-        id: 2,
-        name: "Category 2",
-        children: [
-          {
-            id: 3,
-            name: "Category 3",
-            children: [
-              {
-                id: 4,
-                name: "Category 4",
-                children: [],
-              },
-            ],
-          },
-        ],
-      },
-      {
-        id: 3,
-        name: "Category 3",
-        children: [],
-      },
-    ],
-  },
-  {
-    id: 4,
-    name: "Category 4",
-    children: [
-      {
-        id: 5,
-        name: "Category 5",
-        children: [],
-      },
-      {
-        id: 6,
-        name: "Category 6",
-        children: [],
-      },
-    ],
+    paren_id: null,
   },
   {
     id: 7,
     name: "Category 7",
-    children: [
-      {
-        id: 8,
-        name: "Category 8",
-        children: [],
-      },
-      {
-        id: 9,
-        name: "Category 9",
-        children: [],
-      },
-    ],
+    parent_id: null,
+  },
+  {
+    id: 8,
+    name: "Category 8",
+    parent_id: 7,
   },
 ];
 
@@ -92,6 +47,7 @@ const Header = styled.div`
 
 function CategoriesList() {
   const [breadcrumb, setBreadcrumb] = useState([]);
+  const newCategoryNameRef = useRef();
 
   const navigateBack = useCallback(() => {
     setBreadcrumb((previous) => {
@@ -99,6 +55,17 @@ function CategoriesList() {
       return previous.slice(0, previous.length - 1);
     });
   }, [setBreadcrumb]);
+
+  const createCategory = useCallback(() => {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`, {
+      credentials: "include",
+      method: "POST",
+      body: JSON.stringify({
+        name: newCategoryNameRef.current.value,
+        parent_id: getCurrentCategoryId(breadcrumb),
+      }),
+    });
+  }, [newCategoryNameRef, breadcrumb]);
 
   return (
     <>
@@ -109,14 +76,16 @@ function CategoriesList() {
         <BreadCrumb breadcrumb={breadcrumb} categories={exampleData} />
       </Header>
       <StyledCategories
-        categories={getCategoryFromBreadcrumb(exampleData, breadcrumb, 0)}
+        categories={getCategoriesFromBreadcrumb(exampleData, breadcrumb)}
         depth={0}
         setBreadcrumb={setBreadcrumb}
       />
       <NewCategoryWrapper>
         <RandomIcon></RandomIcon>
-        <TextInput placeholder="Name" />
-        <CreateButton>Create new category</CreateButton>
+        <TextInput placeholder="Name" ref={newCategoryNameRef} />
+        <CreateButton onClick={createCategory}>
+          Create new category
+        </CreateButton>
       </NewCategoryWrapper>
     </>
   );
@@ -125,26 +94,31 @@ function CategoriesList() {
 function Categories({ categories, setBreadcrumb, className }) {
   return (
     <div className={className}>
-      {categories.map((category, index) => (
+      {categories.map((category) => (
         <Category
           key={category.id}
           category={category}
-          onClick={() =>
-            category.children && setBreadcrumb((prev) => [...prev, index])
-          }
+          onClick={() => setBreadcrumb((prev) => [...prev, category.id])}
         ></Category>
       ))}
     </div>
   );
 }
 
-function getCategoryFromBreadcrumb(categories, breadcrumb, depth) {
-  if (breadcrumb.length === depth) return categories;
-  return getCategoryFromBreadcrumb(
-    categories[breadcrumb[depth]].children,
-    breadcrumb,
-    depth + 1
+function getCategoriesFromBreadcrumb(categories, breadcrumb) {
+  if (breadcrumb.length === 0) {
+    return categories.filter((category) => category.parent_id === null);
+  }
+  return categories.filter(
+    (category) => category.parent_id === breadcrumb[breadcrumb.length - 1]
   );
+}
+
+function getCurrentCategoryId(breadcrumb) {
+  if (breadcrumb.length === 0) {
+    return null;
+  }
+  return breadcrumb[breadcrumb.length - 1];
 }
 
 Categories.propTypes = {

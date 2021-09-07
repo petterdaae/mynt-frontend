@@ -32,11 +32,7 @@ const StyledLi = styled.div`
 `;
 
 function BreadCrumb({ categories, breadcrumb }) {
-  const categoryNames = getCategoryNamesFromBreadCrumb(
-    categories,
-    breadcrumb,
-    0
-  );
+  const categoryNames = getCategoryNamesFromBreadCrumb(categories, breadcrumb);
   return (
     <StyledUl>
       {categoryNames.map((name, index) => (
@@ -48,16 +44,11 @@ function BreadCrumb({ categories, breadcrumb }) {
   );
 }
 
-function getCategoryNamesFromBreadCrumb(categories, breadcrumb, depth) {
-  if (breadcrumb.length === depth) return [];
-  return [
-    categories[breadcrumb[depth]].name,
-    ...getCategoryNamesFromBreadCrumb(
-      categories[breadcrumb[depth]].children,
-      breadcrumb,
-      depth + 1
-    ),
-  ];
+function getCategoryNamesFromBreadCrumb(categories, breadcrumb) {
+  console.log(categories);
+  return breadcrumb.map(
+    (id) => categories.find((category) => category.id === id).name
+  );
 }
 
 BreadCrumb.propTypes = {
