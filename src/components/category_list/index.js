@@ -5,13 +5,8 @@ import { useCallback, useState } from "react";
 import Button from "../button";
 import TextInput from "../text_input";
 import BreadCrumb from "./breadcrumb";
-
-import {
-  MdAirplanemodeActive,
-  MdPieChartOutlined,
-  MdColorLens,
-  MdCameraAlt,
-} from "react-icons/md";
+import Category from "./category";
+import RandomIcon from "../random_icon";
 
 const exampleData = [
   {
@@ -80,33 +75,6 @@ const StyledCategories = styled(Categories)`
   border-top: 1px solid #ccc;
 `;
 
-const StyledCategory = styled(Category)`
-  padding: ${4 * base}px;
-  border: 1px solid #ccc;
-  border-top: none;
-  &:hover {
-    cursor: pointer;
-    background: whitesmoke;
-  }
-`;
-
-const CategoryName = styled.div`
-  display: inline-block;
-  vertical-align: middle;
-`;
-
-const StyledIcon = styled(RandomIcon)`
-  margin-right: ${3 * base}px;
-  vertical-align: middle;
-  height: ${5 * base}px;
-  width: ${5 * base}px;
-  background: lightblue;
-  border-radius: 50%;
-  padding: ${2 * base}px;
-`;
-
-const StyledButton = styled(Button)``;
-
 const NewCategoryWrapper = styled.div`
   padding: ${4 * base}px;
   border: 1px solid #ccc;
@@ -135,7 +103,7 @@ function CategoriesList() {
   return (
     <>
       <Header>
-        <StyledButton onClick={navigateBack}>Back</StyledButton>
+        <Button onClick={navigateBack}>Back</Button>
         <BreadCrumb breadcrumb={breadcrumb} categories={exampleData} />
       </Header>
       <StyledCategories
@@ -144,7 +112,7 @@ function CategoriesList() {
         setBreadcrumb={setBreadcrumb}
       />
       <NewCategoryWrapper>
-        <StyledIcon></StyledIcon>
+        <RandomIcon></RandomIcon>
         <TextInput placeholder="Name" />
         <CreateButton>Create new category</CreateButton>
       </NewCategoryWrapper>
@@ -156,23 +124,14 @@ function Categories({ categories, setBreadcrumb, className }) {
   return (
     <div className={className}>
       {categories.map((category, index) => (
-        <StyledCategory
+        <Category
           key={category.id}
           category={category}
           onClick={() =>
             category.children && setBreadcrumb((prev) => [...prev, index])
           }
-        ></StyledCategory>
+        ></Category>
       ))}
-    </div>
-  );
-}
-
-function Category({ category, className, onClick }) {
-  return (
-    <div className={className} onClick={onClick}>
-      <StyledIcon />
-      <CategoryName>{category.name}</CategoryName>
     </div>
   );
 }
@@ -186,34 +145,9 @@ function getCategoryFromBreadcrumb(categories, breadcrumb, depth) {
   );
 }
 
-function RandomIcon({ className }) {
-  const icons = [
-    MdAirplanemodeActive,
-    MdPieChartOutlined,
-    MdColorLens,
-    MdCameraAlt,
-  ];
-
-  const random = Math.floor(Math.random() * icons.length);
-
-  const Random = icons[random];
-
-  return <Random className={className} />;
-}
-
 Categories.propTypes = {
   categories: PropTypes.array,
   setBreadcrumb: PropTypes.func,
-  className: PropTypes.string,
-};
-
-Category.propTypes = {
-  category: PropTypes.object.isRequired,
-  onClick: PropTypes.func,
-  className: PropTypes.string,
-};
-
-RandomIcon.propTypes = {
   className: PropTypes.string,
 };
 
