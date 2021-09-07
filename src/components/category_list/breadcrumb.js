@@ -45,7 +45,6 @@ function BreadCrumb({ categories, breadcrumb }) {
 }
 
 function getCategoryNamesFromBreadCrumb(categories, breadcrumb) {
-  console.log(categories);
   return breadcrumb.map(
     (id) => categories.find((category) => category.id === id).name
   );
