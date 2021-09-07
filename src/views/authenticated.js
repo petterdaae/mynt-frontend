@@ -108,8 +108,7 @@ function Authenticated({ children }) {
       <NavigationWrapper>
         <Navigation>
           <NavigationItem path="/authenticated/home" name="Home" />
-          <NavigationItem path="/authenticated/settings" name="Spendings" />
-          <NavigationItem path="/authenticated/settings" name="Categories" />
+          <NavigationItem path="/authenticated/categories" name="Categories" />
           <NavigationItem path="/authenticated/settings" name="Settings" />
         </Navigation>
       </NavigationWrapper>
