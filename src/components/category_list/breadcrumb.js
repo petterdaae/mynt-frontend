@@ -1,83 +1,33 @@
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { base } from "../size";
 
-const StyledUl = styled.ul`
-  list-style-type: none;
-  padding: 0;
-  display: inline-block;
+const StyledUl = styled.div`
+  border: 1px solid #ccc;
+  display: flex;
+
+  box-sizing: border-box;
+  margin-left: ${2 * base}px;
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  margin-left: ${2 * base}px;
 `;
 
-const StyledLi = styled.li`
+const StyledLi = styled.div`
   display: inline-block;
-  position: relative;
-
-  &:last-child {
-    a {
-      cursor: default;
-    }
-
-    &:before,
-    :after {
-      background: lightblue;
-    }
-  }
-
-  &:not(:last-child):hover {
-    &:before,
-    :after {
-      background: whitesmoke;
-      cursor: pointer;
-    }
-  }
-
-  &:before,
-  &:after {
-    content: "";
-    position: absolute;
-    left: 0;
-    height: 50%;
-    width: 100%;
-    background: white;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    z-index: -2;
-  }
-
-  &:before {
-    top: -1px;
-    transform: skew(30deg);
-    border-top: 1px solid #ccc;
-  }
-
-  &:after {
-    bottom: -1px;
-    transform: skew(-30deg);
-    border-bottom: 1px solid #ccc;
-  }
+  margin: 0;
+  padding: ${2 * base}px;
+  border-left: 1px solid #ccc;
 
   &:first-child {
-    background: white;
-    border-left: 1px solid #ccc;
-    box-size: content-box;
-
-    &:hover {
-      background: whitesmoke;
-      cursor: pointer;
-    }
+    border-left: none;
   }
 
-  &:before,
-  &:after {
-    left: 5px;
+  &:last-child {
+    background-color: whitesmoke;
   }
-`;
 
-const StyledA = styled.a`
-  display: inline-block;
-  position: relative;
-  line-height: 2.5;
-  padding: 0 20px;
-  text-decoration: none;
   ${(props) => props.current && ""}
 `;
 
@@ -91,7 +41,7 @@ function BreadCrumb({ categories, breadcrumb }) {
     <StyledUl>
       {categoryNames.map((name, index) => (
         <StyledLi key={index} current={index === categoryNames.length - 1}>
-          <StyledA>{name}</StyledA>
+          {name}
         </StyledLi>
       ))}
     </StyledUl>

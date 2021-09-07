@@ -11,7 +11,6 @@ import {
   MdPieChartOutlined,
   MdColorLens,
   MdCameraAlt,
-  MdArrowBack,
 } from "react-icons/md";
 
 const exampleData = [
@@ -106,9 +105,7 @@ const StyledIcon = styled(RandomIcon)`
   padding: ${2 * base}px;
 `;
 
-const StyledButton = styled(Button)`
-  margin-bottom: ${4 * base}px;
-`;
+const StyledButton = styled(Button)``;
 
 const NewCategoryWrapper = styled.div`
   padding: ${4 * base}px;
@@ -119,6 +116,10 @@ const NewCategoryWrapper = styled.div`
 const CreateButton = styled(Button)`
   margin-left: ${2 * base}px;
   float: right;
+`;
+
+const Header = styled.div`
+  margin-bottom: ${4 * base}px;
 `;
 
 function CategoriesList() {
@@ -133,10 +134,10 @@ function CategoriesList() {
 
   return (
     <>
-      <StyledButton onClick={navigateBack}>
-        <MdArrowBack />
-      </StyledButton>
-      <BreadCrumb breadcrumb={breadcrumb} categories={exampleData} />
+      <Header>
+        <StyledButton onClick={navigateBack}>Back</StyledButton>
+        <BreadCrumb breadcrumb={breadcrumb} categories={exampleData} />
+      </Header>
       <StyledCategories
         categories={getCategoryFromBreadcrumb(exampleData, breadcrumb, 0)}
         depth={0}
