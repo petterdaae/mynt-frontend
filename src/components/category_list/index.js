@@ -103,7 +103,9 @@ function CategoriesList() {
   return (
     <>
       <Header>
-        <Button onClick={navigateBack}>Back</Button>
+        <Button onClick={navigateBack} disabled={breadcrumb.length === 0}>
+          Back
+        </Button>
         <BreadCrumb breadcrumb={breadcrumb} categories={exampleData} />
       </Header>
       <StyledCategories

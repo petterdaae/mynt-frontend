@@ -23,6 +23,16 @@ const StyledButton = styled.button`
   &:active {
     background-color: lightgray;
   }
+
+  &:disabled,
+  [disabled] {
+    background-color: lightgray;
+
+    &:hover {
+      cursor: not-allowed;
+      border: 1px solid lightgray;
+    }
+  }
 `;
 
 export default StyledButton;
