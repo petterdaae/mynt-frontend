@@ -5,13 +5,11 @@ import Button from "../button";
 import { base } from "../size";
 import { useRef, useCallback } from "react";
 
-const StyledNewCategory = styled(NewCategory)``;
-
 const StyledTextInput = styled(TextInput)`
   margin-bottom: ${4 * base}px;
 `;
 
-function NewCategory({ className, currentCategoryId, setCategories, close }) {
+function NewCategory({ className, parentCategory, onCreate }) {
   const nameInputRef = useRef();
 
   const createCategory = useCallback(() => {
@@ -20,14 +18,14 @@ function NewCategory({ className, currentCategoryId, setCategories, close }) {
       method: "POST",
       body: JSON.stringify({
         name: nameInputRef.current.value,
-        parent_id: currentCategoryId,
+        parent_id: parentCategory,
       }),
     })
       .then((res) => res.json())
-      .then((newCategory) => setCategories((prev) => [...prev, newCategory]));
+      .then((newCategory) => onCreate(newCategory));
     nameInputRef.current.value = "";
     close();
-  }, [nameInputRef, setCategories, close]);
+  }, [nameInputRef, onCreate]);
 
   return (
     <div className={className}>
@@ -41,9 +39,8 @@ function NewCategory({ className, currentCategoryId, setCategories, close }) {
 
 NewCategory.propTypes = {
   className: PropTypes.string,
-  currentCategoryId: PropTypes.number,
-  setCategories: PropTypes.func,
-  close: PropTypes.func,
+  parentCategory: PropTypes.number,
+  onCreate: PropTypes.func,
 };
 
-export default StyledNewCategory;
+export default NewCategory;

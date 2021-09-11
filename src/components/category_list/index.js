@@ -64,9 +64,11 @@ function CategoriesList() {
       />
       <Modal show={showNewCategory}>
         <NewCategory
-          currentCategoryId={getCurrentCategoryId(breadcrumb)}
-          close={() => setShowNewCategory(false)}
-          setCategories={setCategories}
+          parentCategory={getCurrentCategoryId(breadcrumb)}
+          onCreate={(newCategory) => {
+            setCategories((prev) => [...prev, newCategory]);
+            setShowNewCategory(false);
+          }}
         />
       </Modal>
     </>
@@ -75,15 +77,17 @@ function CategoriesList() {
 
 function Categories({ categories, setBreadcrumb, className }) {
   return (
-    <div className={className}>
-      {categories.map((category) => (
-        <Category
-          key={category.id}
-          category={category}
-          onClick={() => setBreadcrumb((prev) => [...prev, category.id])}
-        ></Category>
-      ))}
-    </div>
+    categories.length > 0 && (
+      <div className={className}>
+        {categories.map((category) => (
+          <Category
+            key={category.id}
+            category={category}
+            onClick={() => setBreadcrumb((prev) => [...prev, category.id])}
+          ></Category>
+        ))}
+      </div>
+    )
   );
 }
 
