@@ -1,21 +1,15 @@
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { base } from "../size";
-import { useCallback, useState, useRef, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
 import Button from "../button";
-import TextInput from "../text_input";
 import BreadCrumb from "./breadcrumb";
 import Category from "./category";
-import RandomIcon from "../random_icon";
+import NewCategory from "./new_category";
+import Modal from "../modal";
 
 const StyledCategories = styled(Categories)`
   border-top: 1px solid #ccc;
-`;
-
-const NewCategoryWrapper = styled.div`
-  padding: ${4 * base}px;
-  border: 1px solid #ccc;
-  border-top: none;
 `;
 
 const CreateButton = styled(Button)`
@@ -29,8 +23,8 @@ const Header = styled.div`
 
 function CategoriesList() {
   const [breadcrumb, setBreadcrumb] = useState([]);
-  const newCategoryNameRef = useRef();
   const [categories, setCategories] = useState([]);
+  const [showNewCategory, setShowNewCategory] = useState(false);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`, {
@@ -47,19 +41,10 @@ function CategoriesList() {
     });
   }, [setBreadcrumb]);
 
-  const createCategory = useCallback(() => {
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`, {
-      credentials: "include",
-      method: "POST",
-      body: JSON.stringify({
-        name: newCategoryNameRef.current.value,
-        parent_id: getCurrentCategoryId(breadcrumb),
-      }),
-    })
-      .then((res) => res.json())
-      .then((newCategory) => setCategories((prev) => [...prev, newCategory]));
-    newCategoryNameRef.current.value = "";
-  }, [newCategoryNameRef, breadcrumb, setCategories]);
+  const openCreateCategoryModal = useCallback(
+    () => setShowNewCategory(true),
+    []
+  );
 
   return (
     <>
@@ -68,34 +53,42 @@ function CategoriesList() {
           Back
         </Button>
         <BreadCrumb breadcrumb={breadcrumb} categories={categories} />
+        <CreateButton onClick={openCreateCategoryModal}>
+          Create new category
+        </CreateButton>
       </Header>
       <StyledCategories
         categories={getCategoriesFromBreadcrumb(categories, breadcrumb)}
         depth={0}
         setBreadcrumb={setBreadcrumb}
       />
-      <NewCategoryWrapper>
-        <RandomIcon></RandomIcon>
-        <TextInput placeholder="Name" ref={newCategoryNameRef} />
-        <CreateButton onClick={createCategory}>
-          Create new category
-        </CreateButton>
-      </NewCategoryWrapper>
+      <Modal show={showNewCategory}>
+        <NewCategory
+          parentCategory={getCurrentCategoryId(breadcrumb)}
+          onCreate={(newCategory) => {
+            setCategories((prev) => [...prev, newCategory]);
+            setShowNewCategory(false);
+          }}
+          onCancel={() => setShowNewCategory(false)}
+        />
+      </Modal>
     </>
   );
 }
 
 function Categories({ categories, setBreadcrumb, className }) {
   return (
-    <div className={className}>
-      {categories.map((category) => (
-        <Category
-          key={category.id}
-          category={category}
-          onClick={() => setBreadcrumb((prev) => [...prev, category.id])}
-        ></Category>
-      ))}
-    </div>
+    categories.length > 0 && (
+      <div className={className}>
+        {categories.map((category) => (
+          <Category
+            key={category.id}
+            category={category}
+            onClick={() => setBreadcrumb((prev) => [...prev, category.id])}
+          ></Category>
+        ))}
+      </div>
+    )
   );
 }
 

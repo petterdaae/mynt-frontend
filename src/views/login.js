@@ -8,6 +8,7 @@ const Wrapper = styled.div`
 const StyledButton = styled(Button)`
   display: inline-block;
   margin-top: 200px;
+  margin-right: 20px;
 `;
 
 function Login() {
@@ -23,6 +24,17 @@ function Login() {
         }}
       >
         Sign in
+      </StyledButton>
+      <StyledButton
+        type="primary"
+        size="large"
+        onClick={() => {
+          window.location.replace(
+            `${process.env.REACT_APP_BACKEND_URL}/auth/demo`
+          );
+        }}
+      >
+        Demo
       </StyledButton>
     </Wrapper>
   );

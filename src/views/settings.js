@@ -55,6 +55,12 @@ function Settings() {
     });
   };
 
+  const signout = async () => {
+    window.location.replace(
+      `${process.env.REACT_APP_BACKEND_URL}/auth/signout`
+    );
+  };
+
   return (
     <div>
       <Wrapper>
@@ -81,6 +87,10 @@ function Settings() {
       <Wrapper>
         <h2>Delete data</h2>
         <Button onClick={deleteData}>Delete all my data</Button>
+      </Wrapper>
+      <Wrapper>
+        <h2>Account</h2>
+        <Button onClick={signout}>Sign out</Button>
       </Wrapper>
     </div>
   );
