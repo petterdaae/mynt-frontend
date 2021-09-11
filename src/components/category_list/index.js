@@ -69,6 +69,7 @@ function CategoriesList() {
             setCategories((prev) => [...prev, newCategory]);
             setShowNewCategory(false);
           }}
+          onCancel={() => setShowNewCategory(false)}
         />
       </Modal>
     </>

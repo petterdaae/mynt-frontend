@@ -9,7 +9,11 @@ const StyledTextInput = styled(TextInput)`
   margin-bottom: ${4 * base}px;
 `;
 
-function NewCategory({ className, parentCategory, onCreate }) {
+const StyledButton = styled(Button)`
+  margin-right: ${4 * base}px;
+`;
+
+function NewCategory({ className, parentCategory, onCreate, onCancel }) {
   const nameInputRef = useRef();
 
   const createCategory = useCallback(() => {
@@ -32,7 +36,8 @@ function NewCategory({ className, parentCategory, onCreate }) {
       <h3>New category</h3>
       <StyledTextInput placeholder="Name" ref={nameInputRef} />
       <br />
-      <Button onClick={createCategory}>Create</Button>
+      <StyledButton onClick={createCategory}>Create</StyledButton>
+      <Button onClick={onCancel}>Cancel</Button>
     </div>
   );
 }
@@ -41,6 +46,7 @@ NewCategory.propTypes = {
   className: PropTypes.string,
   parentCategory: PropTypes.number,
   onCreate: PropTypes.func,
+  onCancel: PropTypes.func,
 };
 
 export default NewCategory;
