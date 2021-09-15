@@ -12,8 +12,11 @@ const ContentWrapper = styled.div`
 
   margin-top: ${18 * base}px;
   padding: ${8 * base}px;
+
   @media (max-width: ${breakpoint}px) {
     width: auto;
+    margin-top: ${14 * base}px;
+    padding: ${2 * base}px;
   }
 `;
 
