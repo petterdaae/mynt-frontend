@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { base, breakpoint } from "./size";
 
 const StyledModal = styled(Modal)`
   position: fixed;
@@ -13,12 +14,19 @@ const StyledModal = styled(Modal)`
 `;
 
 const Content = styled.div`
-  width: 400px;
-  margin: auto;
+  width: 100%;
+  height: 100%;
   background: white;
-  border: 1px solid #ccc;
-  margin-top: 150px;
-  padding: 32px;
+  padding: ${8 * base}px;
+  box-sizing: border-box;
+
+  @media (min-width: ${breakpoint}px) {
+    width: ${100 * base}px;
+    height: unset;
+    margin: auto;
+    border: 1px solid #ccc;
+    margin-top: ${50 * base}px;
+  }
 `;
 
 function Modal({ show, children, className }) {

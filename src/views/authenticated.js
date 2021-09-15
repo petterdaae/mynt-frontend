@@ -8,9 +8,10 @@ import { useEffect } from "react";
 const ContentWrapper = styled.div`
   width: ${breakpoint}px;
   margin: auto;
-  overflow: hidden;
+  height: 200px;
 
   margin-top: ${18 * base}px;
+  padding: ${8 * base}px;
   @media (max-width: ${breakpoint}px) {
     width: auto;
   }
