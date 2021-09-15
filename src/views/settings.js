@@ -54,7 +54,7 @@ function Settings() {
   };
 
   const deleteData = async () => {
-    await fetch(`${process.env.REACT_APP_BACKEND_URL}/synchronize/delete`, {
+    await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/delete`, {
       method: "DELETE",
       credentials: "include",
     });

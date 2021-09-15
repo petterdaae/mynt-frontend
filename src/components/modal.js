@@ -41,7 +41,7 @@ function Modal({ show, children, className }) {
 
 Modal.propTypes = {
   show: PropTypes.bool,
-  children: PropTypes.element,
+  children: PropTypes.any,
   className: PropTypes.string,
 };
 
