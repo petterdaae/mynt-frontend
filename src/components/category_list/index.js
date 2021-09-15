@@ -7,20 +7,20 @@ import BreadCrumb from "./breadcrumb";
 import Category from "./category";
 import NewCategory from "./new_category";
 import Modal from "../modal";
-import { FiPlus } from "react-icons/fi";
+import { FiPlus, FiTrash } from "react-icons/fi";
 
 const StyledCategories = styled(Categories)`
   border-top: 1px solid #ccc;
 `;
 
-const CreateButton = styled(Button)`
+const HeaderButton = styled(Button)`
   float: right;
   @media (max-width: ${breakpoint}px) {
     display: none;
   }
 `;
 
-const CreateButtonMobile = styled(Button)`
+const HeaderButtonMobile = styled(Button)`
   float: right;
   vertical-align: middle;
   @media (min-width: ${breakpoint}px) {
@@ -39,6 +39,7 @@ function CategoriesList() {
   const [breadcrumb, setBreadcrumb] = useState([]);
   const [categories, setCategories] = useState([]);
   const [showNewCategory, setShowNewCategory] = useState(false);
+  const [showDeleteCategory, setShowDeleteCategory] = useState(false);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`, {
@@ -67,12 +68,21 @@ function CategoriesList() {
           Back
         </Button>
         <BreadCrumb breadcrumb={breadcrumb} categories={categories} />
-        <CreateButton onClick={openCreateCategoryModal}>
+        <HeaderButton onClick={() => setShowDeleteCategory(true)}>
+          Delete category
+        </HeaderButton>
+
+        <HeaderButton onClick={openCreateCategoryModal}>
           Create new category
-        </CreateButton>
-        <CreateButtonMobile onClick={openCreateCategoryModal}>
+        </HeaderButton>
+
+        <HeaderButtonMobile onClick={() => setShowNewCategory(true)}>
+          <FiTrash />
+        </HeaderButtonMobile>
+
+        <HeaderButtonMobile onClick={openCreateCategoryModal}>
           <FiPlus />
-        </CreateButtonMobile>
+        </HeaderButtonMobile>
       </Header>
       <StyledCategories
         categories={getCategoriesFromBreadcrumb(categories, breadcrumb)}
@@ -88,6 +98,10 @@ function CategoriesList() {
           }}
           onCancel={() => setShowNewCategory(false)}
         />
+      </Modal>
+      <Modal show={showDeleteCategory}>
+        <p>Are you sure you want to delete this category?</p>
+        <Button onClick={() => setShowDeleteCategory(false)}>Yes</Button>
       </Modal>
     </>
   );
