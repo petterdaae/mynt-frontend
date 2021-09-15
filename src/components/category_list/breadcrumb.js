@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { base } from "../size";
+import { base, breakpoint } from "../size";
 
 const StyledUl = styled.div`
   border: 1px solid #ccc;
@@ -28,18 +28,36 @@ const StyledLi = styled.div`
     background-color: whitesmoke;
   }
 
-  ${(props) => props.current && ""}
+  @media (max-width: ${breakpoint}px) {
+    display: none;
+
+    &:last-child {
+      display: inline-block;
+    }
+  }
+`;
+
+const MobileDots = styled.div`
+  @media (min-width: ${breakpoint}px) {
+    display: none;
+  }
+  display: inline-block;
+  margin: 0;
+  padding: ${2 * base}px;
 `;
 
 function BreadCrumb({ categories, breadcrumb }) {
   const categoryNames = getCategoryNamesFromBreadCrumb(categories, breadcrumb);
   return (
     <StyledUl>
-      {categoryNames.map((name, index) => (
-        <StyledLi key={index} current={index === categoryNames.length - 1}>
-          {name}
-        </StyledLi>
-      ))}
+      {categoryNames.length > 1 && <MobileDots>...</MobileDots>}
+      <div>
+        {categoryNames.map((name, index) => (
+          <StyledLi key={index} current={index === categoryNames.length - 1}>
+            {name}
+          </StyledLi>
+        ))}
+      </div>
     </StyledUl>
   );
 }
