@@ -1,24 +1,38 @@
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { base } from "../size";
+import { base, breakpoint } from "../size";
 import { useCallback, useState, useEffect } from "react";
 import Button from "../button";
 import BreadCrumb from "./breadcrumb";
 import Category from "./category";
 import NewCategory from "./new_category";
 import Modal from "../modal";
+import { FiPlus } from "react-icons/fi";
 
 const StyledCategories = styled(Categories)`
   border-top: 1px solid #ccc;
 `;
 
 const CreateButton = styled(Button)`
-  margin-left: ${2 * base}px;
   float: right;
+  @media (max-width: ${breakpoint}px) {
+    display: none;
+  }
+`;
+
+const CreateButtonMobile = styled(Button)`
+  float: right;
+  vertical-align: middle;
+  @media (min-width: ${breakpoint}px) {
+    display: none;
+  }
 `;
 
 const Header = styled.div`
   margin-bottom: ${4 * base}px;
+  @media (max-width: ${breakpoint}px) {
+    margin-bottom: ${2 * base}px;
+  }
 `;
 
 function CategoriesList() {
@@ -56,6 +70,9 @@ function CategoriesList() {
         <CreateButton onClick={openCreateCategoryModal}>
           Create new category
         </CreateButton>
+        <CreateButtonMobile onClick={openCreateCategoryModal}>
+          <FiPlus />
+        </CreateButtonMobile>
       </Header>
       <StyledCategories
         categories={getCategoriesFromBreadcrumb(categories, breadcrumb)}
