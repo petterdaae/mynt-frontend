@@ -28,7 +28,6 @@ function NewCategory({ className, parentCategory, onCreate, onCancel }) {
       .then((res) => res.json())
       .then((newCategory) => onCreate(newCategory));
     nameInputRef.current.value = "";
-    close();
   }, [nameInputRef, onCreate]);
 
   return (
