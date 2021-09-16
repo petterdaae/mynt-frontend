@@ -7,22 +7,24 @@ import BreadCrumb from "./breadcrumb";
 import Category from "./category";
 import NewCategory from "./new_category";
 import Modal from "../modal";
-import { FiPlus } from "react-icons/fi";
+import { FiPlus, FiTrash } from "react-icons/fi";
 
 const StyledCategories = styled(Categories)`
   border-top: 1px solid #ccc;
 `;
 
-const CreateButton = styled(Button)`
+const HeaderButton = styled(Button)`
   float: right;
+  margin-left: ${2 * base}px;
   @media (max-width: ${breakpoint}px) {
     display: none;
   }
 `;
 
-const CreateButtonMobile = styled(Button)`
+const HeaderButtonMobile = styled(Button)`
   float: right;
   vertical-align: middle;
+  margin-left: ${2 * base}px;
   @media (min-width: ${breakpoint}px) {
     display: none;
   }
@@ -39,6 +41,7 @@ function CategoriesList() {
   const [breadcrumb, setBreadcrumb] = useState([]);
   const [categories, setCategories] = useState([]);
   const [showNewCategory, setShowNewCategory] = useState(false);
+  const [showDeleteCategory, setShowDeleteCategory] = useState(false);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`, {
@@ -55,11 +58,6 @@ function CategoriesList() {
     });
   }, [setBreadcrumb]);
 
-  const openCreateCategoryModal = useCallback(
-    () => setShowNewCategory(true),
-    []
-  );
-
   return (
     <>
       <Header>
@@ -67,12 +65,24 @@ function CategoriesList() {
           Back
         </Button>
         <BreadCrumb breadcrumb={breadcrumb} categories={categories} />
-        <CreateButton onClick={openCreateCategoryModal}>
+
+        <HeaderButton onClick={() => setShowNewCategory(true)}>
           Create new category
-        </CreateButton>
-        <CreateButtonMobile onClick={openCreateCategoryModal}>
+        </HeaderButton>
+        {breadcrumb.length !== 0 && (
+          <HeaderButton onClick={() => setShowDeleteCategory(true)}>
+            Delete category
+          </HeaderButton>
+        )}
+
+        <HeaderButtonMobile onClick={() => setShowNewCategory(true)}>
           <FiPlus />
-        </CreateButtonMobile>
+        </HeaderButtonMobile>
+        {breadcrumb.length !== 0 && (
+          <HeaderButtonMobile onClick={() => setShowDeleteCategory(true)}>
+            <FiTrash />
+          </HeaderButtonMobile>
+        )}
       </Header>
       <StyledCategories
         categories={getCategoriesFromBreadcrumb(categories, breadcrumb)}
@@ -88,6 +98,26 @@ function CategoriesList() {
           }}
           onCancel={() => setShowNewCategory(false)}
         />
+      </Modal>
+      <Modal show={showDeleteCategory}>
+        <p>Are you sure you want to delete this category?</p>
+        <Button
+          onClick={() => {
+            const currentCategoryId = getCurrentCategoryId(breadcrumb);
+            fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`, {
+              credentials: "include",
+              method: "DELETE",
+              body: JSON.stringify({
+                id: currentCategoryId,
+              }),
+            }).then((res) => res.json());
+            setCategories((prev) => removeCategory(prev, currentCategoryId));
+            setBreadcrumb((prev) => prev.splice(-1));
+            setShowDeleteCategory(false);
+          }}
+        >
+          Yes
+        </Button>
       </Modal>
     </>
   );
@@ -123,6 +153,15 @@ function getCurrentCategoryId(breadcrumb) {
     return null;
   }
   return breadcrumb[breadcrumb.length - 1];
+}
+
+function removeCategory(categories, id) {
+  const children = categories.filter((category) => category.parent_id === id);
+  for (const child of children) {
+    categories = removeCategory(categories, child.id);
+  }
+  categories = categories.filter((category) => category.id !== id);
+  return categories;
 }
 
 Categories.propTypes = {

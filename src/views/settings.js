@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { base } from "../components/size";
-import { Input, Button } from "../components";
+import { Input, Button, Modal } from "../components";
 import { useState } from "react";
 
 const Wrapper = styled.div`
@@ -13,9 +13,14 @@ const StyledInput = styled(Input)`
   margin-bottom: ${4 * base}px;
 `;
 
+const ButtonWithRightMargin = styled(Button)`
+  margin-right: ${2 * base}px;
+`;
+
 function Settings() {
   const [clientId, setClientId] = useState("");
   const [clientSecret, setClientSecret] = useState("");
+  const [showDeleteAllDataModal, setShowDeleteAllModal] = useState(false);
 
   const onSubmit = async () => {
     const result = await fetch(
@@ -49,7 +54,7 @@ function Settings() {
   };
 
   const deleteData = async () => {
-    await fetch(`${process.env.REACT_APP_BACKEND_URL}/synchronize/delete`, {
+    await fetch(`${process.env.REACT_APP_BACKEND_URL}/user/delete`, {
       method: "DELETE",
       credentials: "include",
     });
@@ -76,21 +81,33 @@ function Settings() {
           onChange={(e) => setClientSecret(e.target.value)}
         />
         <Button onClick={onSubmit}>Update</Button>
-      </Wrapper>
 
-      <Wrapper>
         <h2>Synchronize Data</h2>
         <Button onClick={synchronizeSbankenData}>
           Synchronize Sbanken Data
         </Button>
-      </Wrapper>
-      <Wrapper>
+
         <h2>Delete data</h2>
-        <Button onClick={deleteData}>Delete all my data</Button>
-      </Wrapper>
-      <Wrapper>
+        <Button onClick={() => setShowDeleteAllModal(true)}>
+          Delete all my data
+        </Button>
         <h2>Account</h2>
         <Button onClick={signout}>Sign out</Button>
+
+        <Modal show={showDeleteAllDataModal}>
+          <p>
+            You are about to delete all the data related to your account. You
+            can&apos;t undo this action? Are you sure you want to proceed?
+          </p>
+          <ButtonWithRightMargin
+            onClick={() => deleteData() && setShowDeleteAllModal(false)}
+          >
+            Yes, delete all my data
+          </ButtonWithRightMargin>
+          <Button onClick={() => setShowDeleteAllModal(false)}>
+            No, cancel
+          </Button>
+        </Modal>
       </Wrapper>
     </div>
   );
