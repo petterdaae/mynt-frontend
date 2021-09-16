@@ -10,7 +10,7 @@ const ContentWrapper = styled.div`
   margin: auto;
   height: 200px;
 
-  margin-top: ${18 * base}px;
+  margin-top: ${10 * base}px;
   padding: ${8 * base}px;
 
   @media (max-width: ${breakpoint}px) {
@@ -111,7 +111,10 @@ function Authenticated({ children }) {
     <>
       <NavigationWrapper>
         <Navigation>
-          <NavigationItem path="/authenticated/home" name="Home" />
+          <NavigationItem
+            path="/authenticated/transactions"
+            name="Transactions"
+          />
           <NavigationItem path="/authenticated/categories" name="Categories" />
           <NavigationItem path="/authenticated/settings" name="Settings" />
         </Navigation>

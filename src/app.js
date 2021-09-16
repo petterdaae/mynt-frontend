@@ -1,5 +1,11 @@
 import { Route, Switch } from "react-router-dom";
-import { Authenticated, Login, Home, Settings, Categories } from "./views";
+import {
+  Authenticated,
+  Login,
+  Transactions,
+  Settings,
+  Categories,
+} from "./views";
 import styled from "styled-components";
 import { mainFontColor } from "./components/color";
 
@@ -13,7 +19,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={Login} />
         <Authenticated>
-          <Route path="/authenticated/home" component={Home} />
+          <Route path="/authenticated/transactions" component={Transactions} />
           <Route path="/authenticated/settings" component={Settings} />
           <Route path="/authenticated/categories" component={Categories} />
         </Authenticated>
