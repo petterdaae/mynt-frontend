@@ -110,7 +110,7 @@ function CategoriesList() {
               body: JSON.stringify({
                 id: currentCategoryId,
               }),
-            }).then((res) => res.json());
+            });
             setCategories((prev) => removeCategory(prev, currentCategoryId));
             setBreadcrumb((prev) => prev.splice(-1));
             setShowDeleteCategory(false);
