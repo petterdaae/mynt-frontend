@@ -9,7 +9,11 @@ function Home() {
       credentials: "include",
     })
       .then((res) => res.json())
-      .then((data) => setTransactions(data));
+      .then((data) =>
+        setTransactions(
+          data.sort((a, b) => b.accounting_date > a.accounting_date)
+        )
+      );
   }, [setTransactions]);
 
   if (transactions.length === 0) {

@@ -5,6 +5,7 @@ import { green, red } from "./color";
 import List from "./list";
 import ListItem from "./list_item";
 import RandomIcon from "./random_icon";
+import { useCallback } from "react";
 
 const StyledListItem = styled(ListItem)`
   display: flex;
@@ -30,13 +31,18 @@ const Amount = styled.div`
 `;
 
 function TransactionList({ data, className }) {
+  const formatDateTimeString = useCallback((datetime) => {
+    const date = new Date(datetime);
+    const month = date.toLocaleString("default", { month: "long" });
+    return date.getDate() + ". " + month;
+  }, []);
   return (
     <div className={className}>
       <List>
         {data.map((item) => (
           <StyledListItem key={item.id}>
             <RandomIcon />
-            <DateTime>{item.accounting_date}</DateTime>
+            <DateTime>{formatDateTimeString(item.accounting_date)}</DateTime>
             <Text>{item.text}</Text>
             <Amount color={item.amount < 0 ? red : green}>
               {formatCurrency(item.amount)}
