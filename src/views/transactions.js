@@ -1,17 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
 import TransactionList from "../components/transaction_list";
-import { DatePicker, Button } from "../components";
+import { DatePicker, Checkbox } from "../components";
 import styled from "styled-components";
 import { base } from "../components/size";
 
 const Header = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
   margin-bottom: ${4 * base}px;
 `;
-
-const FromToDate = styled.div``;
 
 const StyledP = styled.p`
   display: inline;
@@ -32,6 +31,8 @@ function Home() {
   const [transactions, setTransactions] = useState([]);
   const [toDate, setToDate] = useState(today);
   const [fromDate, setFromDate] = useState(oneMonthAgo);
+  const [showCategorized, setShowCategorized] = useState(true);
+  const [showHidden, setShowHidden] = useState(false);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/transactions`, {
@@ -52,13 +53,22 @@ function Home() {
   return (
     <>
       <Header>
-        <Button>Lol</Button>
-        <FromToDate>
+        <Checkbox
+          value={showCategorized}
+          onChange={setShowCategorized}
+          label="Show categorized transactions"
+        />
+        <Checkbox
+          value={showHidden}
+          onChange={setShowHidden}
+          label="Show hidden transactions"
+        />
+        <div>
           <StyledP>From</StyledP>
           <DatePicker value={fromDate} onChange={setFromDate} max={toDate} />
           <StyledP>To</StyledP>
           <DatePicker value={toDate} onChange={setToDate} max={today} />
-        </FromToDate>
+        </div>
       </Header>
       <TransactionList data={transactions} />
     </>
