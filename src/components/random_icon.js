@@ -15,6 +15,7 @@ const StyledIcon = styled(RandomIcon)`
   height: ${5 * base}px;
   width: ${5 * base}px;
   background: lightblue;
+  color: lightblue;
   border-radius: 50%;
   padding: ${2 * base}px;
 `;
