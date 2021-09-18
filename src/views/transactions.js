@@ -35,16 +35,19 @@ function Home() {
   const [showHidden, setShowHidden] = useState(false);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/transactions`, {
-      credentials: "include",
-    })
+    fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/transactions?from_date=${fromDate}&to_date=${toDate}`,
+      {
+        credentials: "include",
+      }
+    )
       .then((res) => res.json())
       .then((data) =>
         setTransactions(
           data.sort((a, b) => b.accounting_date > a.accounting_date)
         )
       );
-  }, [setTransactions]);
+  }, [setTransactions, fromDate, toDate]);
 
   if (transactions.length === 0) {
     return <></>;
