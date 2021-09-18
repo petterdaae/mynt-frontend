@@ -1,6 +1,22 @@
 import { useState, useEffect, useCallback } from "react";
 import TransactionList from "../components/transaction_list";
-import { DatePicker } from "../components";
+import { DatePicker, Button } from "../components";
+import styled from "styled-components";
+import { base } from "../components/size";
+
+const Header = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: ${4 * base}px;
+`;
+
+const FromToDate = styled.div``;
+
+const StyledP = styled.p`
+  display: inline;
+  margin: ${4 * base}px;
+`;
 
 function Home() {
   const formatDate = useCallback(
@@ -35,8 +51,15 @@ function Home() {
 
   return (
     <>
-      <DatePicker value={fromDate} onChange={setFromDate} max={toDate} />
-      <DatePicker value={toDate} onChange={setToDate} max={today} />
+      <Header>
+        <Button>Lol</Button>
+        <FromToDate>
+          <StyledP>From</StyledP>
+          <DatePicker value={fromDate} onChange={setFromDate} max={toDate} />
+          <StyledP>To</StyledP>
+          <DatePicker value={toDate} onChange={setToDate} max={today} />
+        </FromToDate>
+      </Header>
       <TransactionList data={transactions} />
     </>
   );
