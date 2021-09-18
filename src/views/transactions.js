@@ -32,7 +32,6 @@ function Home() {
   const [toDate, setToDate] = useState(today);
   const [fromDate, setFromDate] = useState(oneMonthAgo);
   const [showCategorized, setShowCategorized] = useState(true);
-  const [showHidden, setShowHidden] = useState(false);
 
   useEffect(() => {
     fetch(
@@ -60,11 +59,6 @@ function Home() {
           value={showCategorized}
           onChange={setShowCategorized}
           label="Show categorized transactions"
-        />
-        <Checkbox
-          value={showHidden}
-          onChange={setShowHidden}
-          label="Show hidden transactions"
         />
         <div>
           <StyledP>From</StyledP>
