@@ -1,6 +1,7 @@
 import Login from "./login";
 import Authenticated from "./authenticated";
-import Home from "./home";
+import Transactions from "./transactions";
 import Settings from "./settings";
+import Categories from "./categories";
 
-export { Login, Authenticated, Home, Settings };
+export { Login, Authenticated, Transactions, Settings, Categories };

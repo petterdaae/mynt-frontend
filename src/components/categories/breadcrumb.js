@@ -47,7 +47,9 @@ const MobileDots = styled.div`
 `;
 
 function BreadCrumb({ categories, breadcrumb }) {
-  const categoryNames = getCategoryNamesFromBreadCrumb(categories, breadcrumb);
+  const categoryNames = breadcrumb.map(
+    (id) => categories.find((category) => category.id === id).name
+  );
   return (
     <StyledUl>
       {categoryNames.length > 1 && <MobileDots>...</MobileDots>}
@@ -59,12 +61,6 @@ function BreadCrumb({ categories, breadcrumb }) {
         ))}
       </div>
     </StyledUl>
-  );
-}
-
-function getCategoryNamesFromBreadCrumb(categories, breadcrumb) {
-  return breadcrumb.map(
-    (id) => categories.find((category) => category.id === id).name
   );
 }
 
