@@ -6,8 +6,7 @@ import RandomIcon from "../random_icon";
 import { green, red } from "../color";
 import { useCallback, useState } from "react";
 import Modal from "../modal";
-import Button from "../button";
-import { base } from "../size";
+import EditTransaction from "./edit_transaction";
 
 const StyledListItem = styled(ListItem)`
   display: flex;
@@ -32,10 +31,6 @@ const Amount = styled.div`
   ${(props) => props.color && `color: ${props.color};`}
 `;
 
-const StyledButton = styled(Button)`
-  margin-right: ${4 * base}px;
-`;
-
 function Transaction({ transaction }) {
   const [showModal, setShowModal] = useState(false);
 
@@ -56,9 +51,11 @@ function Transaction({ transaction }) {
         </Amount>
       </StyledListItem>
       <Modal show={showModal}>
-        <h3>Edit transaction</h3>
-        <StyledButton>Save</StyledButton>
-        <Button onClick={() => setShowModal(false)}>Cancel</Button>
+        <EditTransaction
+          onCancel={() => setShowModal(false)}
+          onSave={() => setShowModal(false)}
+          transaction={transaction}
+        />
       </Modal>
     </>
   );

@@ -4,5 +4,6 @@ import Input from "./input";
 import Modal from "./modal";
 import DatePicker from "./datepicker";
 import Checkbox from "./checkbox";
+import Select from "./select";
 
-export { Button, Input, AccountCard, Modal, DatePicker, Checkbox };
+export { Button, Input, AccountCard, Modal, DatePicker, Checkbox, Select };
