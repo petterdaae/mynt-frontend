@@ -22,25 +22,29 @@ const Buttons = styled.div`
 function EditTransaction({ onSave, onCancel, transaction }) {
   const [, , updateTransactionCategory] = useTransactions();
   const [categories] = useCategories();
-  const [category, setCategory] = useState(transaction.category_id || 0);
+  const options = categories.map((category) => ({
+    value: category.id,
+    label: category.name,
+    key: category.id,
+  }));
+  const [category, setCategory] = useState(
+    options.find((option) => option.value === transaction.category_id)
+  );
 
   return (
     <Wrapper>
       <h3>Edit transaction</h3>
       <StyledSelect
-        options={categories.map((c) => ({
-          label: c.name,
-          value: c.id,
-          key: c.id,
-        }))}
-        value={category}
-        onChange={(value) => setCategory(parseInt(value, 10))}
+        options={options}
+        selected={category}
+        onChange={setCategory}
+        label="Select a category"
       />
       <Buttons>
         <StyledButton
           onClick={() => {
             onSave();
-            updateTransactionCategory(transaction, category);
+            updateTransactionCategory(transaction, category.value);
           }}
         >
           Save
