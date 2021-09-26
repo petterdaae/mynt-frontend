@@ -3,7 +3,7 @@ import { Select, Button } from "..";
 import { base } from "../size";
 import styled from "styled-components";
 import { useState } from "react";
-import { useCategories } from "../../hooks";
+import { useCategories, useTransactions } from "../../hooks";
 
 const StyledButton = styled(Button)`
   margin-right: ${4 * base}px;
@@ -20,23 +20,36 @@ const Buttons = styled.div`
 `;
 
 function EditTransaction({ onSave, onCancel, transaction }) {
-  const categories = useCategories();
-  const [category, setCategory] = useState(transaction.category);
+  const { updateTransactionCategory } = useTransactions();
+  const { categories } = useCategories();
+  const options = categories.map((category) => ({
+    value: category.id,
+    label: category.name,
+    key: category.id,
+  }));
+  const [category, setCategory] = useState(
+    options.find((option) => option.value === transaction.category_id)
+  );
+
   return (
     <Wrapper>
       <h3>Edit transaction</h3>
       <StyledSelect
-        options={categories.map((c) => ({
-          label: c.name,
-          value: c.id,
-          key: c.id,
-        }))}
-        value={category}
+        options={options}
+        selected={category}
         onChange={setCategory}
+        label="Select a category"
       />
       <Buttons>
-        <StyledButton onClick={onSave}>Save</StyledButton>
-        <Button onClick={onSave}>Cancel</Button>
+        <StyledButton
+          onClick={() => {
+            onSave();
+            updateTransactionCategory(transaction, category.value);
+          }}
+        >
+          Save
+        </StyledButton>
+        <Button onClick={onCancel}>Cancel</Button>
       </Buttons>
     </Wrapper>
   );
