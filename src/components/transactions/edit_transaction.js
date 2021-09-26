@@ -20,8 +20,8 @@ const Buttons = styled.div`
 `;
 
 function EditTransaction({ onSave, onCancel, transaction }) {
-  const [, , updateTransactionCategory] = useTransactions();
-  const [categories] = useCategories();
+  const { updateTransactionCategory } = useTransactions();
+  const { categories } = useCategories();
   const options = categories.map((category) => ({
     value: category.id,
     label: category.name,

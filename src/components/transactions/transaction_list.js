@@ -4,7 +4,7 @@ import List from "../list";
 import Transaction from "./transaction";
 
 function TransactionList({ className }) {
-  const [transactions] = useTransactions();
+  const { transactions } = useTransactions();
   return (
     <div className={className}>
       <List>

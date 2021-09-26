@@ -67,7 +67,7 @@ function TransactionsProvider({ fromDate, toDate, ...props }) {
     [transactions, setTransactions]
   );
 
-  const value = [transactions, setTransactions, updateTransactionCategory];
+  const value = { transactions, setTransactions, updateTransactionCategory };
 
   return <TransactionsContext.Provider value={value} {...props} />;
 }

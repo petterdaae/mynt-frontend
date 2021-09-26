@@ -23,7 +23,7 @@ function CategoriesProvider(props) {
       .then((res) => res.json())
       .then((data) => setCategories(data));
   }, [setCategories]);
-  return <CategoriesContext.Provider value={[categories]} {...props} />;
+  return <CategoriesContext.Provider value={{ categories }} {...props} />;
 }
 
 export { useCategories, CategoriesProvider };
