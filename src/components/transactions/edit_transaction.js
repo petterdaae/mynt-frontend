@@ -2,8 +2,8 @@ import PropTypes from "prop-types";
 import { Select, Button } from "..";
 import { base } from "../size";
 import styled from "styled-components";
-import { useCallback, useState } from "react";
-import { useCategories } from "../../hooks";
+import { useState } from "react";
+import { useCategories, useTransactions } from "../../hooks";
 
 const StyledButton = styled(Button)`
   margin-right: ${4 * base}px;
@@ -19,26 +19,10 @@ const Buttons = styled.div`
   display: flex;
 `;
 
-function EditTransaction({ onSave, onCancel, transaction, setTransactions }) {
+function EditTransaction({ onSave, onCancel, transaction }) {
+  const [, , updateTransactionCategory] = useTransactions();
   const categories = useCategories();
   const [category, setCategory] = useState(transaction.category_id || 0);
-  console.log(category);
-
-  const updateCategory = useCallback(() => {
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/transactions/update_category`, {
-      method: "PUT",
-      credentials: "include",
-      body: JSON.stringify({
-        transaction_id: transaction.id,
-        categorizations: [
-          {
-            category_id: parseInt(category, 10),
-            amount: transaction.amount,
-          },
-        ],
-      }),
-    });
-  }, [category]);
 
   return (
     <Wrapper>
@@ -56,9 +40,7 @@ function EditTransaction({ onSave, onCancel, transaction, setTransactions }) {
         <StyledButton
           onClick={() => {
             onSave();
-            updateCategory();
-            transaction.category_id = category;
-            updateTransaction(transaction, setTransactions);
+            updateTransactionCategory(transaction, category);
           }}
         >
           Save
@@ -69,20 +51,10 @@ function EditTransaction({ onSave, onCancel, transaction, setTransactions }) {
   );
 }
 
-function updateTransaction(transaction, setTransactions) {
-  setTransactions((prev) => {
-    const slice = prev.slice();
-    const index = slice.findIndex((t) => t.id === transaction.id);
-    slice[index] = transaction;
-    return slice;
-  });
-}
-
 EditTransaction.propTypes = {
   onSave: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   transaction: PropTypes.object.isRequired,
-  setTransactions: PropTypes.func.isRequired,
 };
 
 export default EditTransaction;

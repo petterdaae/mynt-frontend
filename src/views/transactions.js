@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback } from "react";
 import TransactionList from "../components/transactions/transaction_list";
+import { TransactionsProvider } from "../hooks";
 
 function Home() {
   const formatDate = useCallback(
@@ -12,31 +13,10 @@ function Home() {
   oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
   oneMonthAgo = formatDate(oneMonthAgo);
 
-  const [transactions, setTransactions] = useState([]);
-
-  useEffect(() => {
-    fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/transactions?from_date=${oneMonthAgo}&to_date=${today}`,
-      {
-        credentials: "include",
-      }
-    )
-      .then((res) => res.json())
-      .then((data) =>
-        setTransactions(
-          data.sort((a, b) => b.accounting_date > a.accounting_date)
-        )
-      );
-  }, [setTransactions, oneMonthAgo, today]);
-
-  if (transactions.length === 0) {
-    return <></>;
-  }
-
   return (
-    <>
-      <TransactionList data={transactions} setTransactions={setTransactions} />
-    </>
+    <TransactionsProvider fromDate={oneMonthAgo} toDate={today}>
+      <TransactionList />
+    </TransactionsProvider>
   );
 }
 

@@ -31,7 +31,7 @@ const Amount = styled.div`
   ${(props) => props.color && `color: ${props.color};`}
 `;
 
-function Transaction({ transaction, setTransactions }) {
+function Transaction({ transaction }) {
   const [showModal, setShowModal] = useState(false);
 
   const formatDateTimeString = useCallback((datetime) => {
@@ -55,7 +55,6 @@ function Transaction({ transaction, setTransactions }) {
           onCancel={() => setShowModal(false)}
           onSave={() => setShowModal(false)}
           transaction={transaction}
-          setTransactions={setTransactions}
         />
       </Modal>
     </>
@@ -64,7 +63,6 @@ function Transaction({ transaction, setTransactions }) {
 
 Transaction.propTypes = {
   transaction: PropTypes.object.isRequired,
-  setTransactions: PropTypes.func.isRequired,
 };
 
 export default Transaction;
