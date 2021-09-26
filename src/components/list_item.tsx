@@ -1,6 +1,12 @@
-import PropTypes from "prop-types";
+import React from "react";
 import styled from "styled-components";
 import { base } from "./size";
+
+type Props = {
+  onClick: () => void;
+  className: string;
+  children: React.ReactNode;
+};
 
 const StyledListItem = styled(ListItem)`
   padding: ${4 * base}px;
@@ -13,18 +19,12 @@ const StyledListItem = styled(ListItem)`
   }
 `;
 
-function ListItem({ onClick, className, children }) {
+function ListItem({ onClick, className, children }: Props) {
   return (
     <div className={className} onClick={onClick}>
       {children}
     </div>
   );
 }
-
-ListItem.propTypes = {
-  onClick: PropTypes.func,
-  className: PropTypes.string,
-  children: PropTypes.any,
-};
 
 export default StyledListItem;
