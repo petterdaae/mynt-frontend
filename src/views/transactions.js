@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import TransactionList from "../components/transactions/transaction_list";
-import { TransactionsProvider } from "../hooks";
+import { TransactionsProvider, CategoriesProvider } from "../hooks";
 
 function Home() {
   const formatDate = useCallback(
@@ -15,7 +15,9 @@ function Home() {
 
   return (
     <TransactionsProvider fromDate={oneMonthAgo} toDate={today}>
-      <TransactionList />
+      <CategoriesProvider>
+        <TransactionList />
+      </CategoriesProvider>
     </TransactionsProvider>
   );
 }

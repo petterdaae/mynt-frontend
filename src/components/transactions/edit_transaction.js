@@ -21,7 +21,7 @@ const Buttons = styled.div`
 
 function EditTransaction({ onSave, onCancel, transaction }) {
   const [, , updateTransactionCategory] = useTransactions();
-  const categories = useCategories();
+  const [categories] = useCategories();
   const [category, setCategory] = useState(transaction.category_id || 0);
 
   return (
