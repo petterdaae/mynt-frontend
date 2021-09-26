@@ -6,13 +6,15 @@ import Transaction from "./transaction";
 function TransactionList({ className }) {
   const { transactions } = useTransactions();
   return (
-    <div className={className}>
-      <List>
-        {transactions.map((item) => (
-          <Transaction key={item.id} transaction={item} />
-        ))}
-      </List>
-    </div>
+    transactions.length !== 0 && (
+      <div className={className}>
+        <List>
+          {transactions.map((item) => (
+            <Transaction key={item.id} transaction={item} />
+          ))}
+        </List>
+      </div>
+    )
   );
 }
 
