@@ -21,7 +21,8 @@ const Buttons = styled.div`
 
 function EditTransaction({ onSave, onCancel, transaction, setTransactions }) {
   const categories = useCategories();
-  const [category, setCategory] = useState(transaction.category_id);
+  const [category, setCategory] = useState(transaction.category_id || 0);
+  console.log(category);
 
   const updateCategory = useCallback(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/transactions/update_category`, {
@@ -49,7 +50,7 @@ function EditTransaction({ onSave, onCancel, transaction, setTransactions }) {
           key: c.id,
         }))}
         value={category}
-        onChange={setCategory}
+        onChange={(value) => setCategory(parseInt(value, 10))}
       />
       <Buttons>
         <StyledButton

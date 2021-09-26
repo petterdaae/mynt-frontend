@@ -20,7 +20,7 @@ function Select({ value, onChange, label, options, ...props }) {
 
 Select.propTypes = {
   label: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.number,
   onChange: PropTypes.func,
   options: PropTypes.array,
 };
