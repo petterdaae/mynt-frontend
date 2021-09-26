@@ -35,7 +35,7 @@ function Home() {
 
   return (
     <>
-      <TransactionList data={transactions} />
+      <TransactionList data={transactions} setTransactions={setTransactions} />
     </>
   );
 }
