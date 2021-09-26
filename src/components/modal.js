@@ -1,11 +1,6 @@
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { base, breakpoint } from "./size";
-
-type Props = {
-  show: boolean;
-  children: React.ReactNode;
-  className?: string;
-};
 
 const StyledModal = styled(Modal)`
   position: fixed;
@@ -34,15 +29,20 @@ const Content = styled.div`
   }
 `;
 
-function Modal({ show, children, className }: Props) {
-  if (!show) {
-    return <></>;
-  }
+function Modal({ show, children, className }) {
   return (
-    <div className={className}>
-      <Content>{children}</Content>
-    </div>
+    show && (
+      <div className={className}>
+        <Content>{children}</Content>
+      </div>
+    )
   );
 }
+
+Modal.propTypes = {
+  show: PropTypes.bool,
+  children: PropTypes.any,
+  className: PropTypes.string,
+};
 
 export default StyledModal;
