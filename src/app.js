@@ -5,6 +5,7 @@ import {
   Transactions,
   Settings,
   Categories,
+  Spendings,
 } from "./views";
 import styled from "styled-components";
 import { mainFontColor } from "./components/color";
@@ -22,6 +23,7 @@ function App() {
           <Route path="/authenticated/transactions" component={Transactions} />
           <Route path="/authenticated/settings" component={Settings} />
           <Route path="/authenticated/categories" component={Categories} />
+          <Route path="/authenticated/spendings" component={Spendings} />
         </Authenticated>
       </Switch>
     </Wrapper>
