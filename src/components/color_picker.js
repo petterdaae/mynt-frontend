@@ -42,7 +42,7 @@ function ColorPicker({ value, onChange }) {
 }
 
 ColorPicker.propTypes = {
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 };
 

@@ -16,7 +16,7 @@ const StyledButton = styled(Button)`
 
 function NewCategory({ className, parentCategory, onCreate, onCancel }) {
   const nameInputRef = useRef();
-  const [color, setColor] = useState(undefined);
+  const [color, setColor] = useState(null);
 
   const createCategory = useCallback(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`, {
