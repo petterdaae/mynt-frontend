@@ -2,11 +2,12 @@ import styled from "styled-components";
 import ListItem from "../list_item";
 import PropTypes from "prop-types";
 import { formatCurrency } from "../../utils/currency";
-import RandomIcon from "../random_icon";
+import CategoryIcon from "../category_icon";
 import { green, red } from "../color";
 import { useCallback, useState } from "react";
 import Modal from "../modal";
 import EditTransaction from "./edit_transaction";
+import { useCategories } from "../../hooks";
 
 const StyledListItem = styled(ListItem)`
   display: flex;
@@ -33,6 +34,10 @@ const Amount = styled.div`
 
 function Transaction({ transaction }) {
   const [showModal, setShowModal] = useState(false);
+  const { categories } = useCategories();
+
+  const category = categories.find((c) => c.id === transaction.category_id);
+  const color = category ? category.color : "lightgrey";
 
   const formatDateTimeString = useCallback((datetime) => {
     const date = new Date(datetime);
@@ -43,7 +48,7 @@ function Transaction({ transaction }) {
   return (
     <>
       <StyledListItem key={transaction.id} onClick={() => setShowModal(true)}>
-        <RandomIcon />
+        <CategoryIcon color={color} />
         <DateTime>{formatDateTimeString(transaction.accounting_date)}</DateTime>
         <Text>{transaction.text}</Text>
         <Amount color={transaction.amount < 0 ? red : green}>

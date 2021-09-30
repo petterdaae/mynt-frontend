@@ -3,7 +3,8 @@ import styled from "styled-components";
 import TextInput from "../text_input";
 import Button from "../button";
 import { base } from "../size";
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useState } from "react";
+import ColorPicker from "../color_picker";
 
 const StyledTextInput = styled(TextInput)`
   margin-bottom: ${4 * base}px;
@@ -15,25 +16,30 @@ const StyledButton = styled(Button)`
 
 function NewCategory({ className, parentCategory, onCreate, onCancel }) {
   const nameInputRef = useRef();
+  const [color, setColor] = useState(null);
 
   const createCategory = useCallback(() => {
+    console.log(color);
     fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`, {
       credentials: "include",
       method: "POST",
       body: JSON.stringify({
         name: nameInputRef.current.value,
         parent_id: parentCategory,
+        color: color,
       }),
     })
       .then((res) => res.json())
       .then((newCategory) => onCreate(newCategory));
     nameInputRef.current.value = "";
-  }, [nameInputRef, onCreate]);
+  }, [nameInputRef, onCreate, color]);
 
   return (
     <div className={className}>
       <h3>New category</h3>
       <StyledTextInput placeholder="Name" ref={nameInputRef} />
+      <br />
+      <ColorPicker value={color} onChange={setColor} />
       <br />
       <StyledButton onClick={createCategory}>Create</StyledButton>
       <Button onClick={onCancel}>Cancel</Button>

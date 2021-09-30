@@ -4,6 +4,7 @@ import List from "./list";
 import ListItem from "./list_item";
 import { formatCurrency } from "../utils/currency";
 import styled from "styled-components";
+import CategoryIcon from "./category_icon";
 
 const StyledListItem = styled(ListItem)`
   display: flex;
@@ -18,12 +19,17 @@ function SpendingsList({ className }) {
     categories.length !== 0 && (
       <div className={className}>
         <List>
-          {spendings.map((item) => (
-            <StyledListItem key={item.category_id}>
-              <p>{categories.find((c) => c.id === item.category_id).name}</p>
-              <p>{formatCurrency(item.amount)}</p>
-            </StyledListItem>
-          ))}
+          {spendings.map((item) => {
+            const category = categories.find((c) => c.id === item.category_id);
+            if (!category) return null;
+            return (
+              <StyledListItem key={item.category_id}>
+                <CategoryIcon color={category.color} />
+                <p>{category.name}</p>
+                <p>{formatCurrency(item.amount)}</p>
+              </StyledListItem>
+            );
+          })}
         </List>
       </div>
     )
