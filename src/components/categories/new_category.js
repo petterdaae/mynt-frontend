@@ -19,18 +19,20 @@ function NewCategory({ className, parentCategory, onCreate, onCancel }) {
   const [color, setColor] = useState(null);
 
   const createCategory = useCallback(() => {
+    console.log(color);
     fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`, {
       credentials: "include",
       method: "POST",
       body: JSON.stringify({
         name: nameInputRef.current.value,
         parent_id: parentCategory,
+        color: color,
       }),
     })
       .then((res) => res.json())
       .then((newCategory) => onCreate(newCategory));
     nameInputRef.current.value = "";
-  }, [nameInputRef, onCreate]);
+  }, [nameInputRef, onCreate, color]);
 
   return (
     <div className={className}>

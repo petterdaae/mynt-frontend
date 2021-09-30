@@ -1,6 +1,6 @@
 import List from "../list";
 import PropTypes from "prop-types";
-import RandomIcon from "../random_icon";
+import CategoryIcon from "../category_icon";
 import styled from "styled-components";
 import ListItem from "../list_item";
 
@@ -9,7 +9,7 @@ const CategoryName = styled.div`
   vertical-align: middle;
 `;
 
-function CategoryList({ categories, setBreadcrumb, className }) {
+function CategoryList({ categories, setBreadcrumb }) {
   return (
     categories.length > 0 && (
       <List>
@@ -18,7 +18,7 @@ function CategoryList({ categories, setBreadcrumb, className }) {
             key={category.id}
             onClick={() => setBreadcrumb((prev) => [...prev, category.id])}
           >
-            <RandomIcon />
+            <CategoryIcon color={category.color} />
             <CategoryName>{category.name}</CategoryName>
           </ListItem>
         ))}
