@@ -2,13 +2,25 @@ import PropTypes from "prop-types";
 import { useCategories, useSpendings } from "../hooks";
 import List from "./list";
 import ListItem from "./list_item";
-import { formatCurrency } from "../utils/currency";
 import styled from "styled-components";
 import CategoryIcon from "./category_icon";
+import Currency from "./currency";
 
 const StyledListItem = styled(ListItem)`
   display: flex;
   justify-content: space-between;
+  align-items: center;
+`;
+
+const StyledName = styled.p`
+  flex: 1;
+  align-items: center;
+  display: flex;
+`;
+
+const StyledCurrency = styled(Currency)`
+  align-items: center;
+  display: flex;
 `;
 
 function SpendingsList({ className }) {
@@ -25,8 +37,8 @@ function SpendingsList({ className }) {
             return (
               <StyledListItem key={item.category_id}>
                 <CategoryIcon color={category.color} />
-                <p>{category.name}</p>
-                <p>{formatCurrency(item.amount)}</p>
+                <StyledName>{category.name}</StyledName>
+                <StyledCurrency value={item.amount} />
               </StyledListItem>
             );
           })}
