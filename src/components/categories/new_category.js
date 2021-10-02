@@ -7,7 +7,7 @@ import { useRef, useCallback, useState } from "react";
 import ColorPicker from "../color_picker";
 
 const StyledTextInput = styled(TextInput)`
-  margin-bottom: ${4 * base}px;
+  margin-bottom: ${2 * base}px;
 `;
 
 const StyledButton = styled(Button)`
@@ -17,9 +17,17 @@ const StyledButton = styled(Button)`
 function NewCategory({ className, parentCategory, onCreate, onCancel }) {
   const nameInputRef = useRef();
   const [color, setColor] = useState(null);
+  const [nameError, setNameError] = useState(null);
 
   const createCategory = useCallback(() => {
-    console.log(color);
+    if (
+      !nameInputRef ||
+      !nameInputRef.current ||
+      nameInputRef.current.value.trim() === ""
+    ) {
+      setNameError("Name can not be empty");
+      return;
+    }
     fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`, {
       credentials: "include",
       method: "POST",
@@ -37,8 +45,11 @@ function NewCategory({ className, parentCategory, onCreate, onCancel }) {
   return (
     <div className={className}>
       <h3>New category</h3>
-      <StyledTextInput placeholder="Name" ref={nameInputRef} />
-      <br />
+      <StyledTextInput
+        placeholder="Name"
+        ref={nameInputRef}
+        error={nameError}
+      />
       <ColorPicker value={color} onChange={setColor} />
       <br />
       <StyledButton onClick={createCategory}>Create</StyledButton>
