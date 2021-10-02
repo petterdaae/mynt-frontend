@@ -6,6 +6,12 @@ import {
   getCurrentCategoryId,
   removeCategory,
 } from "../utils/categories";
+import { base } from "../components/size";
+import styled from "styled-components";
+
+const StyledButton = styled(Button)`
+  margin-right: ${4 * base}px;
+`;
 
 function Categories() {
   const [breadcrumb, setBreadcrumb] = useState([]);
@@ -54,7 +60,7 @@ function Categories() {
       </Modal>
       <Modal show={showDeleteCategory}>
         <p>Are you sure you want to delete this category?</p>
-        <Button
+        <StyledButton
           onClick={() => {
             const currentCategoryId = getCurrentCategoryId(breadcrumb);
             fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`, {
@@ -70,7 +76,8 @@ function Categories() {
           }}
         >
           Yes
-        </Button>
+        </StyledButton>
+        <Button onClick={() => setShowDeleteCategory(false)}>Cancel</Button>
       </Modal>
     </>
   );
