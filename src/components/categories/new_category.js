@@ -49,6 +49,7 @@ function NewCategory({ className, parentCategory, onCreate, onCancel }) {
         placeholder="Name"
         ref={nameInputRef}
         error={nameError}
+        onChange={() => setNameError(null)}
       />
       <ColorPicker value={color} onChange={setColor} />
       <br />
