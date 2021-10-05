@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { useHistory, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
-import { base, breakpoint } from "../components/size";
-import { mainFontColor, weakFontColor } from "../components/color";
+import { base, breakpoint } from "./components/size";
+import { mainFontColor, weakFontColor } from "./components/color";
 import { useEffect } from "react";
 
 const ContentWrapper = styled.div`

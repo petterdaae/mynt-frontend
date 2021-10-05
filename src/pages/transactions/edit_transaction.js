@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
-import { Select, Button } from "..";
-import { base } from "../size";
+import { Select, Button } from "../../components";
+import { base } from "../../components/size";
 import styled from "styled-components";
 import { useState } from "react";
 import { useCategories, useTransactions } from "../../hooks";

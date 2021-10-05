@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button } from "../components";
+import { Button } from "./components";
 
 const Wrapper = styled.div`
   text-align: center;

@@ -1,14 +1,15 @@
 import { Route, Switch } from "react-router-dom";
-import {
-  Authenticated,
-  Login,
-  Transactions,
-  Settings,
-  Categories,
-  Spendings,
-} from "./views";
+
 import styled from "styled-components";
 import { mainFontColor } from "./components/color";
+
+import Authenticated from "./authenticated";
+import Login from "./login";
+
+import Settings from "./pages/settings";
+import Spendings from "./pages/spendings";
+import Categories from "./pages/categories";
+import Transactions from "./pages/transactions";
 
 const Wrapper = styled.div`
   color: ${mainFontColor};

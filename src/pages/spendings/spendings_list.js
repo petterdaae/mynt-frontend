@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
-import { useCategories, useSpendings } from "../hooks";
-import List from "./list";
-import ListItem from "./list_item";
+import { useCategories, useSpendings } from "../../hooks";
+import List from "../../components/list";
+import ListItem from "../../components/list_item";
 import styled from "styled-components";
-import CategoryIcon from "./category_icon";
-import Currency from "./currency";
+import CategoryIcon from "../../components/category_icon";
+import Currency from "../../components/currency";
 
 const StyledListItem = styled(ListItem)`
   display: flex;

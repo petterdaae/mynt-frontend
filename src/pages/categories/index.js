@@ -1,12 +1,14 @@
 import { useCallback, useState, useEffect } from "react";
-import { Button, Modal } from "../components";
-import { NewCategory, CategoryList, Header } from "../components/categories";
+import { Button, Modal } from "../../components";
+import NewCategory from "./new_category";
+import CategoryList from "./category_list";
+import Header from "./header";
 import {
   getCategoriesFromBreadcrumb,
   getCurrentCategoryId,
   removeCategory,
-} from "../utils/categories";
-import { base } from "../components/size";
+} from "../../utils/categories";
+import { base } from "../../components/size";
 import styled from "styled-components";
 
 const StyledButton = styled(Button)`

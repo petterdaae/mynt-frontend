@@ -1,6 +1,6 @@
 import { useCallback } from "react";
-import TransactionList from "../components/transactions/transaction_list";
-import { TransactionsProvider, CategoriesProvider } from "../hooks";
+import TransactionList from "./transaction_list";
+import { TransactionsProvider, CategoriesProvider } from "../../hooks";
 
 function Home() {
   const formatDate = useCallback(

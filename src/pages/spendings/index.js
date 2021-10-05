@@ -1,6 +1,6 @@
 import { useCallback } from "react";
-import { SpendingsProvider, CategoriesProvider } from "../hooks";
-import SpendingsList from "../components/spendings_list";
+import { SpendingsProvider, CategoriesProvider } from "../../hooks";
+import SpendingsList from "./spendings_list";
 
 function Spendings() {
   const formatDate = useCallback(

@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { base } from "../components/size";
-import { Input, Button, Modal } from "../components";
+import { base } from "../../components/size";
+import { Input, Button, Modal } from "../../components";
 import { useState } from "react";
 
 const Wrapper = styled.div`

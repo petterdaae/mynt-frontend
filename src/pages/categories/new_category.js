@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import TextInput from "../text_input";
-import Button from "../button";
-import { base } from "../size";
+import TextInput from "../../components/text_input";
+import { Button } from "../../components";
+import { base } from "../../components/size";
 import { useRef, useCallback, useState } from "react";
-import ColorPicker from "../color_picker";
+import ColorPicker from "../../components/color_picker";
 
 const StyledTextInput = styled(TextInput)`
   margin-bottom: ${2 * base}px;

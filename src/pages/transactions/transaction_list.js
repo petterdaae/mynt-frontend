@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useTransactions } from "../../hooks";
-import List from "../list";
+import List from "../../components/list";
 import Transaction from "./transaction";
 
 function TransactionList({ className }) {

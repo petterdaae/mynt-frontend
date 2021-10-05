@@ -1,8 +1,8 @@
-import List from "../list";
+import List from "../../components/list";
 import PropTypes from "prop-types";
-import CategoryIcon from "../category_icon";
+import CategoryIcon from "../../components/category_icon";
 import styled from "styled-components";
-import ListItem from "../list_item";
+import ListItem from "../../components/list_item";
 
 const CategoryName = styled.div`
   display: inline-block;
