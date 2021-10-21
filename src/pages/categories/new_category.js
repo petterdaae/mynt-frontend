@@ -3,7 +3,7 @@ import styled from "styled-components";
 import TextInput from "../../components/text_input";
 import { Button } from "../../components";
 import { base } from "../../components/size";
-import { useRef, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import ColorPicker from "../../components/color_picker";
 
 const StyledTextInput = styled(TextInput)`
@@ -15,43 +15,61 @@ const StyledButton = styled(Button)`
 `;
 
 function NewCategory({ className, parentCategory, onCreate, onCancel }) {
-  const nameInputRef = useRef();
+  const [name, setName] = useState("");
   const [color, setColor] = useState(null);
   const [nameError, setNameError] = useState(null);
+  const [colorError, setColorError] = useState(null);
 
   const createCategory = useCallback(() => {
-    if (
-      !nameInputRef ||
-      !nameInputRef.current ||
-      nameInputRef.current.value.trim() === ""
-    ) {
+    const hasNameError = name.trim() === "";
+    const hasColorError = !color;
+
+    if (hasNameError) {
       setNameError("Name can not be empty");
+    }
+
+    if (hasColorError) {
+      setColorError("Pick a color");
+    }
+
+    if (hasNameError || hasColorError) {
       return;
     }
+
     fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`, {
       credentials: "include",
       method: "POST",
       body: JSON.stringify({
-        name: nameInputRef.current.value,
+        name: name,
         parent_id: parentCategory,
         color: color,
       }),
     })
       .then((res) => res.json())
       .then((newCategory) => onCreate(newCategory));
-    nameInputRef.current.value = "";
-  }, [nameInputRef, onCreate, color]);
+    setName("");
+    setColor(null);
+  }, [name, onCreate, color]);
 
   return (
     <div className={className}>
       <h3>New category</h3>
       <StyledTextInput
         placeholder="Name"
-        ref={nameInputRef}
         error={nameError}
-        onChange={() => setNameError(null)}
+        onChange={(value) => {
+          setNameError(null);
+          setName(value);
+        }}
       />
-      <ColorPicker value={color} onChange={setColor} />
+      <ColorPicker
+        value={color}
+        onChange={(color) => {
+          setColorError(null);
+          setColor(color);
+        }}
+        error={colorError}
+      />
       <br />
       <StyledButton onClick={createCategory}>Create</StyledButton>
       <Button onClick={onCancel}>Cancel</Button>

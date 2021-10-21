@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 
 const StyledInput = styled.input`
   padding: ${2 * base}px;
-  background-color: ${(props) => (props.error ? "#fce4e4" : "#fff")};
   border: none;
   border: 1px solid ${(props) => (props.error ? red : "lightgray")};
 
@@ -28,11 +27,15 @@ const Wrapper = styled.div`
   display: inline-block;
 `;
 
-function TextInput({ error, className, ...props }) {
-  console.log(error);
+function TextInput({ error, className, value, onChange, ...props }) {
   return (
     <Wrapper className={className}>
-      <StyledInput error={error} {...props} />
+      <StyledInput
+        error={error}
+        {...props}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
       <ErrorMessage>{error}</ErrorMessage>
     </Wrapper>
   );
@@ -41,6 +44,8 @@ function TextInput({ error, className, ...props }) {
 TextInput.propTypes = {
   error: PropTypes.string,
   className: PropTypes.string,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 export default TextInput;
