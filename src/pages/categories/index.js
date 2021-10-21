@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { Modal } from "../../components";
+import { Modal, Loader } from "../../components";
 import NewCategory from "./new_category";
 import DeleteCategory from "./delete_category";
 import CategoryList from "./category_list";
@@ -9,6 +9,12 @@ import {
   getCurrentCategoryId,
 } from "../../utils/categories";
 import { CategoriesProvider, useCategories } from "../../hooks";
+import styled from "styled-components";
+
+const StyledLoader = styled(Loader)`
+  margin: auto;
+  margin-top: 200px;
+`;
 
 function Wrapper() {
   return (
@@ -22,7 +28,7 @@ function Categories() {
   const [breadcrumb, setBreadcrumb] = useState([]);
   const [showNewCategory, setShowNewCategory] = useState(false);
   const [showDeleteCategory, setShowDeleteCategory] = useState(false);
-  const { categories } = useCategories();
+  const { categories, loading } = useCategories();
 
   const navigateBack = useCallback(() => {
     setBreadcrumb((previous) => {
@@ -31,7 +37,9 @@ function Categories() {
     });
   }, [setBreadcrumb]);
 
-  return (
+  return loading ? (
+    <StyledLoader />
+  ) : (
     <>
       <Header
         navigateBack={navigateBack}

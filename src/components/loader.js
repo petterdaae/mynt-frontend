@@ -6,14 +6,14 @@ const Loader = styled.div`
   border-radius: 50%;
   background: smokewhite;
   box-shadow: 0 0 0 0 #0004;
-  animation: bs 1s infinite;
+  animation: bs 1.2s infinite;
 
   @keyframes bs {
-    10% {
-      box-shadow: 0 0 0 20px #0000;
+    40% {
+      box-shadow: 0 0 0 25px #0000;
     }
     100% {
-      box-shadow: 0 0 0 30px #0000;
+      box-shadow: 0 0 0 35px #0000;
     }
   }
 `;
