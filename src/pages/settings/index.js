@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { base } from "../../components/size";
-import { Input, Button, Modal } from "../../components";
+import { TextInput, Button, Modal } from "../../components";
 import { useState } from "react";
 
 const Wrapper = styled.div`
@@ -9,20 +9,28 @@ const Wrapper = styled.div`
   flex-direction: column;
 `;
 
-const StyledInput = styled(Input)`
-  margin-bottom: ${4 * base}px;
-`;
-
 const ButtonWithRightMargin = styled(Button)`
   margin-right: ${2 * base}px;
 `;
 
 function Settings() {
   const [clientId, setClientId] = useState("");
+  const [clientIdError, setClientIdError] = useState("");
   const [clientSecret, setClientSecret] = useState("");
+  const [clientSecretError, setClientSecretError] = useState("");
   const [showDeleteAllDataModal, setShowDeleteAllModal] = useState(false);
 
   const onSubmit = async () => {
+    if (!clientId) {
+      setClientIdError("Client ID is required");
+    }
+    if (!clientSecret) {
+      setClientSecretError("Client Secret is required");
+    }
+    if (!clientId || !clientSecret) {
+      return;
+    }
+
     const result = await fetch(
       `${process.env.REACT_APP_BACKEND_URL}/user/secrets/sbanken`,
       {
@@ -70,15 +78,23 @@ function Settings() {
     <div>
       <Wrapper>
         <h2>Sbanken Credentials</h2>
-        <StyledInput
+        <TextInput
           placeholder="Client ID"
           value={clientId}
-          onChange={(e) => setClientId(e.target.value)}
+          onChange={(value) => {
+            setClientIdError("");
+            setClientId(value);
+          }}
+          error={clientIdError}
         />
-        <StyledInput
+        <TextInput
           placeholder="Client Secret"
           value={clientSecret}
-          onChange={(e) => setClientSecret(e.target.value)}
+          onChange={(value) => {
+            setClientSecretError("");
+            setClientSecret(value);
+          }}
+          error={clientSecretError}
         />
         <Button onClick={onSubmit}>Update</Button>
 
