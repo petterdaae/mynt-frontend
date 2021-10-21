@@ -23,8 +23,10 @@ function useTransactions() {
 
 function TransactionsProvider({ fromDate, toDate, ...props }) {
   const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     fetch(
       `${process.env.REACT_APP_BACKEND_URL}/transactions?from_date=${fromDate}&to_date=${toDate}`,
       {
@@ -35,6 +37,7 @@ function TransactionsProvider({ fromDate, toDate, ...props }) {
       .then((data) => {
         data.sort((a, b) => b.accounting_date > a.accounting_date);
         setTransactions(data);
+        setLoading(false);
       });
   }, [setTransactions, fromDate, toDate]);
 
@@ -67,7 +70,12 @@ function TransactionsProvider({ fromDate, toDate, ...props }) {
     [transactions, setTransactions]
   );
 
-  const value = { transactions, setTransactions, updateTransactionCategory };
+  const value = {
+    transactions,
+    setTransactions,
+    updateTransactionCategory,
+    loading,
+  };
 
   return <TransactionsContext.Provider value={value} {...props} />;
 }
