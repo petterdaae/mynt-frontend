@@ -5,6 +5,7 @@ import { Button } from "../../components";
 import { base } from "../../components/size";
 import { useCallback, useState } from "react";
 import ColorPicker from "../../components/color_picker";
+import { useCategories } from "../../hooks";
 
 const StyledTextInput = styled(TextInput)`
   margin-bottom: ${2 * base}px;
@@ -14,11 +15,12 @@ const StyledButton = styled(Button)`
   margin-right: ${4 * base}px;
 `;
 
-function NewCategory({ className, parentCategory, onCreate, onCancel }) {
+function NewCategory({ className, parentCategory, onClose }) {
   const [name, setName] = useState("");
   const [color, setColor] = useState(null);
   const [nameError, setNameError] = useState(null);
   const [colorError, setColorError] = useState(null);
+  const { addCategory } = useCategories();
 
   const createCategory = useCallback(() => {
     const hasNameError = name.trim() === "";
@@ -36,20 +38,16 @@ function NewCategory({ className, parentCategory, onCreate, onCancel }) {
       return;
     }
 
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`, {
-      credentials: "include",
-      method: "POST",
-      body: JSON.stringify({
-        name: name,
-        parent_id: parentCategory,
-        color: color,
-      }),
-    })
-      .then((res) => res.json())
-      .then((newCategory) => onCreate(newCategory));
+    addCategory({
+      name: name,
+      parent_id: parentCategory,
+      color: color,
+    });
+
     setName("");
     setColor(null);
-  }, [name, onCreate, color]);
+    onClose();
+  }, [name, onClose, addCategory, color]);
 
   return (
     <div className={className}>
@@ -72,7 +70,7 @@ function NewCategory({ className, parentCategory, onCreate, onCancel }) {
       />
       <br />
       <StyledButton onClick={createCategory}>Create</StyledButton>
-      <Button onClick={onCancel}>Cancel</Button>
+      <Button onClick={onClose}>Cancel</Button>
     </div>
   );
 }
@@ -82,6 +80,7 @@ NewCategory.propTypes = {
   parentCategory: PropTypes.number,
   onCreate: PropTypes.func,
   onCancel: PropTypes.func,
+  onClose: PropTypes.func,
 };
 
 export default NewCategory;
