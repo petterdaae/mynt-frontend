@@ -7,7 +7,6 @@ import Authenticated from "./authenticated";
 import Login from "./login";
 
 import Settings from "./pages/settings";
-import Spendings from "./pages/spendings";
 import Categories from "./pages/categories";
 import Transactions from "./pages/transactions";
 
@@ -24,7 +23,6 @@ function App() {
           <Route path="/authenticated/transactions" component={Transactions} />
           <Route path="/authenticated/settings" component={Settings} />
           <Route path="/authenticated/categories" component={Categories} />
-          <Route path="/authenticated/spendings" component={Spendings} />
         </Authenticated>
       </Switch>
     </Wrapper>

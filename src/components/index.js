@@ -7,6 +7,7 @@ import Checkbox from "./checkbox";
 import Select from "./select";
 import TextInput from "./text_input";
 import Loader from "./loader";
+import Currency from "./currency";
 
 export {
   Button,
@@ -18,4 +19,5 @@ export {
   Select,
   TextInput,
   Loader,
+  Currency,
 };
