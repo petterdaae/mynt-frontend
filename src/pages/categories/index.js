@@ -4,6 +4,7 @@ import NewCategory from "./new_category";
 import DeleteCategory from "./delete_category";
 import CategoryList from "./category_list";
 import Header from "./header";
+import Summary from "./summary";
 import {
   getCategoriesFromBreadcrumb,
   getCurrentCategoryId,
@@ -47,6 +48,7 @@ function Categories() {
     <StyledLoader />
   ) : (
     <>
+      <Summary currentCategory={getCurrentCategoryId(breadcrumb)} />
       <Header
         navigateBack={navigateBack}
         categories={categories}
