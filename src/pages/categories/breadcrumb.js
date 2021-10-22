@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { base, breakpoint } from "../size";
+import { base, breakpoint } from "../../components/size";
 
 const StyledUl = styled.div`
   border: 1px solid #ccc;

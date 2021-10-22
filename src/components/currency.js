@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { green, red } from "./color";
 import { formatCurrency } from "../utils/currency";
 
-const StyledP = styled.p`
+const StyledP = styled.div`
   color: ${(props) => props.color};
 `;
 

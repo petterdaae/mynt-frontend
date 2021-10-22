@@ -1,8 +1,8 @@
 import BreadCrumb from "./breadcrumb";
-import { base, breakpoint } from "../size";
+import { base, breakpoint } from "../../components/size";
 import styled from "styled-components";
 import { FiPlus, FiTrash } from "react-icons/fi";
-import Button from "../button";
+import { Button } from "../../components";
 import PropTypes from "prop-types";
 
 const StyledHeader = styled(Header)`

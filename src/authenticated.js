@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { useHistory, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
-import { base, breakpoint } from "../components/size";
-import { mainFontColor, weakFontColor } from "../components/color";
+import { base, breakpoint } from "./components/size";
+import { mainFontColor, weakFontColor } from "./components/color";
 import { useEffect } from "react";
 
 const ContentWrapper = styled.div`
@@ -117,7 +117,6 @@ function Authenticated({ children }) {
           />
           <NavigationItem path="/authenticated/categories" name="Categories" />
           <NavigationItem path="/authenticated/settings" name="Settings" />
-          <NavigationItem path="/authenticated/spendings" name="Spendings" />
         </Navigation>
       </NavigationWrapper>
       <ContentWrapper>

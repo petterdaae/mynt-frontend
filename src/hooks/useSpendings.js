@@ -1,5 +1,10 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import PropTypes from "prop-types";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 
 const SpendingsContext = createContext();
 
@@ -13,8 +18,20 @@ function useSpendings() {
   return context;
 }
 
-function SpendingsProvider({ fromDate, toDate, ...props }) {
+function SpendingsProvider(props) {
+  const formatDate = useCallback(
+    (date) => date.toISOString().split("T")[0],
+    []
+  );
+
+  const today = formatDate(new Date());
+  let oneMonthAgo = new Date();
+  oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+  oneMonthAgo = formatDate(oneMonthAgo);
+
   const [spendings, setSpendings] = useState([]);
+  const [fromDate, setFromDate] = useState(oneMonthAgo);
+  const [toDate, setToDate] = useState(today);
 
   useEffect(() => {
     fetch(
@@ -29,12 +46,12 @@ function SpendingsProvider({ fromDate, toDate, ...props }) {
       });
   }, [setSpendings, fromDate, toDate]);
 
-  return <SpendingsContext.Provider value={{ spendings }} {...props} />;
+  return (
+    <SpendingsContext.Provider
+      value={{ spendings, setFromDate, setToDate }}
+      {...props}
+    />
+  );
 }
-
-SpendingsProvider.propTypes = {
-  fromDate: PropTypes.string.isRequired,
-  toDate: PropTypes.string.isRequired,
-};
 
 export { SpendingsProvider, useSpendings };

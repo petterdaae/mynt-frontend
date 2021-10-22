@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import ListItem from "../list_item";
+import ListItem from "../../components/list_item";
 import PropTypes from "prop-types";
 import { formatCurrency } from "../../utils/currency";
-import CategoryIcon from "../category_icon";
-import { green, red } from "../color";
+import CategoryIcon from "../../components/category_icon";
+import { green, red } from "../../components/color";
 import { useCallback, useState } from "react";
-import Modal from "../modal";
+import Modal from "../../components/modal";
 import EditTransaction from "./edit_transaction";
 import { useCategories } from "../../hooks";
 
