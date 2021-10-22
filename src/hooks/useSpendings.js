@@ -32,8 +32,10 @@ function SpendingsProvider(props) {
   const [spendings, setSpendings] = useState([]);
   const [fromDate, setFromDate] = useState(oneMonthAgo);
   const [toDate, setToDate] = useState(today);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     fetch(
       `${process.env.REACT_APP_BACKEND_URL}/spendings?from_date=${fromDate}&to_date=${toDate}`,
       {
@@ -43,12 +45,13 @@ function SpendingsProvider(props) {
       .then((res) => res.json())
       .then((data) => {
         setSpendings(data);
+        setLoading(false);
       });
   }, [setSpendings, fromDate, toDate]);
 
   return (
     <SpendingsContext.Provider
-      value={{ spendings, setFromDate, setToDate }}
+      value={{ spendings, setFromDate, setToDate, loading }}
       {...props}
     />
   );
