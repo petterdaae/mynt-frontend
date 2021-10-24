@@ -40,17 +40,29 @@ function CategoriesProvider(props) {
       fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`, {
         credentials: "include",
         method: "POST",
-        body: JSON.stringify(
-          newCategory
-          // {
-          //   name,
-          //   parent_id,
-          //   color
-          // }
-        ),
+        body: JSON.stringify(newCategory),
       })
         .then((res) => res.json())
         .then((newCategory) => setCategories((prev) => [...prev, newCategory]));
+    },
+    [setCategories]
+  );
+
+  const updateCategory = useCallback(
+    (id, updatedCategory) => {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/categories/${id}`, {
+        credentials: "include",
+        method: "PUT",
+        body: JSON.stringify(updatedCategory),
+      })
+        .then((res) => res.json())
+        .then((updatedCategory) => {
+          setCategories((prev) =>
+            prev.map((category) =>
+              category.id === id ? updatedCategory : category
+            )
+          );
+        });
     },
     [setCategories]
   );
@@ -71,7 +83,13 @@ function CategoriesProvider(props) {
 
   return (
     <CategoriesContext.Provider
-      value={{ categories, loading, addCategory, deleteCategory }}
+      value={{
+        categories,
+        loading,
+        addCategory,
+        deleteCategory,
+        updateCategory,
+      }}
       {...props}
     />
   );

@@ -15,12 +15,13 @@ const StyledButton = styled(Button)`
   margin-right: ${4 * base}px;
 `;
 
-function NewCategory({ className, parentCategory, onClose }) {
-  const [name, setName] = useState("");
-  const [color, setColor] = useState(null);
+function NewCategory({ className, parentCategory, onClose, edit }) {
+  const { categories, addCategory, updateCategory } = useCategories();
+  const category = categories.find((c) => c.id === parentCategory);
+  const [name, setName] = useState(edit ? category.name : "lol");
+  const [color, setColor] = useState(edit ? category.color : null);
   const [nameError, setNameError] = useState(null);
   const [colorError, setColorError] = useState(null);
-  const { addCategory } = useCategories();
 
   const createCategory = useCallback(() => {
     const hasNameError = name.trim() === "";
@@ -38,23 +39,31 @@ function NewCategory({ className, parentCategory, onClose }) {
       return;
     }
 
-    addCategory({
-      name: name,
-      parent_id: parentCategory,
-      color: color,
-    });
+    if (edit) {
+      updateCategory(parentCategory, {
+        name: name,
+        color: color,
+      });
+    } else {
+      addCategory({
+        name: name,
+        parent_id: parentCategory,
+        color: color,
+      });
+    }
 
     setName("");
     setColor(null);
     onClose();
-  }, [name, onClose, addCategory, color]);
+  }, [name, onClose, addCategory, color, edit, parentCategory]);
 
   return (
     <div className={className}>
-      <h3>New category</h3>
+      <h3>{edit ? "Edit category" : "New category"}</h3>
       <StyledTextInput
         placeholder="Name"
         error={nameError}
+        value={name}
         onChange={(value) => {
           setNameError(null);
           setName(value);
@@ -69,7 +78,9 @@ function NewCategory({ className, parentCategory, onClose }) {
         error={colorError}
       />
       <br />
-      <StyledButton onClick={createCategory}>Create</StyledButton>
+      <StyledButton onClick={createCategory}>
+        {edit ? "Update" : "Create"}
+      </StyledButton>
       <Button onClick={onClose}>Cancel</Button>
     </div>
   );
@@ -81,6 +92,7 @@ NewCategory.propTypes = {
   onCreate: PropTypes.func,
   onCancel: PropTypes.func,
   onClose: PropTypes.func,
+  edit: PropTypes.bool,
 };
 
 export default NewCategory;
