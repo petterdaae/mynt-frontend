@@ -3,6 +3,7 @@ import { useSpendings } from "../../hooks";
 import { Button, Currency } from "../../components";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
+import { formatDate } from "../../utils/date";
 
 const Buttons = styled.div`
   margin: auto;
@@ -75,12 +76,6 @@ function Summary({ currentCategory }) {
 }
 
 function setToAndFromDate(month, setToDate, setFromDate) {
-  const formatDate = (date) =>
-    date.getFullYear() +
-    "-" +
-    (date.getMonth() + 1) +
-    "-" +
-    date.getDate().toString().padStart(2, "0");
   const currentYear = new Date().getFullYear();
   const year = currentYear + Math.floor(month / 12);
   const fromDate = new Date(year, month % 12, 1);
@@ -112,7 +107,7 @@ function getMonthName(monthIndex) {
 }
 
 Summary.propTypes = {
-  currentCategory: PropTypes.string,
+  currentCategory: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 export default Summary;
