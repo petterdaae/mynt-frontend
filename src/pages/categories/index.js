@@ -35,6 +35,7 @@ function Categories() {
   const [breadcrumb, setBreadcrumb] = useState([]);
   const [showNewCategory, setShowNewCategory] = useState(false);
   const [showDeleteCategory, setShowDeleteCategory] = useState(false);
+  const [showEditCategory, setShowEditCategory] = useState(false);
   const { categories, loading } = useCategories();
 
   const navigateBack = useCallback(() => {
@@ -55,6 +56,7 @@ function Categories() {
         breadcrumb={breadcrumb}
         setShowNewCategory={setShowNewCategory}
         setShowDeleteCategory={setShowDeleteCategory}
+        setShowEditCategory={setShowEditCategory}
       />
       <CategoryList
         categories={getCategoriesFromBreadcrumb(categories, breadcrumb)}
@@ -72,6 +74,13 @@ function Categories() {
           breadcrumb={breadcrumb}
           setBreadcrumb={setBreadcrumb}
           setShowDeleteCategory={setShowDeleteCategory}
+        />
+      </Modal>
+      <Modal show={showEditCategory}>
+        <NewCategory
+          parentCategory={getCurrentCategoryId(breadcrumb)}
+          onClose={() => setShowEditCategory(false)}
+          edit
         />
       </Modal>
     </>

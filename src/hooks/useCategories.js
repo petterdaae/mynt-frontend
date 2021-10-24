@@ -40,14 +40,7 @@ function CategoriesProvider(props) {
       fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`, {
         credentials: "include",
         method: "POST",
-        body: JSON.stringify(
-          newCategory
-          // {
-          //   name,
-          //   parent_id,
-          //   color
-          // }
-        ),
+        body: JSON.stringify(newCategory),
       })
         .then((res) => res.json())
         .then((newCategory) => setCategories((prev) => [...prev, newCategory]));
@@ -55,23 +48,48 @@ function CategoriesProvider(props) {
     [setCategories]
   );
 
+  const updateCategory = useCallback(
+    (id, updatedCategory) => {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/categories/${id}`, {
+        credentials: "include",
+        method: "PUT",
+        body: JSON.stringify(updatedCategory),
+      })
+        .then((res) => res.json())
+        .then((updatedCategory) => {
+          setCategories((prev) =>
+            prev.map((category) =>
+              category.id === id ? updatedCategory : category
+            )
+          );
+        });
+    },
+    [setCategories]
+  );
+
   const deleteCategory = useCallback(
     (categoryId) => {
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`, {
+      setCategories((prev) => removeCategory(prev, categoryId));
+      return fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`, {
         credentials: "include",
         method: "DELETE",
         body: JSON.stringify({
           id: categoryId,
         }),
       });
-      setCategories((prev) => removeCategory(prev, categoryId));
     },
     [setCategories]
   );
 
   return (
     <CategoriesContext.Provider
-      value={{ categories, loading, addCategory, deleteCategory }}
+      value={{
+        categories,
+        loading,
+        addCategory,
+        deleteCategory,
+        updateCategory,
+      }}
       {...props}
     />
   );

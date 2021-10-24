@@ -35,6 +35,7 @@ function Header({
   categories,
   setShowNewCategory,
   setShowDeleteCategory,
+  setShowEditCategory,
   className,
 }) {
   return (
@@ -48,18 +49,28 @@ function Header({
         Create new category
       </HeaderButton>
       {breadcrumb.length !== 0 && (
-        <HeaderButton onClick={() => setShowDeleteCategory(true)}>
-          Delete category
-        </HeaderButton>
+        <>
+          <HeaderButton onClick={() => setShowEditCategory(true)}>
+            Edit category
+          </HeaderButton>
+          <HeaderButton onClick={() => setShowDeleteCategory(true)}>
+            Delete category
+          </HeaderButton>
+        </>
       )}
 
       <HeaderButtonMobile onClick={() => setShowNewCategory(true)}>
         <FiPlus />
       </HeaderButtonMobile>
       {breadcrumb.length !== 0 && (
-        <HeaderButtonMobile onClick={() => setShowDeleteCategory(true)}>
-          <FiTrash />
-        </HeaderButtonMobile>
+        <>
+          <HeaderButtonMobile onClick={() => setShowEditCategory(true)}>
+            Edit category
+          </HeaderButtonMobile>
+          <HeaderButtonMobile onClick={() => setShowDeleteCategory(true)}>
+            <FiTrash />
+          </HeaderButtonMobile>
+        </>
       )}
     </div>
   );
@@ -71,6 +82,7 @@ Header.propTypes = {
   categories: PropTypes.arrayOf(PropTypes.object).isRequired,
   setShowNewCategory: PropTypes.func.isRequired,
   setShowDeleteCategory: PropTypes.func.isRequired,
+  setShowEditCategory: PropTypes.func.isRequired,
   className: PropTypes.string,
 };
 

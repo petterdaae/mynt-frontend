@@ -1,10 +1,5 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useCallback,
-} from "react";
+import { createContext, useContext, useState, useCallback } from "react";
+import useEffectSkipFirst from "./useEffectSkipFirst";
 
 const SpendingsContext = createContext();
 
@@ -33,8 +28,9 @@ function SpendingsProvider(props) {
   const [fromDate, setFromDate] = useState(oneMonthAgo);
   const [toDate, setToDate] = useState(today);
   const [loading, setLoading] = useState(false);
+  const [refreshState, setRefreshState] = useState(false);
 
-  useEffect(() => {
+  useEffectSkipFirst(() => {
     setLoading(true);
     fetch(
       `${process.env.REACT_APP_BACKEND_URL}/spendings?from_date=${fromDate}&to_date=${toDate}`,
@@ -47,11 +43,15 @@ function SpendingsProvider(props) {
         setSpendings(data);
         setLoading(false);
       });
-  }, [setSpendings, fromDate, toDate]);
+  }, [setSpendings, fromDate, toDate, refreshState, setLoading]);
+
+  const refresh = useCallback(() => {
+    setRefreshState((prev) => !prev);
+  }, [setRefreshState]);
 
   return (
     <SpendingsContext.Provider
-      value={{ spendings, setFromDate, setToDate, loading }}
+      value={{ spendings, setFromDate, setToDate, loading, refresh }}
       {...props}
     />
   );
