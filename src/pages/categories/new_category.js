@@ -18,7 +18,7 @@ const StyledButton = styled(Button)`
 function NewCategory({ className, parentCategory, onClose, edit }) {
   const { categories, addCategory, updateCategory } = useCategories();
   const category = categories.find((c) => c.id === parentCategory);
-  const [name, setName] = useState(edit ? category.name : "lol");
+  const [name, setName] = useState(edit ? category.name : "");
   const [color, setColor] = useState(edit ? category.color : null);
   const [nameError, setNameError] = useState(null);
   const [colorError, setColorError] = useState(null);
@@ -81,7 +81,15 @@ function NewCategory({ className, parentCategory, onClose, edit }) {
       <StyledButton onClick={createCategory}>
         {edit ? "Update" : "Create"}
       </StyledButton>
-      <Button onClick={onClose}>Cancel</Button>
+      <Button
+        onClick={() => {
+          setName("");
+          setColor(null);
+          onClose();
+        }}
+      >
+        Cancel
+      </Button>
     </div>
   );
 }

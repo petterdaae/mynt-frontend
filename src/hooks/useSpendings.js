@@ -33,6 +33,7 @@ function SpendingsProvider(props) {
   const [fromDate, setFromDate] = useState(oneMonthAgo);
   const [toDate, setToDate] = useState(today);
   const [loading, setLoading] = useState(false);
+  const [refreshState, setRefreshState] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -47,11 +48,15 @@ function SpendingsProvider(props) {
         setSpendings(data);
         setLoading(false);
       });
-  }, [setSpendings, fromDate, toDate]);
+  }, [setSpendings, fromDate, toDate, refreshState]);
+
+  const refresh = useCallback(() => {
+    setRefreshState((prev) => !prev);
+  }, [setRefreshState]);
 
   return (
     <SpendingsContext.Provider
-      value={{ spendings, setFromDate, setToDate, loading }}
+      value={{ spendings, setFromDate, setToDate, loading, refresh }}
       {...props}
     />
   );
