@@ -78,6 +78,16 @@ function Settings() {
     <div>
       <Wrapper>
         <h2>Sbanken Credentials</h2>
+        <p>
+          (If you have not enabled Sbanken beta, enable it{" "}
+          <a href="https://secure.sbanken.no/Home/Settings/BetaProgram">here</a>
+          ) Then, visit{" "}
+          <a href="https://secure.sbanken.no/Personal/ApiBeta/Info/">
+            this page
+          </a>{" "}
+          to obtain your credentials. Note that it often takes a few minutes
+          before they are valid.
+        </p>
         <TextInput
           placeholder="Client ID"
           value={clientId}
