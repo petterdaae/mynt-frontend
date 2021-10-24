@@ -10,13 +10,18 @@ const StyledButton = styled(Button)`
 `;
 
 function DeleteCategory({ breadcrumb, setShowDeleteCategory, setBreadcrumb }) {
-  const { deleteCategory } = useCategories();
+  const { deleteCategory, categories } = useCategories();
+  const category = categories.find(
+    (c) => c.id === getCurrentCategoryId(breadcrumb)
+  );
   return (
     <>
-      <p>Are you sure you want to delete this category?</p>
+      <p>
+        Are you sure you want to delete this category? (<b>{category.name}</b>)
+      </p>
       <StyledButton
         onClick={() => {
-          const currentCategoryId = getCurrentCategoryId(breadcrumb);
+          const currentCategoryId = category.id;
           deleteCategory(currentCategoryId);
           setBreadcrumb((prev) => prev.splice(-1));
           setShowDeleteCategory(false);
