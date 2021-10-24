@@ -35,7 +35,6 @@ function TransactionsProvider({ fromDate, toDate, ...props }) {
     )
       .then((res) => res.json())
       .then((data) => {
-        data.sort((a, b) => b.accounting_date > a.accounting_date);
         setTransactions(data);
         setLoading(false);
       });
