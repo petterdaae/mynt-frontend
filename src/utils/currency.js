@@ -6,7 +6,7 @@ function formatCurrency(amount) {
     decimal = `0${decimal}`;
   }
 
-  return `${integer},${decimal}`;
+  return `${integer.toLocaleString().replace(",", " ")},${decimal}`;
 }
 
 export { formatCurrency };
