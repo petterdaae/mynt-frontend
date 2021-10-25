@@ -1,15 +1,16 @@
 import PropTypes from "prop-types";
-import { Select, Button } from "../../components";
+import { Button } from "../../components";
 import { base } from "../../components/size";
 import styled from "styled-components";
 import { useState } from "react";
 import { useCategories, useTransactions } from "../../hooks";
+import CategoryPicker from "../../components/category_picker";
 
 const StyledButton = styled(Button)`
   margin-right: ${4 * base}px;
 `;
 
-const StyledSelect = styled(Select)`
+const StyledCategoryPicker = styled(CategoryPicker)`
   margin-bottom: ${4 * base}px;
 `;
 
@@ -34,7 +35,7 @@ function EditTransaction({ onSave, onCancel, transaction }) {
   return (
     <Wrapper>
       <h3>Edit transaction</h3>
-      <StyledSelect
+      <StyledCategoryPicker
         options={options}
         selected={category}
         onChange={setCategory}
