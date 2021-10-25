@@ -5,6 +5,16 @@ import { mainFontColor } from "./color";
 import { useState } from "react";
 import { useCategories } from "../hooks/useCategories";
 
+const CategoryIcon = styled.div`
+  display: inline-block;
+  height: ${4 * base}px;
+  width: ${4 * base}px;
+  background: ${(props) => props.color};
+  border-radius: 50%;
+  padding: ${base / 2}px;
+  margin-right: ${2 * base}px;
+`;
+
 const StyledCategoryPicker = styled(CategoryPicker)`
   padding: ${2 * base}px;
 `;
@@ -15,7 +25,8 @@ const Wrapper = styled.div`
 `;
 
 const Selected = styled.div`
-  padding: ${2 * base}px ${5 * base}px ${2 * base}px ${5 * base}px;
+  display: flex;
+  padding: ${2 * base}px ${2 * base}px ${2 * base}px ${3 * base}px;
   box-sizing: border-box;
   background-color: #fff;
   border: 1px solid lightgray;
@@ -51,8 +62,37 @@ const Options = styled.div`
 `;
 
 const Option = styled.div`
+  display: flex;
   background-color: #fff;
-  padding: ${2 * base}px ${5 * base}px ${2 * base}px ${5 * base}px;
+  border-bottom: 1px solid lightgray;
+  &:last-child {
+    border-bottom: none;
+  }
+`;
+
+const SubWrapper = styled.div`
+  display: flex;
+  padding: ${2 * base}px;
+`;
+
+const OptionButton = styled.div`
+  padding-top: ${2 * base}px;
+  padding-bottom: ${2 * base}px;
+  border-left: 1px solid lightgray;
+  padding-left: ${2 * base}px;
+  padding-right: ${2 * base}px;
+  &:hover {
+    background-color: lightgray;
+    cursor: pointer;
+  }
+`;
+
+const SelectOptionButton = styled(OptionButton)`
+  margin-left: auto;
+`;
+
+const Back = styled(Option)`
+  padding: ${2 * base}px;
   &:hover {
     background-color: lightgray;
     cursor: pointer;
@@ -63,16 +103,18 @@ function CategoryPicker({ selected, onChange, label }) {
   const [open, setOpen] = useState(false);
   const { categories } = useCategories();
   const [currentCategoryId, setCurrentCategoryId] = useState(null);
-  const options = categories.filter((c) => c.parent_id === currentCategoryId);
-  console.log(categories);
+  const currentCategories = categories.filter(
+    (c) => c.parent_id === currentCategoryId
+  );
   return (
     <Wrapper>
       <Selected onClick={() => setOpen((prev) => !prev)}>
-        {selected ? selected.label : label}
+        {selected && <CategoryIcon color={selected.color} />}
+        {selected ? selected.name : label}
       </Selected>
       <Options open={open}>
         {currentCategoryId !== null && (
-          <Option
+          <Back
             key={-1}
             onClick={() => {
               const currentCategory = categories.find(
@@ -82,24 +124,32 @@ function CategoryPicker({ selected, onChange, label }) {
             }}
           >
             Back
-          </Option>
+          </Back>
         )}
-        {options.map((option) => (
-          <Option
-            key={option.id}
-            onClick={() => {
-              const children = categories.filter(
-                (c) => c.parent_id === option.id
-              );
-              if (children.length > 0) {
-                setCurrentCategoryId(option.id);
-                return;
-              }
-              setOpen(false);
-              onChange(option);
-            }}
-          >
-            {option.name}
+        {currentCategories.map((category) => (
+          <Option key={category.id}>
+            <SubWrapper>
+              <CategoryIcon color={category.color} />
+              {category.name}
+            </SubWrapper>
+            <SelectOptionButton
+              onClick={() => {
+                onChange(category);
+                setOpen(false);
+              }}
+            >
+              Select
+            </SelectOptionButton>
+            {categories.filter((c) => c.parent_id === category.id).length >
+              0 && (
+              <OptionButton
+                onClick={() => {
+                  setCurrentCategoryId(category.id);
+                }}
+              >
+                Children
+              </OptionButton>
+            )}
           </Option>
         ))}
       </Options>
