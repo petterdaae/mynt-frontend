@@ -8,6 +8,7 @@ import { useCallback, useState } from "react";
 import Modal from "../../components/modal";
 import EditTransaction from "./edit_transaction";
 import { useCategories } from "../../hooks";
+import { useAccounts } from "../../hooks/useAccounts";
 
 const StyledListItem = styled(ListItem)`
   display: flex;
@@ -23,7 +24,13 @@ const DateTime = styled.div`
 const Text = styled.div`
   display: flex;
   align-items: center;
-  flex: 2;
+  flex: 4;
+`;
+
+const AccountName = styled.div`
+  display: flex;
+  align-items: center;
+  flex: 1;
 `;
 
 const Amount = styled.div`
@@ -35,9 +42,13 @@ const Amount = styled.div`
 function Transaction({ transaction }) {
   const [showModal, setShowModal] = useState(false);
   const { categories } = useCategories();
+  const { accounts } = useAccounts();
 
   const category = categories.find((c) => c.id === transaction.category_id);
   const color = category ? category.color : "lightgrey";
+
+  const account = accounts.find((a) => a.id === transaction.account_id);
+  const accountName = account ? account.name : "";
 
   const formatDateTimeString = useCallback((datetime) => {
     const date = new Date(datetime);
@@ -50,6 +61,7 @@ function Transaction({ transaction }) {
       <StyledListItem key={transaction.id} onClick={() => setShowModal(true)}>
         <CategoryIcon color={color} />
         <DateTime>{formatDateTimeString(transaction.accounting_date)}</DateTime>
+        <AccountName>{accountName}</AccountName>
         <Text>{transaction.text}</Text>
         <Amount color={transaction.amount < 0 ? red : green}>
           {formatCurrency(transaction.amount)}

@@ -1,15 +1,16 @@
 import PropTypes from "prop-types";
-import { Select, Button } from "../../components";
+import { Button } from "../../components";
 import { base } from "../../components/size";
 import styled from "styled-components";
 import { useState } from "react";
 import { useCategories, useTransactions } from "../../hooks";
+import CategoryPicker from "../../components/category_picker";
 
 const StyledButton = styled(Button)`
   margin-right: ${4 * base}px;
 `;
 
-const StyledSelect = styled(Select)`
+const StyledCategoryPicker = styled(CategoryPicker)`
   margin-bottom: ${4 * base}px;
 `;
 
@@ -22,20 +23,14 @@ const Buttons = styled.div`
 function EditTransaction({ onSave, onCancel, transaction }) {
   const { updateTransactionCategory } = useTransactions();
   const { categories } = useCategories();
-  const options = categories.map((category) => ({
-    value: category.id,
-    label: category.name,
-    key: category.id,
-  }));
   const [category, setCategory] = useState(
-    options.find((option) => option.value === transaction.category_id)
+    categories.find((c) => c.id === transaction.category_id)
   );
 
   return (
     <Wrapper>
       <h3>Edit transaction</h3>
-      <StyledSelect
-        options={options}
+      <StyledCategoryPicker
         selected={category}
         onChange={setCategory}
         label="Select a category"
@@ -44,7 +39,7 @@ function EditTransaction({ onSave, onCancel, transaction }) {
         <StyledButton
           onClick={() => {
             onSave();
-            updateTransactionCategory(transaction, category.value);
+            updateTransactionCategory(transaction, category.id);
           }}
         >
           Save

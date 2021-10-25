@@ -43,7 +43,11 @@ function CategoriesProvider(props) {
         body: JSON.stringify(newCategory),
       })
         .then((res) => res.json())
-        .then((newCategory) => setCategories((prev) => [...prev, newCategory]));
+        .then((newCategory) =>
+          setCategories((prev) =>
+            [...prev, newCategory].sort((a, b) => a.name.localeCompare(b.name))
+          )
+        );
     },
     [setCategories]
   );
@@ -58,9 +62,11 @@ function CategoriesProvider(props) {
         .then((res) => res.json())
         .then((updatedCategory) => {
           setCategories((prev) =>
-            prev.map((category) =>
-              category.id === id ? updatedCategory : category
-            )
+            prev
+              .map((category) =>
+                category.id === id ? updatedCategory : category
+              )
+              .sort((a, b) => a.name.localeCompare(b.name))
           );
         });
     },
