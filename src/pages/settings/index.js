@@ -117,6 +117,8 @@ function Settings() {
         <Button onClick={() => setShowDeleteAllModal(true)}>
           Delete all my data
         </Button>
+        <h2>Nordigen</h2>
+        <Button onClick={() => {}}>Grant permission to Nordigen</Button>
         <h2>Account</h2>
         <Button onClick={signout}>Sign out</Button>
 

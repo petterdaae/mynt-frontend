@@ -4,6 +4,7 @@ import { base } from "./size";
 import { mainFontColor } from "./color";
 import { useState } from "react";
 import { useCategories } from "../hooks/useCategories";
+import { AiOutlineArrowRight, AiOutlineArrowLeft } from "react-icons/ai";
 
 const CategoryIcon = styled.div`
   display: inline-block;
@@ -73,22 +74,21 @@ const Option = styled.div`
 const SubWrapper = styled.div`
   display: flex;
   padding: ${2 * base}px;
-`;
-
-const OptionButton = styled.div`
-  padding-top: ${2 * base}px;
-  padding-bottom: ${2 * base}px;
-  border-left: 1px solid lightgray;
-  padding-left: ${2 * base}px;
-  padding-right: ${2 * base}px;
+  flex: 1;
   &:hover {
     background-color: lightgray;
     cursor: pointer;
   }
 `;
 
-const SelectOptionButton = styled(OptionButton)`
-  margin-left: auto;
+const OptionButton = styled.div`
+  display: flex;
+  padding: ${2 * base}px;
+  border-left: 1px solid lightgray;
+  &:hover {
+    background-color: lightgray;
+    cursor: pointer;
+  }
 `;
 
 const Back = styled(Option)`
@@ -123,23 +123,20 @@ function CategoryPicker({ selected, onChange, label }) {
               setCurrentCategoryId(currentCategory.parent_id);
             }}
           >
-            Back
+            <AiOutlineArrowLeft />
           </Back>
         )}
         {currentCategories.map((category) => (
           <Option key={category.id}>
-            <SubWrapper>
-              <CategoryIcon color={category.color} />
-              {category.name}
-            </SubWrapper>
-            <SelectOptionButton
+            <SubWrapper
               onClick={() => {
                 onChange(category);
                 setOpen(false);
               }}
             >
-              Select
-            </SelectOptionButton>
+              <CategoryIcon color={category.color} />
+              {category.name}
+            </SubWrapper>
             {categories.filter((c) => c.parent_id === category.id).length >
               0 && (
               <OptionButton
@@ -147,7 +144,7 @@ function CategoryPicker({ selected, onChange, label }) {
                   setCurrentCategoryId(category.id);
                 }}
               >
-                Children
+                <AiOutlineArrowRight />
               </OptionButton>
             )}
           </Option>
