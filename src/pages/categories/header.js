@@ -1,9 +1,10 @@
-import BreadCrumb from "./breadcrumb";
 import { base, breakpoint } from "../../components/size";
 import styled from "styled-components";
 import { FiPlus, FiTrash } from "react-icons/fi";
 import { Button } from "../../components";
 import PropTypes from "prop-types";
+import CategoryIcon from "../../components/category_icon";
+import { getCurrentCategoryId } from "../../utils/categories";
 
 const StyledHeader = styled(Header)`
   margin-bottom: ${4 * base}px;
@@ -29,6 +30,11 @@ const HeaderButtonMobile = styled(Button)`
   }
 `;
 
+const CurrentCategoryWrapper = styled.div`
+  margin-left: ${2 * base}px;
+  display: inline-block;
+`;
+
 function Header({
   breadcrumb,
   navigateBack,
@@ -38,12 +44,18 @@ function Header({
   setShowEditCategory,
   className,
 }) {
+  const currentCategoryId = getCurrentCategoryId(breadcrumb);
+  const currentCategory = categories.find((c) => c.id === currentCategoryId);
   return (
     <div className={className}>
       <Button onClick={navigateBack} disabled={breadcrumb.length === 0}>
         Back
       </Button>
-      <BreadCrumb breadcrumb={breadcrumb} categories={categories} />
+
+      <CurrentCategoryWrapper>
+        {currentCategory && <CategoryIcon color={currentCategory.color} />}
+        {currentCategory && currentCategory.name}
+      </CurrentCategoryWrapper>
 
       <HeaderButton onClick={() => setShowNewCategory(true)}>
         Create new category

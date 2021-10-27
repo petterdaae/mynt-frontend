@@ -6,7 +6,6 @@ import styled from "styled-components";
 import { formatDate } from "../../utils/date";
 
 const Buttons = styled.div`
-  margin: auto;
   display: inline-block;
 `;
 
@@ -14,6 +13,7 @@ const MonthDisplay = styled(Button)`
   width: 200px;
   background-color: white;
   border: none;
+  margin-bottom: 16px;
   &:hover {
     cursor: inherit;
     border: none;
@@ -30,7 +30,13 @@ const Wrapper = styled.div`
 const Total = styled(Currency)`
   margin-top: 20px;
   margin-bottom: 20px;
-  font-size: 45px;
+  font-size: 40px;
+  ${(props) => (props.color ? `color: ${props.color}` : "")}
+`;
+
+const TotalsWrapper = styled.div`
+  display: flex;
+  justify-content: space-evenly;
 `;
 
 function Summary({ currentCategory }) {
@@ -45,6 +51,11 @@ function Summary({ currentCategory }) {
 
   return spending ? (
     <Wrapper>
+      <TotalsWrapper>
+        <Total value={spending.amount} />
+        <Total value={spending.amount - 25} color="lightblue" />
+        <Total value={spending.amount * -5} />
+      </TotalsWrapper>
       <Buttons>
         <Button
           disabled={loading}
@@ -68,7 +79,6 @@ function Summary({ currentCategory }) {
           Next
         </Button>
       </Buttons>
-      <Total value={spending.amount} />
     </Wrapper>
   ) : (
     <></>
