@@ -117,8 +117,17 @@ function Settings() {
         <Button onClick={() => setShowDeleteAllModal(true)}>
           Delete all my data
         </Button>
-        <h2>Nordigen</h2>
-        <Button onClick={() => {}}>Grant permission to Nordigen</Button>
+        <h2>Demo account</h2>
+        <Button
+          onClick={() => {
+            fetch(`${process.env.REACT_APP_BACKEND_URL}/demo/reset`, {
+              method: "POST",
+              credentials: "include",
+            });
+          }}
+        >
+          Reset demo account
+        </Button>
         <h2>Account</h2>
         <Button onClick={signout}>Sign out</Button>
 
