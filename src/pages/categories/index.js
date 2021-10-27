@@ -49,7 +49,6 @@ function Categories() {
     <StyledLoader />
   ) : (
     <>
-      <Summary currentCategory={getCurrentCategoryId(breadcrumb)} />
       <Header
         navigateBack={navigateBack}
         categories={categories}
@@ -58,6 +57,7 @@ function Categories() {
         setShowDeleteCategory={setShowDeleteCategory}
         setShowEditCategory={setShowEditCategory}
       />
+      <Summary currentCategory={getCurrentCategoryId(breadcrumb)} />
       <CategoryList
         categories={getCategoriesFromBreadcrumb(categories, breadcrumb)}
         depth={0}

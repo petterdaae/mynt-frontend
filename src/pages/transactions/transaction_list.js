@@ -16,7 +16,7 @@ const StyledLoader = styled(Loader)`
 function TransactionList({ className }) {
   const { transactions, loading, setFromAndToDate } = useTransactions();
   const today = formatDate(new Date());
-  const [monthsBack, setMonthsBack] = useState(0);
+  const [monthsBack, setMonthsBack] = useState(1);
 
   useEffect(() => {
     let fromDate = new Date();
@@ -34,7 +34,14 @@ function TransactionList({ className }) {
           transactions.map((item) => (
             <Transaction key={item.id} transaction={item} />
           ))}
-        <ListItem key={-1} onClick={() => setMonthsBack((prev) => prev + 1)}>
+        <ListItem
+          key={-1}
+          onClick={() => {
+            if (!loading) {
+              setMonthsBack((prev) => prev + 1);
+            }
+          }}
+        >
           Load more transactions
         </ListItem>
       </List>

@@ -4,9 +4,9 @@ import { Button, Currency } from "../../components";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { formatDate } from "../../utils/date";
+import { green, red } from "../../components/color";
 
 const Buttons = styled.div`
-  margin: auto;
   display: inline-block;
 `;
 
@@ -14,6 +14,7 @@ const MonthDisplay = styled(Button)`
   width: 200px;
   background-color: white;
   border: none;
+  margin-bottom: 16px;
   &:hover {
     cursor: inherit;
     border: none;
@@ -28,9 +29,17 @@ const Wrapper = styled.div`
 `;
 
 const Total = styled(Currency)`
+  display: inline-block;
   margin-top: 20px;
   margin-bottom: 20px;
-  font-size: 45px;
+  font-size: 40px;
+  flex: 1;
+  ${(props) => (props.color ? `color: ${props.color}` : "")}
+`;
+
+const TotalsWrapper = styled.div`
+  display: flex;
+  justify-content: space-evenly;
 `;
 
 function Summary({ currentCategory }) {
@@ -45,6 +54,11 @@ function Summary({ currentCategory }) {
 
   return spending ? (
     <Wrapper>
+      <TotalsWrapper>
+        <Total value={spending.negative_amount} color={red} />
+        <Total value={spending.amount} color="lightblue" />
+        <Total value={spending.positive_amount} color={green} />
+      </TotalsWrapper>
       <Buttons>
         <Button
           disabled={loading}
@@ -68,7 +82,6 @@ function Summary({ currentCategory }) {
           Next
         </Button>
       </Buttons>
-      <Total value={spending.amount} />
     </Wrapper>
   ) : (
     <></>
