@@ -4,6 +4,7 @@ import { Button, Currency } from "../../components";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { formatDate } from "../../utils/date";
+import { green, red } from "../../components/color";
 
 const Buttons = styled.div`
   display: inline-block;
@@ -28,9 +29,11 @@ const Wrapper = styled.div`
 `;
 
 const Total = styled(Currency)`
+  display: inline-block;
   margin-top: 20px;
   margin-bottom: 20px;
   font-size: 40px;
+  flex: 1;
   ${(props) => (props.color ? `color: ${props.color}` : "")}
 `;
 
@@ -52,9 +55,9 @@ function Summary({ currentCategory }) {
   return spending ? (
     <Wrapper>
       <TotalsWrapper>
-        <Total value={spending.amount} />
-        <Total value={spending.amount - 25} color="lightblue" />
-        <Total value={spending.amount * -5} />
+        <Total value={spending.negative_amount} color={red} />
+        <Total value={spending.amount} color="lightblue" />
+        <Total value={spending.positive_amount} color={green} />
       </TotalsWrapper>
       <Buttons>
         <Button
