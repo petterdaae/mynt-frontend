@@ -1,11 +1,5 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  useCallback,
-  useEffect,
-} from "react";
-import PropTypes from "prop-types";
+import { createContext, useContext, useState, useCallback } from "react";
+import useEffectSkipFirst from "./useEffectSkipFirst";
 
 const TransactionsContext = createContext();
 
@@ -21,11 +15,13 @@ function useTransactions() {
   return context;
 }
 
-function TransactionsProvider({ fromDate, toDate, ...props }) {
+function TransactionsProvider(props) {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [fromDate, setFromDate] = useState(null);
+  const [toDate, setToDate] = useState(null);
 
-  useEffect(() => {
+  useEffectSkipFirst(() => {
     setLoading(true);
     fetch(
       `${process.env.REACT_APP_BACKEND_URL}/transactions?from_date=${fromDate}&to_date=${toDate}`,
@@ -39,6 +35,14 @@ function TransactionsProvider({ fromDate, toDate, ...props }) {
         setLoading(false);
       });
   }, [setTransactions, fromDate, toDate]);
+
+  const setFromAndToDate = useCallback(
+    (from, to) => {
+      setFromDate(from);
+      setToDate(to);
+    },
+    [setFromDate, setToDate]
+  );
 
   const updateTransactionCategory = useCallback(
     (transaction, categoryId) => {
@@ -74,14 +78,10 @@ function TransactionsProvider({ fromDate, toDate, ...props }) {
     setTransactions,
     updateTransactionCategory,
     loading,
+    setFromAndToDate,
   };
 
   return <TransactionsContext.Provider value={value} {...props} />;
 }
-
-TransactionsProvider.propTypes = {
-  fromDate: PropTypes.string.isRequired,
-  toDate: PropTypes.string.isRequired,
-};
 
 export { TransactionsProvider, useTransactions };
