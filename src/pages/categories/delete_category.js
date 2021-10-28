@@ -21,9 +21,14 @@ function DeleteCategory({ breadcrumb, setShowDeleteCategory, setBreadcrumb }) {
       </p>
       <StyledButton
         onClick={() => {
+          console.log("delete clicked");
           const currentCategoryId = category.id;
           deleteCategory(currentCategoryId);
-          setBreadcrumb((prev) => prev.splice(-1));
+          setBreadcrumb((prev) => {
+            const cp = prev.slice();
+            cp.splice(-1);
+            return cp;
+          });
           setShowDeleteCategory(false);
         }}
       >
