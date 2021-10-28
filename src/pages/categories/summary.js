@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useSpendings } from "../../hooks";
 import { Button, Currency } from "../../components";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import { formatDate } from "../../utils/date";
 import { green, red } from "../../components/color";
@@ -43,13 +43,15 @@ const TotalsWrapper = styled.div`
 `;
 
 function Summary({ currentCategory }) {
-  const { spendings, loading, setToDate, setFromDate } = useSpendings();
-  const [month, setMonth] = useState(getCurrentMonthIndex());
+  console.log("render");
+  const { spendings, loading, setFromAndToDate } = useSpendings();
+  const currentMonthIndex = useMemo(() => getCurrentMonthIndex(), []);
+  const [month, setMonth] = useState(currentMonthIndex);
   const spending = spendings.find((s) => s.category_id === currentCategory);
-  const currentYear = new Date().getFullYear();
+  const currentYear = useMemo(() => new Date().getFullYear(), []);
 
   useEffect(() => {
-    setToAndFromDate(month, setToDate, setFromDate);
+    setToAndFromDate(month, setFromAndToDate);
   }, [month]);
 
   return spending ? (
@@ -88,13 +90,12 @@ function Summary({ currentCategory }) {
   );
 }
 
-function setToAndFromDate(month, setToDate, setFromDate) {
+function setToAndFromDate(month, setFromAndToDate) {
   const currentYear = new Date().getFullYear();
   const year = currentYear + Math.floor(month / 12);
   const fromDate = new Date(year, month % 12, 1);
   const toDate = new Date(year, (month + 1) % 12, 0);
-  setToDate(formatDate(toDate));
-  setFromDate(formatDate(fromDate));
+  setFromAndToDate(formatDate(fromDate), formatDate(toDate));
 }
 
 function getCurrentMonthIndex() {
