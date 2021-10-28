@@ -4,10 +4,6 @@ import { base } from "./size";
 import { mainFontColor } from "./color";
 import { useState } from "react";
 
-const StyledCheckbox = styled(Select)`
-  padding: ${2 * base}px;
-`;
-
 const Wrapper = styled.div`
   margin-bottom: ${2 * base}px;
   position: relative;
@@ -58,10 +54,10 @@ const Option = styled.div`
   }
 `;
 
-function Select({ selected, onChange, label, options }) {
+function Select({ selected, onChange, label, options, ...props }) {
   const [open, setOpen] = useState(false);
   return (
-    <Wrapper>
+    <Wrapper {...props}>
       <Selected onClick={() => setOpen((prev) => !prev)}>
         {selected ? selected.label : label}
       </Selected>
@@ -89,4 +85,4 @@ Select.propTypes = {
   options: PropTypes.array,
 };
 
-export default StyledCheckbox;
+export default Select;
