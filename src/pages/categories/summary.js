@@ -43,7 +43,6 @@ const TotalsWrapper = styled.div`
 `;
 
 function Summary({ currentCategory }) {
-  console.log("render");
   const { spendings, loading, setFromAndToDate } = useSpendings();
   const currentMonthIndex = useMemo(() => getCurrentMonthIndex(), []);
   const [month, setMonth] = useState(currentMonthIndex);
