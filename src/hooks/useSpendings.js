@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useCallback } from "react";
+import { useCategories } from ".";
 import useEffectSkipFirst from "./useEffectSkipFirst";
 
 const SpendingsContext = createContext();
@@ -29,6 +30,7 @@ function SpendingsProvider(props) {
   const [toDate, setToDate] = useState(today);
   const [loading, setLoading] = useState(false);
   const [refreshState, setRefreshState] = useState(false);
+  const { categories } = useCategories();
 
   useEffectSkipFirst(() => {
     setLoading(true);
@@ -43,7 +45,7 @@ function SpendingsProvider(props) {
         setSpendings(data);
         setLoading(false);
       });
-  }, [setSpendings, fromDate, toDate, refreshState, setLoading]);
+  }, [setSpendings, fromDate, toDate, refreshState, setLoading, categories]);
 
   const refresh = useCallback(() => {
     setRefreshState((prev) => !prev);
