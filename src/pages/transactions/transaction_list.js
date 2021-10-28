@@ -31,12 +31,11 @@ const timeOptions = [
 
 const typeOptions = [
   { label: "All", value: "all", key: 1 },
-  { label: "Uncategorized", value: "income", key: 2 },
-  { label: "Expense", value: "expense", key: 3 },
+  { label: "Uncategorized", value: "uncategorized", key: 2 },
 ];
 
 function TransactionList({ className }) {
-  const { transactions, loading, setFromAndToDate } = useTransactions();
+  const transactions = useTransactions();
   const today = formatDate(new Date());
   const [monthsBack, setMonthsBack] = useState(1);
   const [type, setType] = useState(typeOptions[0]);
@@ -45,8 +44,12 @@ function TransactionList({ className }) {
     let fromDate = new Date();
     fromDate.setMonth(fromDate.getMonth() - monthsBack);
     fromDate = formatDate(fromDate);
-    setFromAndToDate(fromDate, today);
+    transactions.setFromAndToDate(fromDate, today);
   }, [monthsBack]);
+
+  useEffect(() => {
+    transactions.setType(type.value);
+  }, [type]);
 
   return (
     <>
@@ -62,13 +65,13 @@ function TransactionList({ className }) {
           onChange={(option) => setType(option)}
         />
       </Filters>
-      {loading ? (
+      {transactions.loading ? (
         <StyledLoader />
       ) : (
         <div className={className}>
           <List>
-            {transactions.length !== 0 &&
-              transactions.map((item) => (
+            {transactions.transactions.length !== 0 &&
+              transactions.transactions.map((item) => (
                 <Transaction key={item.id} transaction={item} />
               ))}
           </List>

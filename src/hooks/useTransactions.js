@@ -20,11 +20,12 @@ function TransactionsProvider(props) {
   const [loading, setLoading] = useState(false);
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
+  const [type, setType] = useState("");
 
   useEffectSkipFirst(() => {
     setLoading(true);
     fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/transactions?from_date=${fromDate}&to_date=${toDate}`,
+      `${process.env.REACT_APP_BACKEND_URL}/transactions?from_date=${fromDate}&to_date=${toDate}&type=${type}`,
       {
         credentials: "include",
       }
@@ -34,7 +35,7 @@ function TransactionsProvider(props) {
         setTransactions(data);
         setLoading(false);
       });
-  }, [setTransactions, fromDate, toDate]);
+  }, [setTransactions, fromDate, toDate, type]);
 
   const setFromAndToDate = useCallback(
     (from, to) => {
@@ -64,13 +65,16 @@ function TransactionsProvider(props) {
       );
 
       setTransactions((prev) => {
-        const slice = prev.slice();
+        let slice = prev.slice();
         const index = slice.findIndex((t) => t.id === transaction.id);
         slice[index].category_id = categoryId;
+        if (type === "uncategorized") {
+          slice = slice.filter((t) => t.id !== transaction.id);
+        }
         return slice;
       });
     },
-    [transactions, setTransactions]
+    [transactions, setTransactions, type]
   );
 
   const value = {
@@ -79,6 +83,7 @@ function TransactionsProvider(props) {
     updateTransactionCategory,
     loading,
     setFromAndToDate,
+    setType,
   };
 
   return <TransactionsContext.Provider value={value} {...props} />;
