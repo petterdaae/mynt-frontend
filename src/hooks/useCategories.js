@@ -5,7 +5,6 @@ import {
   createContext,
   useCallback,
 } from "react";
-import { removeCategory } from "../utils/categories";
 
 const CategoriesContext = createContext();
 
@@ -81,7 +80,9 @@ function CategoriesProvider(props) {
         body: JSON.stringify({
           id: categoryId,
         }),
-      }).then(() => setCategories((prev) => removeCategory(prev, categoryId)));
+      }).then(() =>
+        setCategories((prev) => prev.slice().filter((c) => c.id !== categoryId))
+      );
     },
     [setCategories]
   );
