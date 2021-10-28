@@ -1,4 +1,10 @@
-import { createContext, useContext, useState, useCallback } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
 import { useCategories } from ".";
 import useEffectSkipFirst from "./useEffectSkipFirst";
 
@@ -20,22 +26,25 @@ function SpendingsProvider(props) {
     []
   );
 
-  const today = formatDate(new Date());
-  let oneMonthAgo = new Date();
-  oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-  oneMonthAgo = formatDate(oneMonthAgo);
+  const today = useMemo(() => formatDate(new Date()), []);
+  const oneMonthAgo = useMemo(
+    () => formatDate(new Date(new Date().setMonth(new Date().getMonth() - 1))),
+    []
+  );
 
   const [spendings, setSpendings] = useState([]);
-  const [fromDate, setFromDate] = useState(oneMonthAgo);
-  const [toDate, setToDate] = useState(today);
   const [loading, setLoading] = useState(false);
   const [refreshState, setRefreshState] = useState(false);
   const { categories } = useCategories();
+  const [fromAndToDate, setFromAndToDateState] = useState({
+    from: oneMonthAgo,
+    to: today,
+  });
 
   useEffectSkipFirst(() => {
     setLoading(true);
     fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/spendings?from_date=${fromDate}&to_date=${toDate}`,
+      `${process.env.REACT_APP_BACKEND_URL}/spendings?from_date=${fromAndToDate.from}&to_date=${fromAndToDate.to}`,
       {
         credentials: "include",
       }
@@ -45,15 +54,22 @@ function SpendingsProvider(props) {
         setSpendings(data);
         setLoading(false);
       });
-  }, [setSpendings, fromDate, toDate, refreshState, setLoading, categories]);
+  }, [setSpendings, fromAndToDate, refreshState, setLoading, categories]);
 
   const refresh = useCallback(() => {
     setRefreshState((prev) => !prev);
   }, [setRefreshState]);
 
+  const setFromAndToDate = useCallback(
+    (from, to) => {
+      setFromAndToDateState({ from, to });
+    },
+    [setFromAndToDateState]
+  );
+
   return (
     <SpendingsContext.Provider
-      value={{ spendings, setFromDate, setToDate, loading, refresh }}
+      value={{ spendings, loading, refresh, setFromAndToDate }}
       {...props}
     />
   );
