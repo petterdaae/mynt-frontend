@@ -8,4 +8,10 @@ const formatDate = (date) => {
   );
 };
 
-export { formatDate };
+const formatReadableDate = (datetime) => {
+  const date = new Date(datetime);
+  const month = date.toLocaleString("default", { month: "long" });
+  return date.getDate() + ". " + month;
+};
+
+export { formatDate, formatReadableDate };
