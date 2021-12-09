@@ -12,6 +12,8 @@ import Categories from "./pages/categories";
 import Transactions from "./pages/transactions";
 import TransactionList from "./domain/TransactionList";
 
+import { TransactionsProvider } from "./hooks/domain/useTransactions";
+
 const Wrapper = styled.div`
   color: ${mainFontColor};
 `;
@@ -29,10 +31,12 @@ function App() {
             />
             <Route path="/authenticated/settings" component={Settings} />
             <Route path="/authenticated/categories" component={Categories} />
-            <Route
-              path="/authenticated/new_transactions"
-              component={TransactionList}
-            />
+            <TransactionsProvider>
+              <Route
+                path="/authenticated/new_transactions"
+                component={TransactionList}
+              />
+            </TransactionsProvider>
           </Authenticated>
         </Switch>
       </Wrapper>

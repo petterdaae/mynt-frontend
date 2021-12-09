@@ -1,16 +1,39 @@
 import Transaction from "./Transaction";
+import { useTransactions } from "../hooks/domain/useTransactions";
+import { useEffect } from "react";
+import { formatDate, formatReadableDate } from "../utils/date";
+import { Divider } from "@chakra-ui/layout";
 
 function TransactionList() {
+  const { transactions, setFromAndToDate, loading } = useTransactions();
+  const today = formatDate(new Date());
+
+  console.log(transactions);
+
+  useEffect(() => {
+    let fromDate = new Date();
+    fromDate.setMonth(fromDate.getMonth() - 1);
+    fromDate = formatDate(fromDate);
+    setFromAndToDate(fromDate, today);
+  }, []);
+
   return (
-    <Transaction
-      transaction={{
-        text: "*4308 02.12 NOK 49.00 NARVESEN 768 BERGEN STORS Kurs: 1.0000",
-        account: "Kort",
-        date: "1. desember",
-        category_color: "lightblue",
-        amount: "12 000",
-      }}
-    />
+    !loading &&
+    transactions.map((transaction) => (
+      <>
+        <Transaction
+          key={transaction.id}
+          transaction={{
+            text: transaction.text,
+            account: "Kort",
+            date: formatReadableDate(transaction.accounting_date),
+            category_color: "lightblue",
+            amount: "12 000",
+          }}
+        />
+        <Divider />
+      </>
+    ))
   );
 }
 
