@@ -1,4 +1,5 @@
 import { Route, Switch } from "react-router-dom";
+import { ChakraProvider } from "@chakra-ui/react";
 
 import styled from "styled-components";
 import { mainFontColor } from "./components/color";
@@ -9,6 +10,7 @@ import Login from "./login";
 import Settings from "./pages/settings";
 import Categories from "./pages/categories";
 import Transactions from "./pages/transactions";
+import TransactionList from "./domain/TransactionList";
 
 const Wrapper = styled.div`
   color: ${mainFontColor};
@@ -16,16 +18,25 @@ const Wrapper = styled.div`
 
 function App() {
   return (
-    <Wrapper>
-      <Switch>
-        <Route exact path="/" component={Login} />
-        <Authenticated>
-          <Route path="/authenticated/transactions" component={Transactions} />
-          <Route path="/authenticated/settings" component={Settings} />
-          <Route path="/authenticated/categories" component={Categories} />
-        </Authenticated>
-      </Switch>
-    </Wrapper>
+    <ChakraProvider>
+      <Wrapper>
+        <Switch>
+          <Route exact path="/" component={Login} />
+          <Authenticated>
+            <Route
+              path="/authenticated/transactions"
+              component={Transactions}
+            />
+            <Route path="/authenticated/settings" component={Settings} />
+            <Route path="/authenticated/categories" component={Categories} />
+            <Route
+              path="/authenticated/new_transactions"
+              component={TransactionList}
+            />
+          </Authenticated>
+        </Switch>
+      </Wrapper>
+    </ChakraProvider>
   );
 }
 
