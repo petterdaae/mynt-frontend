@@ -1,18 +1,13 @@
-import {
-  Badge,
-  Text,
-  Box,
-  HStack,
-  VStack,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Badge, Text, Box, HStack, VStack } from "@chakra-ui/react";
 import { formatCurrency, formatReadableDate } from "./transactionListUtils";
 import Proptypes from "prop-types";
 import EditTransactionModal from "./EditTransaction/EditTransactionModal";
 import CategoryIcon from "./CategoryIcon";
+import { useState } from "react";
 
 function Transaction({ transaction }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [showEditTransactionModal, setShowEditTransactionModal] =
+    useState(false);
   return (
     <>
       <HStack
@@ -21,7 +16,7 @@ function Transaction({ transaction }) {
         p="4px"
         borderRadius="md"
         _hover={{ background: "whitesmoke", cursor: "pointer" }}
-        onClick={onOpen}
+        onClick={() => setShowEditTransactionModal(true)}
       >
         <HStack>
           <CategoryIcon color={transaction.categoryColor} />
@@ -44,8 +39,8 @@ function Transaction({ transaction }) {
       </HStack>
       <EditTransactionModal
         transaction={transaction}
-        isOpen={isOpen}
-        onClose={onClose}
+        isOpen={showEditTransactionModal}
+        onClose={() => setShowEditTransactionModal(false)}
       />
     </>
   );
