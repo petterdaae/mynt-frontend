@@ -1,18 +1,28 @@
 import { Avatar, Badge, Text, Box, HStack, VStack } from "@chakra-ui/react";
-import { QuestionOutlineIcon } from "@chakra-ui/icons";
-import { formatCurrency } from "./transactionListUtils";
+import { ViewIcon } from "@chakra-ui/icons";
+import { formatCurrency, formatReadableDate } from "./transactionListUtils";
 import Proptypes from "prop-types";
 
 function Transaction({ transaction }) {
   return (
-    <HStack justify="space-between" mt="4px" mb="4px">
+    <HStack
+      justify="space-between"
+      m="4px"
+      p="4px"
+      borderRadius="md"
+      _hover={{ background: "whitesmoke", cursor: "pointer" }}
+    >
       <HStack>
         <Avatar
           bg={transaction.categoryColor}
-          icon={<QuestionOutlineIcon fontSize="1.5rem" />}
+          icon={
+            <ViewIcon fontSize="1.5rem" color={transaction.categoryColor} />
+          }
         />
         <VStack align="left" spacing="1px">
-          <Text fontSize="sm">{transaction.accountingDate}</Text>
+          <Text fontSize="sm">
+            {formatReadableDate(transaction.accountingDate)}
+          </Text>
           <Text fontWeight="bold">{transaction.text}</Text>
           <Text fontSize="sm">{transaction.accountName}</Text>
         </VStack>

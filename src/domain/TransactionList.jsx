@@ -8,8 +8,6 @@ function TransactionList() {
   const { transactions, setFromAndToDate, loading } = useRichTransactions();
   const today = formatDate(new Date());
 
-  console.log(transactions);
-
   useEffect(() => {
     let fromDate = new Date();
     fromDate.setMonth(fromDate.getMonth() - 1);
