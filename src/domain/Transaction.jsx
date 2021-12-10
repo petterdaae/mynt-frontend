@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { formatCurrency, formatReadableDate } from "./transactionListUtils";
 import Proptypes from "prop-types";
-import EditTransactionModal from "./EditTransactionModal";
+import EditTransactionModal from "./EditTransaction/EditTransactionModal";
 import CategoryIcon from "./CategoryIcon";
 
 function Transaction({ transaction }) {

@@ -18,10 +18,10 @@ function TransactionList() {
   return (
     !loading &&
     transactions.map((transaction) => (
-      <>
-        <Transaction key={transaction.id} transaction={transaction} />
+      <div key={transaction.id}>
+        <Transaction transaction={transaction} />
         <Divider />
-      </>
+      </div>
     ))
   );
 }
