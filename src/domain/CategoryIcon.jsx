@@ -3,12 +3,7 @@ import { ViewIcon } from "@chakra-ui/icons";
 import PropTypes from "prop-types";
 
 function CategoryIcon({ color, ...props }) {
-  return (
-    <Avatar
-      bg={color}
-      icon={<ViewIcon fontSize="1.5rem" color={color} {...props} />}
-    />
-  );
+  return <Avatar bg={color} icon={<ViewIcon color={color} />} {...props} />;
 }
 
 CategoryIcon.propTypes = {
