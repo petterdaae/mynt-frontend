@@ -10,7 +10,7 @@ import Login from "./login";
 import Settings from "./pages/settings";
 import Categories from "./pages/categories";
 import Transactions from "./pages/transactions";
-import TransactionList from "./domain/TransactionList";
+import TransactionListWithFilters from "./domain/TransactionListWithFilters";
 
 import { TransactionsProvider } from "./hooks/domain/useTransactions";
 import { AccountsProvider } from "./hooks/domain/useAccounts";
@@ -38,7 +38,7 @@ function App() {
                 <TransactionsProvider>
                   <Route
                     path="/authenticated/new_transactions"
-                    component={TransactionList}
+                    component={TransactionListWithFilters}
                   />
                 </TransactionsProvider>
               </AccountsProvider>
