@@ -18,11 +18,16 @@ function useTransactions() {
 function TransactionsProvider(props) {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [
+    updateTransactionCategoryLoading,
+    setUpdateTransactionCategoryLoading,
+  ] = useState(false);
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
   const [type, setType] = useState("");
 
   useEffectSkipFirst(() => {
+    if (updateTransactionCategoryLoading) return;
     setLoading(true);
     fetch(
       `${process.env.REACT_APP_BACKEND_URL}/transactions?from_date=${fromDate}&to_date=${toDate}&type=${type}`,
@@ -35,7 +40,13 @@ function TransactionsProvider(props) {
         setTransactions(data);
         setLoading(false);
       });
-  }, [setTransactions, fromDate, toDate, type]);
+  }, [
+    setTransactions,
+    fromDate,
+    toDate,
+    type,
+    updateTransactionCategoryLoading,
+  ]);
 
   const setFromAndToDate = useCallback(
     (from, to) => {
@@ -47,32 +58,29 @@ function TransactionsProvider(props) {
 
   const updateTransactionCategory = useCallback(
     (transaction, categoryId) => {
-      fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/transactions/update_category`,
-        {
-          method: "PUT",
-          credentials: "include",
-          body: JSON.stringify({
-            transaction_id: transaction.id,
-            categorizations: [
-              {
-                category_id: categoryId,
-                amount: transaction.amount,
-              },
-            ],
-          }),
-        }
-      );
-
-      setTransactions((prev) => {
-        let slice = prev.slice();
-        const index = slice.findIndex((t) => t.id === transaction.id);
-        slice[index].category_id = categoryId;
-        if (type === "uncategorized") {
-          slice = slice.filter((t) => t.id !== transaction.id);
-        }
-        return slice;
+      setUpdateTransactionCategoryLoading(true);
+      const promise = new Promise((resolve, reject) => {
+        fetch(
+          `${process.env.REACT_APP_BACKEND_URL}/transactions/update_category`,
+          {
+            method: "PUT",
+            credentials: "include",
+            body: JSON.stringify({
+              transaction_id: transaction.id,
+              categorizations: [
+                {
+                  category_id: categoryId,
+                  amount: transaction.amount,
+                },
+              ],
+            }),
+          }
+        ).then(() => {
+          setUpdateTransactionCategoryLoading(false);
+          resolve();
+        });
       });
+      return promise;
     },
     [transactions, setTransactions, type]
   );
@@ -80,6 +88,7 @@ function TransactionsProvider(props) {
   const value = {
     transactions,
     updateTransactionCategory,
+    updateTransactionCategoryLoading,
     loading,
     setFromAndToDate,
     setType,

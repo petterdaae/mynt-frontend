@@ -17,10 +17,15 @@ import PropTypes from "prop-types";
 import CategoryIcon from "../CategoryIcon";
 import CategoryPicker from "./CategoryPicker";
 import { formatReadableDate } from "../transactionListUtils";
+import { useState } from "react";
+import { useTransactions } from "../../hooks/domain/useTransactions";
 
 function EditTransactionModal({ transaction, isOpen, onClose }) {
   const [showCategoryPicker, { toggle: toggleCategoryPicker }] =
     useBoolean(false);
+  const [newCategory, setNewCategory] = useState(null);
+  const { updateTransactionCategory, updateTransactionCategoryLoading } =
+    useTransactions();
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <ModalOverlay />
@@ -31,7 +36,12 @@ function EditTransactionModal({ transaction, isOpen, onClose }) {
         <ModalCloseButton />
         <ModalBody>
           {showCategoryPicker ? (
-            <CategoryPicker onSelect={() => toggleCategoryPicker()} />
+            <CategoryPicker
+              onSelect={(newCategory) => {
+                toggleCategoryPicker();
+                setNewCategory(newCategory);
+              }}
+            />
           ) : (
             <VStack align="left">
               <Text>{transaction.text}</Text>
@@ -42,8 +52,17 @@ function EditTransactionModal({ transaction, isOpen, onClose }) {
               <Divider />
               <HStack justify="space-between">
                 <HStack>
-                  <CategoryIcon color={transaction.categoryColor} size="sm" />
-                  <Text>{transaction.categoryName}</Text>
+                  <CategoryIcon
+                    color={
+                      newCategory
+                        ? newCategory.color
+                        : transaction.categoryColor
+                    }
+                    size="sm"
+                  />
+                  <Text>
+                    {newCategory ? newCategory.name : transaction.categoryName}
+                  </Text>
                 </HStack>
                 <Button variant="outline" onClick={toggleCategoryPicker}>
                   Change category
@@ -58,7 +77,18 @@ function EditTransactionModal({ transaction, isOpen, onClose }) {
             <Button onClick={() => toggleCategoryPicker()}>Cancel</Button>
           ) : (
             <>
-              <Button onClick={onClose} mr="8px" colorScheme="green">
+              <Button
+                onClick={() => {
+                  updateTransactionCategory(transaction, newCategory.id).then(
+                    () => {
+                      onClose();
+                    }
+                  );
+                }}
+                mr="8px"
+                colorScheme="green"
+                isLoading={updateTransactionCategoryLoading}
+              >
                 Save
               </Button>
               <Button onClick={onClose}>Close</Button>
