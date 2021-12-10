@@ -1,11 +1,11 @@
 import Transaction from "./Transaction";
-import { useTransactions } from "../hooks/domain/useTransactions";
+import useRichTransactions from "../hooks/domain/useRichTransactions";
 import { useEffect } from "react";
-import { formatDate, formatReadableDate } from "../utils/date";
+import { formatDate } from "../utils/date";
 import { Divider } from "@chakra-ui/layout";
 
 function TransactionList() {
-  const { transactions, setFromAndToDate, loading } = useTransactions();
+  const { transactions, setFromAndToDate, loading } = useRichTransactions();
   const today = formatDate(new Date());
 
   console.log(transactions);
@@ -21,16 +21,7 @@ function TransactionList() {
     !loading &&
     transactions.map((transaction) => (
       <>
-        <Transaction
-          key={transaction.id}
-          transaction={{
-            text: transaction.text,
-            account: "Kort",
-            date: formatReadableDate(transaction.accounting_date),
-            category_color: "lightblue",
-            amount: transaction.amount,
-          }}
-        />
+        <Transaction key={transaction.id} transaction={transaction} />
         <Divider />
       </>
     ))

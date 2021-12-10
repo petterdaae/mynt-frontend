@@ -14,10 +14,10 @@ function useRichTransactions() {
     if (transactionsLoading || categoriesLoading || accountsLoading) return;
     const richTransactions = transactions.map((transaction) => {
       const category = categories.find(
-        (category) => category.id === transaction.categoryId
+        (category) => category.id === transaction.category_id
       );
       const account = accounts.find(
-        (account) => account.id === transaction.accountId
+        (account) => account.id === transaction.account_id
       );
       return {
         id: transaction.id,
@@ -25,10 +25,10 @@ function useRichTransactions() {
         amount: transaction.amount,
         accountingDate: transaction.accounting_date,
         interestDate: transaction.interest_date,
-        categoryName: category.name,
-        categoryColor: category.color,
+        categoryName: category ? category.name : "No category",
+        categoryColor: category ? category.color : "lightgray",
         accountName: account.name,
-        accountNumber: account.number,
+        accountNumber: account.account_number,
       };
     });
     setRichTransactions(richTransactions);

@@ -8,13 +8,13 @@ function Transaction({ transaction }) {
     <HStack justify="space-between" mt="4px" mb="4px">
       <HStack>
         <Avatar
-          bg={transaction.category_color}
+          bg={transaction.categoryColor}
           icon={<QuestionOutlineIcon fontSize="1.5rem" />}
         />
         <VStack align="left" spacing="1px">
-          <Text fontSize="sm">{transaction.date}</Text>
+          <Text fontSize="sm">{transaction.accountingDate}</Text>
           <Text fontWeight="bold">{transaction.text}</Text>
-          <Text fontSize="sm">{transaction.account}</Text>
+          <Text fontSize="sm">{transaction.accountName}</Text>
         </VStack>
       </HStack>
       <Box>
