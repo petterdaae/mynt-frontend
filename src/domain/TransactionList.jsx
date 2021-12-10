@@ -28,7 +28,7 @@ function TransactionList() {
             account: "Kort",
             date: formatReadableDate(transaction.accounting_date),
             category_color: "lightblue",
-            amount: "12 000",
+            amount: transaction.amount,
           }}
         />
         <Divider />

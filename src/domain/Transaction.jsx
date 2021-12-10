@@ -1,10 +1,11 @@
 import { Avatar, Badge, Text, Box, HStack, VStack } from "@chakra-ui/react";
 import { QuestionOutlineIcon } from "@chakra-ui/icons";
+import { formatCurrency } from "./transactionListUtils";
 import Proptypes from "prop-types";
 
 function Transaction({ transaction }) {
   return (
-    <HStack justify="space-between">
+    <HStack justify="space-between" mt="4px" mb="4px">
       <HStack>
         <Avatar
           bg={transaction.category_color}
@@ -17,8 +18,11 @@ function Transaction({ transaction }) {
         </VStack>
       </HStack>
       <Box>
-        <Badge colorScheme="green" fontSize="1.0em">
-          {transaction.amount}
+        <Badge
+          colorScheme={transaction.amount >= 0 ? "green" : "red"}
+          fontSize="1.0em"
+        >
+          {formatCurrency(transaction.amount)}
         </Badge>
       </Box>
     </HStack>
