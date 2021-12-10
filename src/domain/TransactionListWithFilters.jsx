@@ -5,7 +5,7 @@ function TransactionListWithFilters() {
   return (
     <>
       <HStack spacing="16px">
-        <Select>
+        <Select defaultValue={1}>
           <option value={1}>Last 30 days</option>
           <option value={2}>Last 60 days</option>
           <option value={12}>Last year</option>
