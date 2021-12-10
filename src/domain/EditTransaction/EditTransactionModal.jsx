@@ -25,7 +25,9 @@ function EditTransactionModal({ transaction, isOpen, onClose }) {
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Edit transaction</ModalHeader>
+        <ModalHeader>
+          {showCategoryPicker ? "Choose a category" : "Edit transaction"}
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           {showCategoryPicker ? (
@@ -52,10 +54,16 @@ function EditTransactionModal({ transaction, isOpen, onClose }) {
           )}
         </ModalBody>
         <ModalFooter>
-          <Button onClick={onClose} mr="8px" colorScheme="green">
-            Save
-          </Button>
-          <Button onClick={onClose}>Close</Button>
+          {showCategoryPicker ? (
+            <Button onClick={() => toggleCategoryPicker()}>Cancel</Button>
+          ) : (
+            <>
+              <Button onClick={onClose} mr="8px" colorScheme="green">
+                Save
+              </Button>
+              <Button onClick={onClose}>Close</Button>
+            </>
+          )}
         </ModalFooter>
       </ModalContent>
     </Modal>
