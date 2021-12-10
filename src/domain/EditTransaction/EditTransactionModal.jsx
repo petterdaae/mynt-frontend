@@ -29,7 +29,7 @@ function EditTransactionModal({ transaction, isOpen, onClose }) {
         <ModalCloseButton />
         <ModalBody>
           {showCategoryPicker ? (
-            <CategoryPicker />
+            <CategoryPicker onSelect={() => toggleCategoryPicker()} />
           ) : (
             <VStack align="left">
               <Text>{transaction.text}</Text>
