@@ -24,8 +24,8 @@ function EditTransactionModal({ transaction, isOpen, onClose }) {
   const [showCategoryPicker, { toggle: toggleCategoryPicker }] =
     useBoolean(false);
   const [newCategory, setNewCategory] = useState(null);
-  const { updateTransactionCategory, updateTransactionCategoryLoading } =
-    useTransactions();
+  const { updateTransactionCategory } = useTransactions();
+  const [saving, setSaving] = useState(false);
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <ModalOverlay />
@@ -79,15 +79,21 @@ function EditTransactionModal({ transaction, isOpen, onClose }) {
             <>
               <Button
                 onClick={() => {
+                  if (!newCategory) {
+                    onClose();
+                    return;
+                  }
+                  setSaving(true);
                   updateTransactionCategory(transaction, newCategory.id).then(
                     () => {
                       onClose();
+                      setSaving(false);
                     }
                   );
                 }}
                 mr="8px"
                 colorScheme="green"
-                isLoading={updateTransactionCategoryLoading}
+                isLoading={saving}
               >
                 Save
               </Button>

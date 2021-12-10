@@ -21,7 +21,6 @@ function CategoryPicker({ onSelect }) {
     currentParentCategoryId,
     categories
   );
-  console.log(breadcrumb);
   return (
     !loading && (
       <div>
