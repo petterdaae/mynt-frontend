@@ -8,7 +8,6 @@ import { useCategories } from "../../hooks/domain/useCategories";
 import { useAccounts } from "../../hooks/domain/useAccounts";
 
 function Transaction({ transaction }) {
-  console.log("rerender!");
   const { accounts, accountsLoading } = useAccounts();
   const { categories, categoriesLoading } = useCategories();
 

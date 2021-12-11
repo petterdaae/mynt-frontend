@@ -64,13 +64,14 @@ function TransactionsProvider(props) {
         }
       );
       setTransactions((prev) => {
-        let slice = prev.slice();
-        const index = slice.findIndex((t) => t.id === transaction.id);
-        slice[index].category_id = categoryId;
-        if (type === "uncategorized") {
-          slice = slice.filter((t) => t.id !== transaction.id);
-        }
-        return slice;
+        return prev
+          .map((t) => {
+            if (t.id === transaction.id) {
+              return { ...t, category_id: categoryId };
+            }
+            return t;
+          })
+          .filter((t) => type !== "uncategorized" || t.id !== transaction.id);
       });
     },
     [transactions, setTransactions, type]
