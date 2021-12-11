@@ -14,9 +14,9 @@ import {
   useBoolean,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-import CategoryIcon from "../CategoryIcon";
-import CategoryPicker from "./CategoryPicker";
-import { formatReadableDate } from "../transactionListUtils";
+import CategoryIcon from "../CategoryIcon/CategoryIcon";
+import CategoryPicker from "../CategoryPicker/CategoryPicker";
+import { formatReadableDate } from "../utils";
 import { useState } from "react";
 import { useTransactions } from "../../hooks/domain/useTransactions";
 

@@ -9,7 +9,7 @@ import Login from "./login";
 
 import Settings from "./pages/settings";
 import Categories from "./pages/categories";
-import TransactionListWithFilters from "./domain/TransactionListWithFilters";
+import TransactionListWithFilters from "./domain/TransactionList/TransactionListWithFilters";
 
 import { TransactionsProvider } from "./hooks/domain/useTransactions";
 import { AccountsProvider } from "./hooks/domain/useAccounts";

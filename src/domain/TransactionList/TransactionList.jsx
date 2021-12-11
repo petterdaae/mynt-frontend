@@ -1,11 +1,11 @@
 import Transaction from "./Transaction";
-import useRichTransactions from "../hooks/domain/useRichTransactions";
+import { useTransactions } from "../../hooks/domain/useTransactions";
 import { useEffect } from "react";
-import { formatDate } from "../utils/date";
+import { formatDate } from "../../utils/date";
 import { Divider } from "@chakra-ui/layout";
 
 function TransactionList() {
-  const { transactions, setFromAndToDate, loading } = useRichTransactions();
+  const { transactions, setFromAndToDate, loading } = useTransactions();
   const today = formatDate(new Date());
 
   useEffect(() => {

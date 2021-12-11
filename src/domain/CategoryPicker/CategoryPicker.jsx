@@ -8,8 +8,8 @@ import {
   BreadcrumbLink,
 } from "@chakra-ui/react";
 import { useCategories } from "../../hooks/domain/useCategories";
-import CategoryIcon from "../CategoryIcon";
-import { useState } from "react";
+import CategoryIcon from "../CategoryIcon/CategoryIcon";
+import { useState, useMemo } from "react";
 import { ArrowRightIcon } from "@chakra-ui/icons";
 import PropTypes from "prop-types";
 import { getBreadCrumbFromCategoryId } from "./categoryPickerUtils";
@@ -17,9 +17,9 @@ import { getBreadCrumbFromCategoryId } from "./categoryPickerUtils";
 function CategoryPicker({ onSelect }) {
   const { categories, loading } = useCategories();
   const [currentParentCategoryId, setCurrentParentCategoryId] = useState(null);
-  const breadcrumb = getBreadCrumbFromCategoryId(
-    currentParentCategoryId,
-    categories
+  const breadcrumb = useMemo(
+    () => getBreadCrumbFromCategoryId(currentParentCategoryId, categories),
+    [currentParentCategoryId, categories]
   );
   return (
     !loading && (
