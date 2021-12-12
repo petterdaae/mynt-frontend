@@ -8,7 +8,6 @@ import { useEffect } from "react";
 const ContentWrapper = styled.div`
   width: ${breakpoint}px;
   margin: auto;
-  height: 200px;
 
   margin-top: ${10 * base}px;
   padding: ${8 * base}px;
