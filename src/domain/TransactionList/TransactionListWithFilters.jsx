@@ -1,5 +1,6 @@
-import { HStack, Checkbox, Divider, Select } from "@chakra-ui/react";
+import { Divider } from "@chakra-ui/react";
 import TransactionList from "./TransactionList";
+import Filters from "./Filters";
 import { useTransactions } from "../../hooks/domain/useTransactions";
 import { useEffect, useState } from "react";
 import { formatDate } from "../../utils/date";
@@ -24,27 +25,12 @@ function TransactionListWithFilters() {
 
   return (
     <>
-      <HStack spacing="16px">
-        <Select
-          value={monthsBack}
-          onChange={(e) => {
-            console.log(e.target.value);
-            setMonthsBack(e.target.value);
-          }}
-        >
-          <option value={1}>Last 30 days</option>
-          <option value={2}>Last 60 days</option>
-          <option value={12}>Last year</option>
-          <option value={1000}>All time</option>
-        </Select>
-        <Checkbox
-          size="lg"
-          isChecked={showCategorized}
-          onChange={(e) => setShowCategorized((prev) => !prev)}
-        >
-          Categorized
-        </Checkbox>
-      </HStack>
+      <Filters
+        monthsBack={monthsBack}
+        setMonthsBack={setMonthsBack}
+        showCategorized={showCategorized}
+        setShowCategorized={setShowCategorized}
+      />
       <Divider mt="8px" mb="8px" />
       <TransactionList />
     </>
