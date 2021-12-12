@@ -14,9 +14,9 @@ const ButtonWithRightMargin = styled(Button)`
 `;
 
 function Settings() {
-  const [clientId, setClientId] = useState("");
+  let [clientId, setClientId] = useState("");
   const [clientIdError, setClientIdError] = useState("");
-  const [clientSecret, setClientSecret] = useState("");
+  let [clientSecret, setClientSecret] = useState("");
   const [clientSecretError, setClientSecretError] = useState("");
   const [showDeleteAllDataModal, setShowDeleteAllModal] = useState(false);
 
@@ -30,6 +30,9 @@ function Settings() {
     if (!clientId || !clientSecret) {
       return;
     }
+
+    clientId = clientId.trim();
+    clientSecret = clientSecret.trim();
 
     const result = await fetch(
       `${process.env.REACT_APP_BACKEND_URL}/user/secrets/sbanken`,

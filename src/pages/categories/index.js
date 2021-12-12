@@ -9,11 +9,7 @@ import {
   getCategoriesFromBreadcrumb,
   getCurrentCategoryId,
 } from "../../utils/categories";
-import {
-  CategoriesProvider,
-  SpendingsProvider,
-  useCategories,
-} from "../../hooks";
+import { SpendingsProvider, useCategories } from "../../hooks";
 import styled from "styled-components";
 
 const StyledLoader = styled(Loader)`
@@ -23,11 +19,9 @@ const StyledLoader = styled(Loader)`
 
 function Wrapper() {
   return (
-    <CategoriesProvider>
-      <SpendingsProvider>
-        <Categories />
-      </SpendingsProvider>
-    </CategoriesProvider>
+    <SpendingsProvider>
+      <Categories />
+    </SpendingsProvider>
   );
 }
 

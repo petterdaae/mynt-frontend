@@ -1,5 +1,8 @@
-import { useCategories, CategoriesProvider } from "./useCategories";
-import { useTransactions, TransactionsProvider } from "./useTransactions";
+import { useCategories, CategoriesProvider } from "./domain/useCategories";
+import {
+  useTransactions,
+  TransactionsProvider,
+} from "./domain/useTransactions";
 import { useSpendings, SpendingsProvider } from "./useSpendings";
 
 export {

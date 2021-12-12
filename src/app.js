@@ -1,4 +1,5 @@
 import { Route, Switch } from "react-router-dom";
+import { ChakraProvider } from "@chakra-ui/react";
 
 import styled from "styled-components";
 import { mainFontColor } from "./components/color";
@@ -8,7 +9,11 @@ import Login from "./login";
 
 import Settings from "./pages/settings";
 import Categories from "./pages/categories";
-import Transactions from "./pages/transactions";
+import TransactionListWithFilters from "./domain/TransactionList/TransactionListWithFilters";
+
+import { TransactionsProvider } from "./hooks/domain/useTransactions";
+import { AccountsProvider } from "./hooks/domain/useAccounts";
+import { CategoriesProvider } from "./hooks/domain/useCategories";
 
 const Wrapper = styled.div`
   color: ${mainFontColor};
@@ -16,16 +21,30 @@ const Wrapper = styled.div`
 
 function App() {
   return (
-    <Wrapper>
-      <Switch>
-        <Route exact path="/" component={Login} />
-        <Authenticated>
-          <Route path="/authenticated/transactions" component={Transactions} />
-          <Route path="/authenticated/settings" component={Settings} />
-          <Route path="/authenticated/categories" component={Categories} />
-        </Authenticated>
-      </Switch>
-    </Wrapper>
+    <ChakraProvider>
+      <Wrapper>
+        <Switch>
+          <Route exact path="/" component={Login} />
+          <Authenticated>
+            <CategoriesProvider>
+              <AccountsProvider>
+                <TransactionsProvider>
+                  <Route
+                    path="/authenticated/transactions"
+                    component={TransactionListWithFilters}
+                  />
+                  <Route path="/authenticated/settings" component={Settings} />
+                  <Route
+                    path="/authenticated/categories"
+                    component={Categories}
+                  />
+                </TransactionsProvider>
+              </AccountsProvider>
+            </CategoriesProvider>
+          </Authenticated>
+        </Switch>
+      </Wrapper>
+    </ChakraProvider>
   );
 }
 

@@ -8,6 +8,7 @@ import Select from "./select";
 import TextInput from "./text_input";
 import Loader from "./loader";
 import Currency from "./currency";
+import CategoryIcon from "./category_icon";
 
 export {
   Button,
@@ -20,4 +21,5 @@ export {
   TextInput,
   Loader,
   Currency,
+  CategoryIcon,
 };
