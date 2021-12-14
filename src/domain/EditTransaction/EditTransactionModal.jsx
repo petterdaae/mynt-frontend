@@ -16,9 +16,9 @@ import {
 import PropTypes from "prop-types";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import CategoryPicker from "../CategoryPicker/CategoryPicker";
-import { formatReadableDate } from "../utils";
 import { useState } from "react";
 import { useTransactions } from "../../hooks/domain/useTransactions";
+import Date from "./Date";
 
 function EditTransactionModal({ transaction, isOpen, onClose }) {
   const [showCategoryPicker, { toggle: toggleCategoryPicker }] =
@@ -43,11 +43,13 @@ function EditTransactionModal({ transaction, isOpen, onClose }) {
             />
           ) : (
             <VStack align="left">
-              <Text>{transaction.text}</Text>
+              <Text fontSize="sm">Description</Text>
+              <Text fontWeight="semibold">{transaction.text}</Text>
               <Divider />
-              <Text>{formatReadableDate(transaction.accountingDate)}</Text>
+              <Date transaction={transaction} />
               <Divider />
-              <Text>{transaction.accountName}</Text>
+              <Text fontSize="sm">Account</Text>
+              <Text fontWeight="semibold">{transaction.accountName}</Text>
               <Divider />
               <HStack justify="space-between">
                 <HStack>
@@ -59,7 +61,7 @@ function EditTransactionModal({ transaction, isOpen, onClose }) {
                     }
                     size="sm"
                   />
-                  <Text>
+                  <Text fontWeight="semibold">
                     {newCategory ? newCategory.name : transaction.categoryName}
                   </Text>
                 </HStack>
