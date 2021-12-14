@@ -18,7 +18,7 @@ import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import CategoryPicker from "../CategoryPicker/CategoryPicker";
 import { useState } from "react";
 import { useTransactions } from "../../hooks/domain/useTransactions";
-import Date from "./Date";
+import Date from "./CustomDate";
 
 function EditTransactionModal({ transaction, isOpen, onClose }) {
   const [showCategoryPicker, { toggle: toggleCategoryPicker }] =
