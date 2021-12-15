@@ -21,7 +21,8 @@ function EditTransactionModalContent({
   toggleCategoryPicker,
   newCategory,
 }) {
-  const { updateTransactionCategory } = useTransactions();
+  const { updateTransactionCategory, updateTransactionCustomDate } =
+    useTransactions();
 
   const categoryColor = newCategory
     ? newCategory.color
@@ -39,10 +40,32 @@ function EditTransactionModalContent({
       : transaction.accountingDate.split("T")[0]
   );
 
+  const [customDateOpen, setCustomDateOpen] = useState(transaction.customDate);
+
+  const newCategoryChanged =
+    newCategory && newCategory.id !== transaction.categoryId;
+
+  const newCustomDateChanged = customDateOpen
+    ? !customDateError && customDate !== transaction.customDate
+    : transaction.customDate;
+
   const onSave = useCallback(() => {
     onClose();
-    if (newCategory) updateTransactionCategory(transaction, newCategory.id);
-  });
+    if (newCategoryChanged) {
+      updateTransactionCategory(transaction, newCategory.id);
+    }
+    if (newCustomDateChanged) {
+      const nullableNewCustomDate = customDateOpen ? customDate : null;
+      updateTransactionCustomDate(transaction, nullableNewCustomDate);
+    }
+  }, [
+    transaction,
+    newCategory,
+    onClose,
+    updateTransactionCategory,
+    newCategoryChanged,
+    newCustomDateChanged,
+  ]);
 
   return (
     <>
@@ -59,6 +82,8 @@ function EditTransactionModalContent({
             setCustomDate={setCustomDate}
             error={customDateError}
             setError={setCustomDateError}
+            customDateOpen={customDateOpen}
+            setCustomDateOpen={setCustomDateOpen}
           />
           <Divider />
           <Text fontSize="sm">Account</Text>
@@ -77,7 +102,12 @@ function EditTransactionModalContent({
         </VStack>
       </ModalBody>
       <ModalFooter>
-        <Button onClick={onSave} mr="8px" colorScheme="green">
+        <Button
+          onClick={onSave}
+          mr="8px"
+          colorScheme="green"
+          disabled={!(newCategoryChanged || newCustomDateChanged)}
+        >
           Save
         </Button>
         <Button onClick={onClose}>Close</Button>

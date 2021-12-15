@@ -7,7 +7,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 
 const dateRegex =
   /^([0-9]{4}|[0-9]{2})[./-]([0][1-9]|[1][0-2])[./-]([0][1-9]|[1|2][0-9]|[3][0|1])$/;
@@ -18,9 +18,9 @@ function CustomDate({
   setCustomDate,
   error,
   setError,
+  customDateOpen,
+  setCustomDateOpen,
 }) {
-  const [customDateOpen, setCustomDateOpen] = useState(transaction.customDate);
-
   const onChangeCustomDate = useCallback((e) => {
     const newDate = e.target.value.trim();
     setCustomDate(newDate);
@@ -89,6 +89,8 @@ CustomDate.propTypes = {
   setCustomDate: PropTypes.func.isRequired,
   error: PropTypes.string,
   setError: PropTypes.func,
+  customDateOpen: PropTypes.bool,
+  setCustomDateOpen: PropTypes.func,
 };
 
 export default CustomDate;

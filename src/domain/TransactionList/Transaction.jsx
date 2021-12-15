@@ -25,6 +25,7 @@ function Transaction({ transaction }) {
       amount: transaction.amount,
       accountingDate: transaction.accounting_date,
       interestDate: transaction.interest_date,
+      categoryId: category ? category.id : null,
       categoryName: category ? category.name : "No category",
       categoryColor: category ? category.color : "lightgray",
       accountName: account.name,
