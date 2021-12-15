@@ -12,14 +12,14 @@ import { useCallback, useState } from "react";
 const dateRegex =
   /^([0-9]{4}|[0-9]{2})[./-]([0][1-9]|[1][0-2])[./-]([0][1-9]|[1|2][0-9]|[3][0|1])$/;
 
-function CustomDate({ transaction }) {
+function CustomDate({
+  transaction,
+  customDate,
+  setCustomDate,
+  error,
+  setError,
+}) {
   const [customDateOpen, setCustomDateOpen] = useState(transaction.customDate);
-  const [error, setError] = useState(null);
-  const [customDate, setCustomDate] = useState(
-    transaction.customDate
-      ? transaction.customDate
-      : transaction.accountingDate.split("T")[0]
-  );
 
   const onChangeCustomDate = useCallback((e) => {
     const newDate = e.target.value.trim();
@@ -85,6 +85,10 @@ function CustomDate({ transaction }) {
 
 CustomDate.propTypes = {
   transaction: PropTypes.object.isRequired,
+  customDate: PropTypes.string.isRequired,
+  setCustomDate: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  setError: PropTypes.func,
 };
 
 export default CustomDate;

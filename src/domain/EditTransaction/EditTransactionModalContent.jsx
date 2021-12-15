@@ -12,7 +12,8 @@ import {
 import PropTypes from "prop-types";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import { useTransactions } from "../../hooks/domain/useTransactions";
-import Date from "./CustomDate";
+import CustomDate from "./CustomDate";
+import { useCallback, useState } from "react";
 
 function EditTransactionModalContent({
   transaction,
@@ -21,6 +22,28 @@ function EditTransactionModalContent({
   newCategory,
 }) {
   const { updateTransactionCategory } = useTransactions();
+
+  const categoryColor = newCategory
+    ? newCategory.color
+    : transaction.categoryColor;
+
+  const categoryName = newCategory
+    ? newCategory.name
+    : transaction.categoryName;
+
+  const [customDateError, setCustomDateError] = useState(null);
+
+  const [customDate, setCustomDate] = useState(
+    transaction.customDate
+      ? transaction.customDate
+      : transaction.accountingDate.split("T")[0]
+  );
+
+  const onSave = useCallback(() => {
+    onClose();
+    if (newCategory) updateTransactionCategory(transaction, newCategory.id);
+  });
+
   return (
     <>
       <ModalHeader>Edit transaction</ModalHeader>
@@ -30,22 +53,21 @@ function EditTransactionModalContent({
           <Text fontSize="sm">Description</Text>
           <Text fontWeight="semibold">{transaction.text}</Text>
           <Divider />
-          <Date transaction={transaction} />
+          <CustomDate
+            transaction={transaction}
+            customDate={customDate}
+            setCustomDate={setCustomDate}
+            error={customDateError}
+            setError={setCustomDateError}
+          />
           <Divider />
           <Text fontSize="sm">Account</Text>
           <Text fontWeight="semibold">{transaction.accountName}</Text>
           <Divider />
           <HStack justify="space-between">
             <HStack>
-              <CategoryIcon
-                color={
-                  newCategory ? newCategory.color : transaction.categoryColor
-                }
-                size="sm"
-              />
-              <Text fontWeight="semibold">
-                {newCategory ? newCategory.name : transaction.categoryName}
-              </Text>
+              <CategoryIcon color={categoryColor} size="sm" />
+              <Text fontWeight="semibold">{categoryName}</Text>
             </HStack>
             <Button variant="outline" onClick={toggleCategoryPicker}>
               Change category
@@ -55,15 +77,7 @@ function EditTransactionModalContent({
         </VStack>
       </ModalBody>
       <ModalFooter>
-        <Button
-          onClick={async () => {
-            onClose();
-            if (newCategory)
-              updateTransactionCategory(transaction, newCategory.id);
-          }}
-          mr="8px"
-          colorScheme="green"
-        >
+        <Button onClick={onSave} mr="8px" colorScheme="green">
           Save
         </Button>
         <Button onClick={onClose}>Close</Button>

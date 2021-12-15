@@ -12,7 +12,9 @@ import EditTransactionModalContent from "./EditTransactionModalContent";
 function EditTransactionModal({ transaction, isOpen, onClose }) {
   const [showCategoryPicker, { toggle: toggleCategoryPicker }] =
     useBoolean(false);
+
   const [newCategory, setNewCategory] = useState(null);
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <ModalOverlay />
