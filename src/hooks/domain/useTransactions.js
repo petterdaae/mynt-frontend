@@ -77,12 +77,40 @@ function TransactionsProvider(props) {
     [transactions, setTransactions, type]
   );
 
+  const updateTransactionCustomDate = useCallback(
+    (transaction, customDate) => {
+      fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/transactions/update_custom_date`,
+        {
+          method: "PUT",
+          credentials: "include",
+          body: JSON.stringify({
+            id: transaction.id,
+            customDate: customDate,
+          }),
+        }
+      );
+      setTransactions((prev) => {
+        return prev
+          .map((t) => {
+            if (t.id === transaction.id) {
+              return { ...t, customDate };
+            }
+            return t;
+          })
+          .filter((t) => type !== "uncategorized" || t.id !== transaction.id);
+      });
+    },
+    [transactions, setTransactions, type]
+  );
+
   const value = {
     transactions,
     updateTransactionCategory,
     loading,
     setFromAndToDate,
     setType,
+    updateTransactionCustomDate,
   };
 
   return <TransactionsContext.Provider value={value} {...props} />;

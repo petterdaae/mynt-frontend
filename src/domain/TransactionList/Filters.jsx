@@ -13,7 +13,6 @@ function Filters({
       <Select
         value={monthsBack}
         onChange={(e) => {
-          console.log(e.target.value);
           setMonthsBack(e.target.value);
         }}
       >

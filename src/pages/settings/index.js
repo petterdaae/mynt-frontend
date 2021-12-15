@@ -48,12 +48,10 @@ function Settings() {
 
     if (result.status === 204) {
       // TODO : Add banner message instead
-      console.log("Success!");
       setClientId("");
       setClientSecret("");
     } else {
       // TODO : Add banner message instead
-      console.log("Error!");
     }
   };
 
