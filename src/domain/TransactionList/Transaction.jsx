@@ -30,6 +30,7 @@ function Transaction({ transaction }) {
       categoryColor: category ? category.color : "lightgray",
       accountName: account.name,
       accountNumber: account.account_number,
+      customDate: transaction.customDate,
     };
   }, [accounts, categories, transaction, accountsLoading, categoriesLoading]);
 

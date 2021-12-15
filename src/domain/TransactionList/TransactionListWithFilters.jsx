@@ -12,7 +12,6 @@ function TransactionListWithFilters() {
   const today = formatDate(new Date());
 
   useEffect(() => {
-    console.log("useEffect");
     let fromDate = new Date();
     fromDate.setMonth(fromDate.getMonth() - monthsBack);
     fromDate = formatDate(fromDate);

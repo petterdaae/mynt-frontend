@@ -56,7 +56,6 @@ function EditTransactionModalContent({
     }
     if (newCustomDateChanged) {
       const nullableNewCustomDate = customDateOpen ? customDate : null;
-      console.log(nullableNewCustomDate, customDateOpen, customDate);
       updateTransactionCustomDate(transaction, nullableNewCustomDate);
     }
   }, [
@@ -83,7 +82,7 @@ function EditTransactionModalContent({
             setCustomDate={setCustomDate}
             error={customDateError}
             setError={setCustomDateError}
-            customDateOpen={customDateOpen}
+            customDateOpen={Boolean(customDateOpen)}
             setCustomDateOpen={setCustomDateOpen}
           />
           <Divider />

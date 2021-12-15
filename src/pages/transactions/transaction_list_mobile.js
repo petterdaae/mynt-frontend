@@ -44,8 +44,6 @@ function TransactionListMobile() {
     transactions.setFromAndToDate(fromDate, today);
   }, []);
 
-  console.log(transactions.transactions);
-
   return (
     <div>
       {transactions.transactions.map((transaction) => (

@@ -80,7 +80,6 @@ function Authenticated({ children }) {
     // Fetch auth expiry cookie and redirect to login if not available
     const authExpiry = getCookie("auth_expiry");
     if (!authExpiry) {
-      console.log("could not find cookie", authExpiry);
       window.location.replace(`/`);
       return;
     }
@@ -88,7 +87,6 @@ function Authenticated({ children }) {
     // Redirect to login if auth is expired
     const now = Date.now() / 1000;
     if (authExpiry <= now) {
-      console.log("auth expired", authExpiry, now);
       window.location.replace(`/`);
       return;
     }
@@ -97,7 +95,6 @@ function Authenticated({ children }) {
     // when the auth cookie expires
     const padding = 60;
     const timeout = setTimeout(() => {
-      console.log("redirecting to login", authExpiry, now, padding);
       window.location.replace(`/`);
     }, (authExpiry - now - padding) * 1000);
 

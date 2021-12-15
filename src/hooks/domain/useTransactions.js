@@ -94,7 +94,7 @@ function TransactionsProvider(props) {
         return prev
           .map((t) => {
             if (t.id === transaction.id) {
-              return { ...t, customDate: customDate };
+              return { ...t, customDate };
             }
             return t;
           })
