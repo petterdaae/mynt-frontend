@@ -56,6 +56,7 @@ function EditTransactionModalContent({
     }
     if (newCustomDateChanged) {
       const nullableNewCustomDate = customDateOpen ? customDate : null;
+      console.log(nullableNewCustomDate, customDateOpen, customDate);
       updateTransactionCustomDate(transaction, nullableNewCustomDate);
     }
   }, [
