@@ -5,7 +5,6 @@ import { Badge, HStack } from "@chakra-ui/react";
 
 function Summary({ currentCategory }) {
   const { spendings, loading } = useSpendings();
-  console.log(spendings);
   const spending = spendings.find(
     (spending) =>
       (!currentCategory && !spending.category_id) ||
