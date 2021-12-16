@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import { formatCurrency } from "../utils";
 
-function Spending({ spending, category }) {
+function Spending({ spending, category, setCurrentCategory }) {
   return (
     <HStack
       justify="space-between"
@@ -11,6 +11,7 @@ function Spending({ spending, category }) {
       p="4px"
       borderRadius="md"
       _hover={{ background: "whitesmoke", cursor: "pointer" }}
+      onClick={() => setCurrentCategory(category.id)}
     >
       <HStack>
         <CategoryIcon color={category.color} />
@@ -29,6 +30,7 @@ function Spending({ spending, category }) {
 Spending.propTypes = {
   spending: PropTypes.object.isRequired,
   category: PropTypes.object.isRequired,
+  setCurrentCategory: PropTypes.func.isRequired,
 };
 
 export default Spending;

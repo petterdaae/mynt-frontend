@@ -1,29 +1,24 @@
 import { useState } from "react";
-import { useCategories, useSpendings } from "../../hooks";
-import Spending from "./Spending";
 import TransactionList from "../TransactionList/TransactionList";
-import { Divider } from "@chakra-ui/react";
+import SpendingsList from "./SpendingsList";
+import Summary from "./Summary";
+import { Text, Divider } from "@chakra-ui/react";
 
 function Spendings() {
-  const { categories } = useCategories();
-  const { spendings } = useSpendings();
   const [currentCategory, setCurrentCategory] = useState(null);
   return (
     <>
-      {categories
-        .filter((category) => category.parent_id === currentCategory)
-        .map((category) => {
-          const spending = spendings.find(
-            (spending) => spending.category_id === category.id
-          );
-          console.log(setCurrentCategory);
-          return (
-            <div key={category.id}>
-              <Spending spending={spending} category={category} />
-              <Divider />
-            </div>
-          );
-        })}
+      <Text fontSize="2xl">Summary</Text>
+      <Divider mb="2" mt="2" />
+      <Summary currentCategory={currentCategory} />
+      <Text fontSize="2xl">Spendings</Text>
+      <Divider mb="2" mt="2" />
+      <SpendingsList
+        currentCategory={currentCategory}
+        setCurrentCategory={setCurrentCategory}
+      />
+      <Text fontSize="2xl">Transactions</Text>
+      <Divider mb="2" mt="2" />
       <TransactionList categoryId={currentCategory} />
     </>
   );
