@@ -62,7 +62,7 @@ function NewCategory({ className, parentCategory, onClose, edit }) {
     setColor(null);
     setIgnore(false);
     onClose();
-  }, [name, onClose, addCategory, color, edit, parentCategory]);
+  }, [name, onClose, addCategory, color, edit, parentCategory, ignore]);
 
   return (
     <div className={className}>
