@@ -10,10 +10,12 @@ import Login from "./login";
 import Settings from "./pages/settings";
 import Categories from "./pages/categories";
 import TransactionListWithFilters from "./domain/TransactionList/TransactionListWithFilters";
+import Spendings from "./domain/Spendings/Spendings";
 
 import { TransactionsProvider } from "./hooks/domain/useTransactions";
 import { AccountsProvider } from "./hooks/domain/useAccounts";
 import { CategoriesProvider } from "./hooks/domain/useCategories";
+import { SpendingsProvider } from "./hooks";
 
 const Wrapper = styled.div`
   color: ${mainFontColor};
@@ -27,19 +29,28 @@ function App() {
           <Route exact path="/" component={Login} />
           <Authenticated>
             <CategoriesProvider>
-              <AccountsProvider>
-                <TransactionsProvider>
-                  <Route
-                    path="/authenticated/transactions"
-                    component={TransactionListWithFilters}
-                  />
-                  <Route path="/authenticated/settings" component={Settings} />
-                  <Route
-                    path="/authenticated/categories"
-                    component={Categories}
-                  />
-                </TransactionsProvider>
-              </AccountsProvider>
+              <SpendingsProvider>
+                <AccountsProvider>
+                  <TransactionsProvider>
+                    <Route
+                      path="/authenticated/transactions"
+                      component={TransactionListWithFilters}
+                    />
+                    <Route
+                      path="/authenticated/settings"
+                      component={Settings}
+                    />
+                    <Route
+                      path="/authenticated/categories"
+                      component={Categories}
+                    />
+                    <Route
+                      path="/authenticated/spendings"
+                      component={Spendings}
+                    />
+                  </TransactionsProvider>
+                </AccountsProvider>
+              </SpendingsProvider>
             </CategoriesProvider>
           </Authenticated>
         </Switch>
