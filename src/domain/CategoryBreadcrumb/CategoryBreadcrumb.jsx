@@ -9,45 +9,44 @@ import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import { useMemo } from "react";
 import PropTypes from "prop-types";
 import { getBreadcrumbFromCategoryId } from "./categoryBreadcrumbUtils";
+import { useCategories } from "../../hooks";
 
-function CategoryBreadcrumb({
-  categories,
-  currentCategoryId,
-  setCurrentCategoryId,
-}) {
+function CategoryBreadcrumb({ currentCategoryId, setCurrentCategoryId }) {
+  const { categories, loading } = useCategories();
   const breadcrumb = useMemo(
     () => getBreadcrumbFromCategoryId(currentCategoryId, categories),
     [currentCategoryId, categories]
   );
   return (
-    <Breadcrumb m="2">
-      <BreadcrumbItem onClick={() => setCurrentCategoryId(null)}>
-        <BreadcrumbLink>
-          <HStack>
-            <CategoryIcon color="lightgrey" size="3xs" mr="1" />
-            <Text>Top-level categories</Text>
-          </HStack>
-        </BreadcrumbLink>
-      </BreadcrumbItem>
-      {breadcrumb.map((crumb) => (
-        <BreadcrumbItem
-          key={crumb.id}
-          onClick={() => setCurrentCategoryId(crumb.id)}
-        >
-          <BreadcrumbLink href="#">
+    !loading && (
+      <Breadcrumb m="2">
+        <BreadcrumbItem onClick={() => setCurrentCategoryId(null)}>
+          <BreadcrumbLink>
             <HStack>
-              <CategoryIcon color={crumb.color} size="3xs" mr="1" />
-              <Text>{crumb.name}</Text>
+              <CategoryIcon color="lightgrey" size="3xs" mr="1" />
+              <Text>Top-level categories</Text>
             </HStack>
           </BreadcrumbLink>
         </BreadcrumbItem>
-      ))}
-    </Breadcrumb>
+        {breadcrumb.map((crumb) => (
+          <BreadcrumbItem
+            key={crumb.id}
+            onClick={() => setCurrentCategoryId(crumb.id)}
+          >
+            <BreadcrumbLink href="#">
+              <HStack>
+                <CategoryIcon color={crumb.color} size="3xs" mr="1" />
+                <Text>{crumb.name}</Text>
+              </HStack>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+        ))}
+      </Breadcrumb>
+    )
   );
 }
 
 CategoryBreadcrumb.propTypes = {
-  categories: PropTypes.arrayOf(PropTypes.object).isRequired,
   currentCategoryId: PropTypes.number,
   setCurrentCategoryId: PropTypes.func,
 };

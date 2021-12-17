@@ -10,13 +10,15 @@ function TransactionListWithFilters() {
   const [monthsBack, setMonthsBack] = useState(1);
   const [showCategorized, setShowCategorized] = useState(true);
   const today = formatDate(new Date());
+  const [fromDate, setFromDate] = useState(today);
 
   useEffect(() => {
     let fromDate = new Date();
     fromDate.setMonth(fromDate.getMonth() - monthsBack);
     fromDate = formatDate(fromDate);
+    setFromDate(fromDate);
     transactions.setFromAndToDate(fromDate, today);
-  }, [monthsBack, transactions.setFromAndToDate]);
+  }, [monthsBack, setFromDate, transactions.setFromAndToDate]);
 
   useEffect(() => {
     transactions.setType(showCategorized ? "all" : "uncategorized");
@@ -31,7 +33,7 @@ function TransactionListWithFilters() {
         setShowCategorized={setShowCategorized}
       />
       <Divider mt="8px" mb="8px" />
-      <TransactionList />
+      <TransactionList fromDate={fromDate} toDate={today} />
     </>
   );
 }
