@@ -65,6 +65,7 @@ function EditTransactionModalContent({
     updateTransactionCategory,
     newCategoryChanged,
     newCustomDateChanged,
+    customDate,
   ]);
 
   return (

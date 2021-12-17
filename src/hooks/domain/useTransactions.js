@@ -107,7 +107,7 @@ function TransactionsProvider(props) {
           .sort((a, b) => {
             const aDate = a.customDate ?? a.accounting_date;
             const bDate = b.customDate ?? b.accounting_date;
-            return aDate > bDate ? -1 : aDate < bDate ? 1 : 0;
+            return aDate > bDate ? -1 : aDate < bDate ? 1 : a.id - b.id;
           });
       });
     },
