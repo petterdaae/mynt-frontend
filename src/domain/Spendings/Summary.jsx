@@ -9,15 +9,15 @@ function Summary({ currentCategory }) {
   return (
     !loading &&
     spending && (
-      <HStack justify="space-evenly">
-        <Badge colorScheme="green" fontSize="1.0em">
-          {formatCurrency(spending.positive_amount)}
+      <HStack justify="space-between">
+        <Badge colorScheme="red" fontSize="1.0em">
+          {formatCurrency(spending.negative_amount)}
         </Badge>
         <Badge colorScheme="blue" fontSize="1.0em">
           {formatCurrency(spending.amount)}
         </Badge>
-        <Badge colorScheme="red" fontSize="1.0em">
-          {formatCurrency(spending.negative_amount)}
+        <Badge colorScheme="green" fontSize="1.0em">
+          {formatCurrency(spending.positive_amount)}
         </Badge>
       </HStack>
     )
