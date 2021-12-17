@@ -46,7 +46,10 @@ function Transaction({ transaction }) {
   }, [setShowEditTransactionModal]);
 
   const readableAccountingDate = useMemo(
-    () => formatReadableDate(richTransaction.accountingDate),
+    () =>
+      formatReadableDate(
+        richTransaction.customDate ?? richTransaction.accountingDate
+      ),
     [richTransaction]
   );
 

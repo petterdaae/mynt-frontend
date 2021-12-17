@@ -103,7 +103,12 @@ function TransactionsProvider(props) {
             (t) =>
               !t.customDate ||
               (t.customDate >= fromDate && t.customDate <= toDate)
-          );
+          )
+          .sort((a, b) => {
+            const aDate = a.customDate ?? a.accounting_date;
+            const bDate = b.customDate ?? b.accounting_date;
+            return aDate > bDate ? -1 : aDate < bDate ? 1 : 0;
+          });
       });
     },
     [transactions, setTransactions, type]
