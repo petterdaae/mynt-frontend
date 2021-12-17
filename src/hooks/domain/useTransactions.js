@@ -91,24 +91,30 @@ function TransactionsProvider(props) {
         }
       );
       setTransactions((prev) => {
-        return prev
-          .map((t) => {
-            if (t.id === transaction.id) {
-              return { ...t, customDate };
-            }
-            return t;
-          })
-          .filter((t) => type !== "uncategorized" || t.id !== transaction.id)
-          .filter(
-            (t) =>
-              !t.customDate ||
-              (t.customDate >= fromDate && t.customDate <= toDate)
-          )
-          .sort((a, b) => {
-            const aDate = a.customDate ?? a.accounting_date;
-            const bDate = b.customDate ?? b.accounting_date;
-            return aDate > bDate ? -1 : aDate < bDate ? 1 : a.id - b.id;
-          });
+        return (
+          prev
+            // Update customDate field of transaction
+            .map((t) => {
+              if (t.id === transaction.id) {
+                return { ...t, customDate };
+              }
+              return t;
+            })
+            // Maintain from and to date filters
+            .filter(
+              (t) =>
+                (!t.customDate &&
+                  t.customDate >= fromDate &&
+                  t.customDate <= toDate) ||
+                (t.customDate >= fromDate && t.customDate <= toDate)
+            )
+            // Resort transactions
+            .sort((a, b) => {
+              const aDate = a.customDate ?? a.accounting_date;
+              const bDate = b.customDate ?? b.accounting_date;
+              return aDate > bDate ? -1 : aDate < bDate ? 1 : a.id - b.id;
+            })
+        );
       });
     },
     [transactions, setTransactions, type]
