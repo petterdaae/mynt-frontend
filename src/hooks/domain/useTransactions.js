@@ -98,7 +98,12 @@ function TransactionsProvider(props) {
             }
             return t;
           })
-          .filter((t) => type !== "uncategorized" || t.id !== transaction.id);
+          .filter((t) => type !== "uncategorized" || t.id !== transaction.id)
+          .filter(
+            (t) =>
+              !t.customDate ||
+              (t.customDate >= fromDate && t.customDate <= toDate)
+          );
       });
     },
     [transactions, setTransactions, type]
