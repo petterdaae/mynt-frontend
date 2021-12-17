@@ -5,16 +5,21 @@ import Summary from "./Summary";
 import { Text, Divider, Button, HStack } from "@chakra-ui/react";
 import CategoryBreadcrumb from "../CategoryBreadcrumb/CategoryBreadcrumb";
 import { useSpendings } from "../../hooks";
-import { setSpendingsFromAndToDate, getMonthName } from "./spendingsUtils";
+import {
+  setFromAndToDate,
+  getMonthName,
+  getFromDateFromMonth,
+  getToDateFromMonth,
+} from "./spendingsUtils";
 
 function Spendings() {
   const [currentCategory, setCurrentCategory] = useState(null);
   const currentMonthIndex = useMemo(() => new Date().getMonth(), []);
   const [month, setMonth] = useState(currentMonthIndex);
-  const { setFromAndToDate } = useSpendings();
+  const { setFromAndToDate: setSpendingsFromAndToDate } = useSpendings();
 
   useEffect(() => {
-    setSpendingsFromAndToDate(month, setFromAndToDate);
+    setFromAndToDate(month, setSpendingsFromAndToDate);
   }, [month, setMonth]);
 
   return (
@@ -41,7 +46,11 @@ function Spendings() {
       />
       <Text fontSize="2xl">Transactions</Text>
       <Divider mb="2" mt="2" />
-      <TransactionList categoryId={currentCategory} />
+      <TransactionList
+        categoryId={currentCategory}
+        fromDate={getFromDateFromMonth(month % 12)}
+        toDate={getToDateFromMonth(month % 12)}
+      />
     </>
   );
 }
