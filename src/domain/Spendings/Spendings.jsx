@@ -31,20 +31,23 @@ function Spendings() {
         <Text>{getMonthName(month % 12)}</Text>
         <Button onClick={() => setMonth((prev) => prev + 1)}>Next month</Button>
       </HStack>
-      <Divider mb="2" mt="2" />
       <CategoryBreadcrumb
         currentCategoryId={currentCategory}
         setCurrentCategoryId={setCurrentCategory}
       />
-      <Divider mb="2" mt="2" />
+      <Divider mb="4" mt="4" />
       <Summary currentCategory={currentCategory} />
-      <Text fontSize="2xl">Spendings</Text>
+      <Text fontSize="2xl" mt="8">
+        Spendings
+      </Text>
       <Divider mb="2" mt="2" />
       <SpendingsList
         currentCategory={currentCategory}
         setCurrentCategory={setCurrentCategory}
       />
-      <Text fontSize="2xl">Transactions</Text>
+      <Text fontSize="2xl" mt="8">
+        Transactions
+      </Text>
       <Divider mb="2" mt="2" />
       <TransactionList
         categoryId={currentCategory}

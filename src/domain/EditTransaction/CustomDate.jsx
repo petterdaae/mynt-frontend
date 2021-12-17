@@ -21,15 +21,18 @@ function CustomDate({
   customDateOpen,
   setCustomDateOpen,
 }) {
-  const onChangeCustomDate = useCallback((e) => {
-    const newDate = e.target.value.trim();
-    setCustomDate(newDate);
-    if (dateRegex.test(newDate)) {
-      setError(null);
-    } else {
-      setError("Invalid date format (must be on the format YYYY-MM-DD)");
-    }
-  });
+  const onChangeCustomDate = useCallback(
+    (e) => {
+      const newDate = e.target.value.trim();
+      setCustomDate(newDate);
+      if (dateRegex.test(newDate)) {
+        setError(null);
+      } else {
+        setError("Invalid date format (must be on the format YYYY-MM-DD)");
+      }
+    },
+    [setCustomDate, setError]
+  );
 
   const increaseMonth = useCallback(() => {
     setCustomDate((prevCustomDate) => {
