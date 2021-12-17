@@ -33,7 +33,7 @@ function SpendingsProvider(props) {
   );
 
   const [spendings, setSpendings] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [refreshState, setRefreshState] = useState(false);
   const { categories } = useCategories();
   const [fromAndToDate, setFromAndToDateState] = useState({
