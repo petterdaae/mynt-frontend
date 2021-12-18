@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import { base } from "./size";
-import { red } from "./color";
 import PropTypes from "prop-types";
+
+const base = 4;
+const red = "red";
 
 const Colors = styled.div`
   display: flex;

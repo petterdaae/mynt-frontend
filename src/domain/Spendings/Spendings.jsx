@@ -4,7 +4,7 @@ import SpendingsList from "./SpendingsList";
 import Summary from "./Summary";
 import { Text, Divider, Button, HStack } from "@chakra-ui/react";
 import CategoryBreadcrumb from "../CategoryBreadcrumb/CategoryBreadcrumb";
-import { useSpendings } from "../../hooks";
+import { useSpendings } from "../../hooks/domain/useSpendings";
 import {
   setFromAndToDate,
   getMonthName,

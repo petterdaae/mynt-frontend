@@ -5,8 +5,8 @@ import {
   useCallback,
   useMemo,
 } from "react";
-import { useCategories } from ".";
-import useEffectSkipFirst from "./useEffectSkipFirst";
+import { useCategories } from "../domain/useCategories";
+import useEffectSkipFirst from "../common/useEffectSkipFirst";
 
 const SpendingsContext = createContext();
 

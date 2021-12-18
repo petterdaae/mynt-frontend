@@ -3,7 +3,7 @@ import TransactionList from "./TransactionList";
 import Filters from "./Filters";
 import { useTransactions } from "../../hooks/domain/useTransactions";
 import { useEffect, useState } from "react";
-import { formatDate } from "../../utils/date";
+import { formatDate } from "../utils";
 
 function TransactionListWithFilters() {
   const transactions = useTransactions();

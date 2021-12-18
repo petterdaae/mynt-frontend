@@ -9,7 +9,7 @@ import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import { useMemo } from "react";
 import PropTypes from "prop-types";
 import { getBreadcrumbFromCategoryId } from "./categoryBreadcrumbUtils";
-import { useCategories } from "../../hooks";
+import { useCategories } from "../../hooks/domain/useCategories";
 
 function CategoryBreadcrumb({ currentCategoryId, setCurrentCategoryId }) {
   const { categories, loading } = useCategories();
