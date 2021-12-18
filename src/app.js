@@ -11,6 +11,7 @@ import Settings from "./pages/settings";
 import Categories from "./pages/categories";
 import TransactionListWithFilters from "./domain/TransactionList/TransactionListWithFilters";
 import Spendings from "./domain/Spendings/Spendings";
+import Ccategories from "./domain/Categories/Categories";
 
 import { TransactionsProvider } from "./hooks/domain/useTransactions";
 import { AccountsProvider } from "./hooks/domain/useAccounts";
@@ -47,6 +48,10 @@ function App() {
                     <Route
                       path="/authenticated/spendings"
                       component={Spendings}
+                    />
+                    <Route
+                      path="/authenticated/ccategories"
+                      component={Ccategories}
                     />
                   </TransactionsProvider>
                 </AccountsProvider>
