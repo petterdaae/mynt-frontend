@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useCallback } from "react";
-import useEffectSkipFirst from "../useEffectSkipFirst";
+import useEffectSkipFirst from "../common/useEffectSkipFirst";
 
 const TransactionsContext = createContext();
 

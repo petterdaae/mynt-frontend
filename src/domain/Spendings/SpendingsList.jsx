@@ -1,4 +1,5 @@
-import { useCategories, useSpendings } from "../../hooks";
+import { useCategories } from "../../hooks/domain/useCategories";
+import { useSpendings } from "../../hooks/domain/useSpendings";
 import Spending from "./Spending";
 import { Divider } from "@chakra-ui/react";
 

@@ -1,4 +1,4 @@
-import { useCategories } from "../../hooks";
+import { useCategories } from "../../hooks/domain/useCategories";
 import { useState } from "react";
 import Category from "./Category";
 import { Divider, HStack, Button } from "@chakra-ui/react";

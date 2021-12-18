@@ -16,7 +16,7 @@ import {
 import PropTypes from "prop-types";
 import ColorPicker from "../../components/color_picker";
 import { useCallback, useState } from "react";
-import { useCategories } from "../../hooks";
+import { useCategories } from "../../hooks/domain/useCategories";
 
 function NewCategory({ onClose, isOpen, edit, category, parentCategory }) {
   const [name, setName] = useState(edit ? category.name : "");

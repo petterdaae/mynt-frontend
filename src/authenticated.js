@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import { useHistory, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
-import { base, breakpoint } from "./components/size";
 import { useEffect, useState } from "react";
 import { Tabs, TabList, Tab } from "@chakra-ui/react";
+
+const base = 4;
+const breakpoint = 1100;
 
 const ContentWrapper = styled.div`
   width: ${breakpoint}px;
