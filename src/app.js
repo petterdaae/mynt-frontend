@@ -7,7 +7,7 @@ import { mainFontColor } from "./components/color";
 import Authenticated from "./authenticated";
 import Login from "./login";
 
-import Settings from "./pages/settings";
+import Settings from "./domain/Settings/Settings";
 import TransactionListWithFilters from "./domain/TransactionList/TransactionListWithFilters";
 import Spendings from "./domain/Spendings/Spendings";
 import Categories from "./domain/Categories/Categories";
