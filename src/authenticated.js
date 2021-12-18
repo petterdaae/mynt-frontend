@@ -120,7 +120,6 @@ function NavigationItem({ path, name, setTabIndex, tabIndex }) {
         setTabIndex(tabIndex);
         history.push(path);
       }}
-      active={location.pathname === path}
     >
       {name}
     </Tab>
