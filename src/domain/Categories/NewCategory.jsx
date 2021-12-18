@@ -16,13 +16,15 @@ import {
 import PropTypes from "prop-types";
 import ColorPicker from "../../components/color_picker";
 import { useCallback, useState } from "react";
+import { useCategories } from "../../hooks";
 
-function NewCategory({ onClose, isOpen, edit, category }) {
-  const [name, setName] = useState(category ? category.name : "");
-  const [color, setColor] = useState(category ? category.color : null);
+function NewCategory({ onClose, isOpen, edit, category, parentCategory }) {
+  const [name, setName] = useState(edit ? category.name : "");
+  const [color, setColor] = useState(edit ? category.color : null);
   const [ignoreInSummaries, setIgnoreInSummaries] = useState(
     category ? category.ignoreFromSummaries : false
   );
+  const { addCategory, updateCategory } = useCategories();
 
   const [nameError, setNameError] = useState(null);
   const [colorError, setColorError] = useState(null);
@@ -43,10 +45,25 @@ function NewCategory({ onClose, isOpen, edit, category }) {
       return;
     }
 
+    if (edit) {
+      updateCategory(category.id, {
+        name: name,
+        color: color,
+        ignore: ignoreInSummaries,
+      });
+    } else {
+      addCategory({
+        name: name,
+        parent_id: parentCategory,
+        color: color,
+        ignore: ignoreInSummaries,
+      });
+    }
+
     onClose();
-    setName(category ? category.name : "");
-    setColor(category ? category.color : null);
-    setIgnoreInSummaries(category ? category.ignoreFromSummaries : false);
+    setName(name);
+    setColor(color);
+    setIgnoreInSummaries(ignoreInSummaries);
   }, [onClose, name, color, ignoreInSummaries, setNameError, setColorError]);
 
   return (
@@ -58,6 +75,7 @@ function NewCategory({ onClose, isOpen, edit, category }) {
         <ModalBody>
           <VStack align="left">
             <Input
+              value={name}
               onChange={(e) => {
                 setName(e.target.value);
                 setNameError(null);
@@ -102,6 +120,7 @@ NewCategory.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   edit: PropTypes.bool,
   category: PropTypes.object,
+  parentCategory: PropTypes.number,
 };
 
 export default NewCategory;

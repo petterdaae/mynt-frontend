@@ -35,7 +35,9 @@ function Category({ category, setCurrentCategory }) {
       <NewCategory
         isOpen={editCategoryOpen}
         onClose={() => setEditCategoryOpen(false)}
-        edit
+        edit={true}
+        category={category}
+        parentCategory={category.parent_id}
       />
     </>
   );
