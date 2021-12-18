@@ -1,7 +1,7 @@
 import { useCategories } from "../../hooks";
 import { useState } from "react";
 import Category from "./Category";
-import { Divider } from "@chakra-ui/react";
+import { Divider, HStack, Button } from "@chakra-ui/react";
 import CategoryBreadcrumb from "../CategoryBreadcrumb/CategoryBreadcrumb";
 
 function Categories() {
@@ -9,10 +9,14 @@ function Categories() {
   const [currentCategory, setCurrentCategory] = useState(null);
   return (
     <>
-      <CategoryBreadcrumb
-        currentCategoryId={currentCategory}
-        setCurrentCategoryId={setCurrentCategory}
-      />
+      <HStack justify="space-between" m="2">
+        <CategoryBreadcrumb
+          currentCategoryId={currentCategory}
+          setCurrentCategoryId={setCurrentCategory}
+        />
+        <Button colorScheme="green">Create</Button>
+      </HStack>
+      <Divider />
       {!loading &&
         categories
           .filter((category) => category.parent_id === currentCategory)
