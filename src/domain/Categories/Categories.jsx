@@ -3,10 +3,12 @@ import { useState } from "react";
 import Category from "./Category";
 import { Divider, HStack, Button } from "@chakra-ui/react";
 import CategoryBreadcrumb from "../CategoryBreadcrumb/CategoryBreadcrumb";
+import NewCategory from "./NewCategory";
 
 function Categories() {
   const { categories, loading } = useCategories();
   const [currentCategory, setCurrentCategory] = useState(null);
+  const [newCategoryOpen, setNewCategoryOpen] = useState(false);
   return (
     <>
       <HStack justify="space-between" m="2">
@@ -14,7 +16,9 @@ function Categories() {
           currentCategoryId={currentCategory}
           setCurrentCategoryId={setCurrentCategory}
         />
-        <Button colorScheme="green">Create</Button>
+        <Button colorScheme="green" onClick={() => setNewCategoryOpen(true)}>
+          Create
+        </Button>
       </HStack>
       <Divider />
       {!loading &&
@@ -31,6 +35,11 @@ function Categories() {
               </div>
             );
           })}
+      <NewCategory
+        isOpen={newCategoryOpen}
+        onClose={() => setNewCategoryOpen(false)}
+        parentCategory={currentCategory}
+      />
     </>
   );
 }

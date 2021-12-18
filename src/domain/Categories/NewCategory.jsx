@@ -61,9 +61,9 @@ function NewCategory({ onClose, isOpen, edit, category, parentCategory }) {
     }
 
     onClose();
-    setName(name);
-    setColor(color);
-    setIgnoreInSummaries(ignoreInSummaries);
+    setName(edit ? name : "");
+    setColor(edit ? color : null);
+    setIgnoreInSummaries(edit ? ignoreInSummaries : false);
   }, [onClose, name, color, ignoreInSummaries, setNameError, setColorError]);
 
   return (
