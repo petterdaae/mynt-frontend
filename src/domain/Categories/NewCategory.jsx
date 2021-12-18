@@ -22,7 +22,7 @@ function NewCategory({ onClose, isOpen, edit, category, parentCategory }) {
   const [name, setName] = useState(edit ? category.name : "");
   const [color, setColor] = useState(edit ? category.color : null);
   const [ignoreInSummaries, setIgnoreInSummaries] = useState(
-    category ? category.ignoreFromSummaries : false
+    edit ? category.ignore : false
   );
   const { addCategory, updateCategory } = useCategories();
 
