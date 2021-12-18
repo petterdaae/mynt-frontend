@@ -1,11 +1,25 @@
-import { HStack, Text, Button } from "@chakra-ui/react";
+import {
+  HStack,
+  Text,
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  ModalCloseButton,
+} from "@chakra-ui/react";
 import { useState } from "react";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import PropTypes from "prop-types";
 import NewCategory from "./NewCategory";
+import { useCategories } from "../../hooks/domain/useCategories";
 
 function Category({ category, setCurrentCategory }) {
   const [editCategoryOpen, setEditCategoryOpen] = useState(false);
+  const [showDeleteCategory, setShowDeleteCategory] = useState(false);
+  const { deleteCategory } = useCategories();
   return (
     <>
       <HStack
@@ -29,7 +43,15 @@ function Category({ category, setCurrentCategory }) {
           >
             Edit
           </Button>
-          <Button colorScheme="red">Delete</Button>
+          <Button
+            colorScheme="red"
+            onClick={(e) => {
+              setShowDeleteCategory(true);
+              e.stopPropagation();
+            }}
+          >
+            Delete
+          </Button>
         </HStack>
       </HStack>
       <NewCategory
@@ -39,6 +61,36 @@ function Category({ category, setCurrentCategory }) {
         category={category}
         parentCategory={category.parent_id}
       />
+      <Modal
+        isOpen={showDeleteCategory}
+        onClose={() => setShowDeleteCategory(false)}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Delete Category</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text>Are you sure you want to delete this category?</Text>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              variantColor="red"
+              onClick={() => {
+                deleteCategory(category.id);
+                setShowDeleteCategory(false);
+              }}
+            >
+              Delete
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={() => setShowDeleteCategory(false)}
+            >
+              Cancel
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 }

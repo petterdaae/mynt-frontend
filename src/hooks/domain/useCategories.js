@@ -74,15 +74,14 @@ function CategoriesProvider(props) {
 
   const deleteCategory = useCallback(
     (categoryId) => {
-      return fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`, {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`, {
         credentials: "include",
         method: "DELETE",
         body: JSON.stringify({
           id: categoryId,
         }),
-      }).then(() =>
-        setCategories((prev) => prev.slice().filter((c) => c.id !== categoryId))
-      );
+      });
+      setCategories((prev) => prev.slice().filter((c) => c.id !== categoryId));
     },
     [setCategories]
   );
