@@ -51,8 +51,8 @@ function Spendings() {
       <Divider mb="2" mt="2" />
       <TransactionList
         categoryId={currentCategory}
-        fromDate={getFromDateFromMonth(month % 12)}
-        toDate={getToDateFromMonth(month % 12)}
+        fromDate={getFromDateFromMonth(month)}
+        toDate={getToDateFromMonth(month)}
       />
     </>
   );
