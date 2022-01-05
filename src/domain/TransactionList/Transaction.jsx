@@ -4,8 +4,7 @@ import Proptypes from "prop-types";
 import EditTransactionModal from "../EditTransaction/EditTransactionModal";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import { useCallback, useMemo, useState, memo } from "react";
-import { useCategories } from "../../hooks/domain/useCategories";
-import { useAccounts } from "../../hooks/domain/useAccounts";
+import { useCategories, useAccounts } from "../../hooks";
 
 function Transaction({ transaction }) {
   const { accounts, accountsLoading } = useAccounts();

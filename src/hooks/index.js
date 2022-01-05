@@ -2,7 +2,7 @@ import useAccounts from "./useAccounts";
 import useCategories from "./useCategories";
 import useCategorizations from "./useCategorizations";
 import useTransactions from "./useTransactions";
-import { InvalidationProvider } from "./useInvalidation";
+import { InvalidationProvider, useInvalidation } from "./useInvalidation";
 
 export {
   useAccounts,
@@ -10,4 +10,5 @@ export {
   useCategorizations,
   useTransactions,
   InvalidationProvider,
+  useInvalidation,
 };

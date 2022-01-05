@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
-import { useTransactions } from "../../hooks/domain/useTransactions";
+import { useTransactions } from "../../hooks";
 import CustomDate from "./CustomDate";
 import { useCallback, useState } from "react";
 

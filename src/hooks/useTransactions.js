@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
-import { useInvalidation } from "../common/useInvalidation";
+import { useInvalidation } from "./index";
 
 function useTransactions({ fromDate, toDate }) {
   const [transactions, setTransactions] = useState([]);

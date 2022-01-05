@@ -1,5 +1,5 @@
 import Transaction from "./Transaction";
-import { useTransactions } from "../../hooks/domain/useTransactions";
+import { useTransactions } from "../../hooks";
 import { Divider, Spinner, Center } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useEffect } from "react";

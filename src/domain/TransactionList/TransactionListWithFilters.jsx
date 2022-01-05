@@ -1,7 +1,7 @@
 import { Divider } from "@chakra-ui/react";
 import TransactionList from "./TransactionList";
 import Filters from "./Filters";
-import { useTransactions } from "../../hooks/domain/useTransactions";
+import { useTransactions } from "../../hooks";
 import { useEffect, useState } from "react";
 import { formatDate } from "../utils";
 

@@ -14,7 +14,7 @@ import { useState } from "react";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import PropTypes from "prop-types";
 import NewCategory from "./NewCategory";
-import { useCategories } from "../../hooks/domain/useCategories";
+import { useCategories } from "../../hooks";
 
 function Category({ category, setCurrentCategory }) {
   const [editCategoryOpen, setEditCategoryOpen] = useState(false);
