@@ -9,7 +9,7 @@ function useTransactions(fromDate, toDate) {
   useEffect(() => {
     setLoading(true);
     fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/ng/transactions?from_date=${fromDate}&to_date=${toDate}`,
+      `${process.env.REACT_APP_BACKEND_URL}/transactions?from_date=${fromDate}&to_date=${toDate}`,
       {
         credentials: "include",
       }

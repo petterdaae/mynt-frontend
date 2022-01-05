@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { formatCurrency } from "./../utils";
 import { Badge, HStack } from "@chakra-ui/react";
+import { useSpendings } from "../../hooks";
 
 function Summary({ currentCategory }) {
   const { spendings, loading } = useSpendings();

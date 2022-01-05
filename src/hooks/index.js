@@ -4,7 +4,6 @@ import useCategorizations from "./useCategorizations";
 import useRichTransactions from "./useRichTransactions";
 import useSpendings from "./useSpendings";
 import useTransactions from "./useTransactions";
-import useTransactionsWithCategorizations from "./useTransactionsWithCategorizations";
 import { InvalidationProvider, useInvalidation } from "./useInvalidation";
 
 export {
@@ -14,7 +13,6 @@ export {
   useRichTransactions,
   useSpendings,
   useTransactions,
-  useTransactionsWithCategorizations,
   InvalidationProvider,
   useInvalidation,
 };

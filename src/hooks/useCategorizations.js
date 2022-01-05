@@ -9,7 +9,7 @@ function useCategorizations() {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/categorizations`, {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -47,4 +47,4 @@ function useCategorizations() {
   };
 }
 
-export default useCategorizations();
+export default useCategorizations;

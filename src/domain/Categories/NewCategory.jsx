@@ -16,15 +16,21 @@ import {
 import PropTypes from "prop-types";
 import ColorPicker from "../../components/color_picker";
 import { useCallback, useState } from "react";
-import { useCategories } from "../../hooks";
 
-function NewCategory({ onClose, isOpen, edit, category, parentCategory, addCategory, updateCategory }) {
+function NewCategory({
+  onClose,
+  isOpen,
+  edit,
+  category,
+  parentCategory,
+  addCategory,
+  updateCategory,
+}) {
   const [name, setName] = useState(edit ? category.name : "");
   const [color, setColor] = useState(edit ? category.color : null);
   const [ignoreInSummaries, setIgnoreInSummaries] = useState(
     edit ? category.ignore : false
   );
-  const { addCategory, updateCategory } = useCategories();
 
   const [nameError, setNameError] = useState(null);
   const [colorError, setColorError] = useState(null);
