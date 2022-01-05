@@ -11,7 +11,6 @@ import {
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
-import { useTransactions } from "../../hooks";
 import CustomDate from "./CustomDate";
 import { useCallback, useState } from "react";
 
@@ -20,10 +19,9 @@ function EditTransactionModalContent({
   onClose,
   toggleCategoryPicker,
   newCategory,
+  updateCategorizationsForTransaction,
+  updateTransaction,
 }) {
-  const { updateTransactionCategory, updateTransactionCustomDate } =
-    useTransactions();
-
   const categoryColor = newCategory
     ? newCategory.color
     : transaction.category.color;
@@ -52,17 +50,18 @@ function EditTransactionModalContent({
   const onSave = useCallback(() => {
     onClose();
     if (newCategoryChanged) {
-      updateTransactionCategory(transaction, newCategory.id);
+      updateCategorizationsForTransaction(transaction, newCategory.id);
     }
     if (newCustomDateChanged) {
       const nullableNewCustomDate = customDateOpen ? customDate : null;
-      updateTransactionCustomDate(transaction, nullableNewCustomDate);
+      updateTransaction({ ...transaction, customDate: nullableNewCustomDate });
     }
   }, [
     transaction,
     newCategory,
     onClose,
-    updateTransactionCategory,
+    updateTransaction,
+    updateCategorizationsForTransaction,
     newCategoryChanged,
     newCustomDateChanged,
     customDate,
@@ -122,6 +121,8 @@ EditTransactionModalContent.propTypes = {
   onClose: PropTypes.func.isRequired,
   toggleCategoryPicker: PropTypes.func.isRequired,
   newCategory: PropTypes.object,
+  updateCategorizationsForTransaction: PropTypes.func.isRequired,
+  updateTransaction: PropTypes.func.isRequired,
 };
 
 export default EditTransactionModalContent;

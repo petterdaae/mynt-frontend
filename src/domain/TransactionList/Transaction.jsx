@@ -5,7 +5,11 @@ import EditTransactionModal from "../EditTransaction/EditTransactionModal";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import { useCallback, useMemo, useState, memo } from "react";
 
-function Transaction({ transaction }) {
+function Transaction({
+  transaction,
+  updateCategorizationsForTransaction,
+  updateTransaction,
+}) {
   const [showEditTransactionModal, setShowEditTransactionModal] =
     useState(false);
 
@@ -59,6 +63,10 @@ function Transaction({ transaction }) {
         transaction={transaction}
         isOpen={showEditTransactionModal}
         onClose={onClose}
+        updateCategorizationsForTransaction={
+          updateCategorizationsForTransaction
+        }
+        updateTransaction={updateTransaction}
       />
     </>
   );
@@ -66,6 +74,8 @@ function Transaction({ transaction }) {
 
 Transaction.propTypes = {
   transaction: Proptypes.object.isRequired,
+  updateCategorizationsForTransaction: Proptypes.func.isRequired,
+  updateTransaction: Proptypes.func.isRequired,
 };
 
 export default memo(Transaction);

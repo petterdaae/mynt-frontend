@@ -24,6 +24,9 @@ function useRichTransactions(fromDate, toDate) {
         account,
         category,
         categorization,
+        update: transactions.update,
+        updateTransactionCategorization:
+          categorizations.updateTransactionCategorization,
       };
     });
   }, [transactions, accounts, categories, categorizations]);

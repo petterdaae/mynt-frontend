@@ -25,7 +25,10 @@ function useTransactions(fromDate, toDate) {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/ng/transactions`, {
       method: "PUT",
       credentials: "include",
-      body: JSON.stringify(transaction),
+      body: JSON.stringify({
+        id: transaction.id,
+        customDate: transaction.customDate,
+      }),
     }).then(() => {
       invalidateTransactions();
     });

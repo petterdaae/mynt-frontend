@@ -21,7 +21,8 @@ function TransactionListWithFilters() {
     setFromDate(fromDate);
   }, [monthsBack, setFromDate]);
 
-  const { transactions, loading } = useRichTransactions(fromDate, toDate);
+  const { transactions, loading, update, updateCategorizationsForTransaction } =
+    useRichTransactions(fromDate, toDate);
 
   return (
     <>
@@ -36,6 +37,10 @@ function TransactionListWithFilters() {
         showCategorized
         transactions={transactions}
         loading={loading}
+        updateTransaction={update}
+        updateCategorizationsForTransaction={
+          updateCategorizationsForTransaction
+        }
       />
     </>
   );

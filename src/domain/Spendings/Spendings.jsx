@@ -15,10 +15,14 @@ function Spendings() {
   const [fromDate, setFromDate] = useState(getDateFromMonth(month, 1));
   const [toDate, setToDate] = useState(getDateFromMonth(month + 1, 0));
 
-  const { spendings, transactions, loading, categories } = useSpendings(
-    fromDate,
-    toDate
-  );
+  const {
+    spendings,
+    transactions,
+    loading,
+    categories,
+    updateTransaction,
+    updateTransactionCategorizations,
+  } = useSpendings(fromDate, toDate);
 
   useEffect(() => {
     setFromDate(getDateFromMonth(month, 1));
@@ -61,6 +65,8 @@ function Spendings() {
         showCategorized={true}
         transactions={transactions}
         loading={loading}
+        updateCategorizationsForTransaction={updateTransactionCategorizations}
+        updateTransaction={updateTransaction}
       />
     </>
   );
