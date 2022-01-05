@@ -1,5 +1,11 @@
-import { createContext, useContext, useState, useCallback } from "react";
-import useEffectSkipFirst from "../common/useEffectSkipFirst";
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+} from "react";
+import PropTypes from "prop-types";
 
 const TransactionsContext = createContext();
 
@@ -15,17 +21,18 @@ function useTransactions() {
   return context;
 }
 
-function TransactionsProvider(props) {
+function TransactionsProvider({ initialFromDate, initialToDate }) {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [fromDate, setFromDate] = useState(null);
-  const [toDate, setToDate] = useState(null);
-  const [type, setType] = useState("");
+  const [_fromAndToDate, _setFromAndToDate] = useState({
+    from: initialFromDate,
+    to: initialToDate,
+  });
 
-  useEffectSkipFirst(() => {
+  useEffect(() => {
     setLoading(true);
     fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/transactions?from_date=${fromDate}&to_date=${toDate}&type=${type}`,
+      `${process.env.REACT_APP_BACKEND_URL}/ng/transactions?from_date=${_fromAndToDate.from}&to_date=${_fromAndToDate.to}`,
       {
         credentials: "include",
       }
@@ -35,101 +42,54 @@ function TransactionsProvider(props) {
         setTransactions(data);
         setLoading(false);
       });
-  }, [setTransactions, fromDate, toDate, type]);
+  }, [setLoading, _fromAndToDate, setTransactions]);
 
   const setFromAndToDate = useCallback(
     (from, to) => {
-      setFromDate(from);
-      setToDate(to);
+      _setFromAndToDate({ from, to });
     },
-    [setFromDate, setToDate]
+    [_setFromAndToDate]
   );
 
-  const updateTransactionCategory = useCallback(
-    (transaction, categoryId) => {
-      fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/transactions/update_category`,
-        {
-          method: "PUT",
-          credentials: "include",
-          body: JSON.stringify({
-            transaction_id: transaction.id,
-            categorizations: [
-              {
-                category_id: categoryId,
-                amount: transaction.amount,
-              },
-            ],
-          }),
-        }
-      );
-      setTransactions((prev) => {
-        return prev
-          .map((t) => {
-            if (t.id === transaction.id) {
-              return { ...t, category_id: categoryId };
-            }
-            return t;
-          })
-          .filter((t) => type !== "uncategorized" || t.id !== transaction.id);
-      });
-    },
-    [transactions, setTransactions, type]
-  );
+  const update = useCallback((transaction) => {
+    fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/ng/transactions/update_category`,
+      {
+        method: "PUT",
+        credentials: "include",
+        body: JSON.stringify(transaction),
+      }
+    );
 
-  const updateTransactionCustomDate = useCallback(
-    (transaction, customDate) => {
-      fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/transactions/update_custom_date`,
-        {
-          method: "PUT",
-          credentials: "include",
-          body: JSON.stringify({
-            id: transaction.id,
-            customDate: customDate,
-          }),
-        }
-      );
-      setTransactions((prev) => {
-        return (
-          prev
-            // Update customDate field of transaction
-            .map((t) => {
-              if (t.id === transaction.id) {
-                return { ...t, customDate };
-              }
-              return t;
-            })
-            // Maintain from and to date filters
-            .filter(
-              (t) =>
-                (!t.customDate &&
-                  t.customDate >= fromDate &&
-                  t.customDate <= toDate) ||
-                (t.customDate >= fromDate && t.customDate <= toDate)
-            )
-            // Resort transactions
-            .sort((a, b) => {
-              const aDate = a.customDate ?? a.accounting_date;
-              const bDate = b.customDate ?? b.accounting_date;
-              return aDate > bDate ? -1 : aDate < bDate ? 1 : a.id - b.id;
-            })
-        );
-      });
-    },
-    [transactions, setTransactions, type]
-  );
+    setTransactions((prev) =>
+      prev
+        .map((t) => (t.id === transaction.id ? transaction : t))
+        .filter(
+          (t) =>
+            (t.customDate ?? t.accountingDate) >= _fromAndToDate.from &&
+            (t.customDate ?? t.accountingDate) <= _fromAndToDate.to
+        )
+        .sort((a, b) => {
+          const aDate = a.customDate ?? a.accountingDate;
+          const bDate = b.customDate ?? b.accountingDate;
+          return aDate === bDate ? a.id - b.id : aDate >= bDate ? -1 : 1;
+        })
+    );
+  });
 
   const value = {
     transactions,
-    updateTransactionCategory,
     loading,
+    update,
     setFromAndToDate,
-    setType,
-    updateTransactionCustomDate,
   };
 
-  return <TransactionsContext.Provider value={value} {...props} />;
+  return <TransactionsContext.Provider value={value} />;
 }
+
+TransactionsProvider.propTypes = {
+  initialFromDate: PropTypes.string,
+  initialToDate: PropTypes.string,
+};
 
 export { TransactionsProvider, useTransactions };
