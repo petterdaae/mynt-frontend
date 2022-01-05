@@ -6,7 +6,8 @@ import CategoryBreadcrumb from "../CategoryBreadcrumb/CategoryBreadcrumb";
 import NewCategory from "./NewCategory";
 
 function Categories() {
-  const { categories, loading } = useCategories();
+  const { categories, deleteCategory, addCategory, updateCategory, loading } =
+    useCategories();
   const [currentCategory, setCurrentCategory] = useState(null);
   const [newCategoryOpen, setNewCategoryOpen] = useState(false);
   return (
@@ -23,13 +24,16 @@ function Categories() {
       <Divider />
       {!loading &&
         categories
-          .filter((category) => category.parent_id === currentCategory)
+          .filter((category) => category.parentId === currentCategory)
           .map((category) => {
             return (
               <div key={category.id}>
                 <Category
                   category={category}
                   setCurrentCategory={setCurrentCategory}
+                  deleteCategory={deleteCategory}
+                  addCategory={addCategory}
+                  updateCategory={updateCategory}
                 />
                 <Divider />
               </div>

@@ -18,7 +18,7 @@ import ColorPicker from "../../components/color_picker";
 import { useCallback, useState } from "react";
 import { useCategories } from "../../hooks";
 
-function NewCategory({ onClose, isOpen, edit, category, parentCategory }) {
+function NewCategory({ onClose, isOpen, edit, category, parentCategory, addCategory, updateCategory }) {
   const [name, setName] = useState(edit ? category.name : "");
   const [color, setColor] = useState(edit ? category.color : null);
   const [ignoreInSummaries, setIgnoreInSummaries] = useState(
@@ -121,6 +121,8 @@ NewCategory.propTypes = {
   edit: PropTypes.bool,
   category: PropTypes.object,
   parentCategory: PropTypes.number,
+  addCategory: PropTypes.func.isRequired,
+  updateCategory: PropTypes.func.isRequired,
 };
 
 export default NewCategory;
