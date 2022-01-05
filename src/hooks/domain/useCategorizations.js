@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { useInvalidation } from "../../common/useInvalidation";
+import { useInvalidation } from "../common/useInvalidation";
 
 function useCategorizations() {
   const { categorizationsChanged, invalidateCategorizations } =

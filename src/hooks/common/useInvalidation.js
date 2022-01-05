@@ -18,6 +18,7 @@ function useInvalidation() {
 function InvalidationProvider(props) {
   const [transactionsChanged, invalidateTransactions] = useChanged();
   const [categorizationsChanged, invalidateCategorizations] = useChanged();
+  const [categoriesChanged, invalidateCategories] = useChanged();
   return (
     <InvalidationContext.Provider
       value={{
@@ -25,6 +26,8 @@ function InvalidationProvider(props) {
         invalidateTransactions,
         categorizationsChanged,
         invalidateCategorizations,
+        categoriesChanged,
+        invalidateCategories,
       }}
       {...props}
     />

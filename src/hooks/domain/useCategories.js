@@ -1,24 +1,8 @@
-import {
-  useState,
-  useEffect,
-  useContext,
-  createContext,
-  useCallback,
-} from "react";
-
-const CategoriesContext = createContext();
+import { useState, useEffect, useCallback } from "react";
+import { useInvalidation } from "../common/useInvalidation";
 
 function useCategories() {
-  const context = useContext(CategoriesContext);
-
-  if (!context) {
-    throw new Error("useCategories must be used within a CategoriesProvider");
-  }
-
-  return context;
-}
-
-function CategoriesProvider(props) {
+  const { categoriesChanged, invalidateCategories } = useInvalidation();
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -32,7 +16,7 @@ function CategoriesProvider(props) {
         setCategories(data);
         setLoading(false);
       });
-  }, [setCategories]);
+  }, [setCategories, categoriesChanged]);
 
   const addCategory = useCallback(
     (newCategory) => {
@@ -40,34 +24,30 @@ function CategoriesProvider(props) {
         credentials: "include",
         method: "POST",
         body: JSON.stringify(newCategory),
-      })
-        .then((res) => res.json())
-        .then((newCategory) =>
-          setCategories((prev) =>
-            [...prev, newCategory].sort((a, b) => a.name.localeCompare(b.name))
-          )
-        );
+      }).then(() => {
+        invalidateCategories();
+      });
+      setCategories((prev) =>
+        [...prev, newCategory].sort((a, b) => a.name.localeCompare(b.name))
+      );
     },
-    [setCategories]
+    [setCategories, invalidateCategories]
   );
 
   const updateCategory = useCallback(
-    (id, updatedCategory) => {
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/categories/${id}`, {
+    (category) => {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`, {
         credentials: "include",
         method: "PUT",
-        body: JSON.stringify(updatedCategory),
-      })
-        .then((res) => res.json())
-        .then((updatedCategory) => {
-          setCategories((prev) =>
-            prev
-              .map((category) =>
-                category.id === id ? updatedCategory : category
-              )
-              .sort((a, b) => a.name.localeCompare(b.name))
-          );
-        });
+        body: JSON.stringify(category),
+      }).then(() => {
+        invalidateCategories();
+      });
+      setCategories((prev) =>
+        prev
+          .map((c) => (c.id === category.id ? category : c))
+          .sort((a, b) => a.name.localeCompare(b.name))
+      );
     },
     [setCategories]
   );
@@ -81,23 +61,18 @@ function CategoriesProvider(props) {
           id: categoryId,
         }),
       });
-      setCategories((prev) => prev.slice().filter((c) => c.id !== categoryId));
+      setCategories((prev) => prev.filter((c) => c.id !== categoryId));
     },
     [setCategories]
   );
 
-  return (
-    <CategoriesContext.Provider
-      value={{
-        categories,
-        loading,
-        addCategory,
-        deleteCategory,
-        updateCategory,
-      }}
-      {...props}
-    />
-  );
+  return {
+    categories,
+    loading,
+    addCategory,
+    deleteCategory,
+    updateCategory,
+  };
 }
 
-export { useCategories, CategoriesProvider };
+export default useCategories;
