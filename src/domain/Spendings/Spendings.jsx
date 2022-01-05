@@ -35,6 +35,7 @@ function Spendings() {
         <Button onClick={() => setMonth((prev) => prev + 1)}>Next month</Button>
       </HStack>
       <CategoryBreadcrumb
+        categories={categories}
         currentCategoryId={currentCategory}
         setCurrentCategoryId={setCurrentCategory}
       />

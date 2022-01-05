@@ -14,6 +14,7 @@ function Categories() {
     <>
       <HStack justify="space-between" m="2">
         <CategoryBreadcrumb
+          categories={categories}
           currentCategoryId={currentCategory}
           setCurrentCategoryId={setCurrentCategory}
         />

@@ -9,10 +9,13 @@ import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import { useMemo } from "react";
 import PropTypes from "prop-types";
 import { getBreadcrumbFromCategoryId } from "./categoryBreadcrumbUtils";
-import { useCategories } from "../../hooks";
 
-function CategoryBreadcrumb({ currentCategoryId, setCurrentCategoryId }) {
-  const { categories, loading } = useCategories();
+function CategoryBreadcrumb({
+  currentCategoryId,
+  setCurrentCategoryId,
+  categories,
+  loading,
+}) {
   const breadcrumb = useMemo(
     () => getBreadcrumbFromCategoryId(currentCategoryId, categories),
     [currentCategoryId, categories]
@@ -49,6 +52,8 @@ function CategoryBreadcrumb({ currentCategoryId, setCurrentCategoryId }) {
 CategoryBreadcrumb.propTypes = {
   currentCategoryId: PropTypes.number,
   setCurrentCategoryId: PropTypes.func,
+  categories: PropTypes.array,
+  loading: PropTypes.bool,
 };
 
 export default CategoryBreadcrumb;
