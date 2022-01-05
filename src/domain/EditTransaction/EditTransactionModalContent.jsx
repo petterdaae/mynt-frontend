@@ -123,6 +123,7 @@ EditTransactionModalContent.propTypes = {
   newCategory: PropTypes.object,
   updateCategorizationsForTransaction: PropTypes.func.isRequired,
   updateTransaction: PropTypes.func.isRequired,
+  categories: PropTypes.array.isRequired,
 };
 
 export default EditTransactionModalContent;

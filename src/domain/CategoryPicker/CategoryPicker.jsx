@@ -18,7 +18,7 @@ function CategoryPicker({ onSelect, categories, loading }) {
         />
         <Divider />
         {categories
-          .filter((category) => category.parent_id === currentParentCategoryId)
+          .filter((category) => category.parentId === currentParentCategoryId)
           .map((category) => (
             <div key={category.id}>
               <HStack

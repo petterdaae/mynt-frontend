@@ -44,6 +44,8 @@ function Categories() {
         isOpen={newCategoryOpen}
         onClose={() => setNewCategoryOpen(false)}
         parentCategory={currentCategory}
+        addCategory={addCategory}
+        updateCategory={updateCategory}
       />
     </>
   );

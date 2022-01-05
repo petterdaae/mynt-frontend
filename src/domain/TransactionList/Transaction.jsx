@@ -9,6 +9,8 @@ function Transaction({
   transaction,
   updateCategorizationsForTransaction,
   updateTransaction,
+  categories,
+  loading,
 }) {
   const [showEditTransactionModal, setShowEditTransactionModal] =
     useState(false);
@@ -67,6 +69,8 @@ function Transaction({
           updateCategorizationsForTransaction
         }
         updateTransaction={updateTransaction}
+        categories={categories}
+        loading={loading}
       />
     </>
   );
@@ -76,6 +80,8 @@ Transaction.propTypes = {
   transaction: Proptypes.object.isRequired,
   updateCategorizationsForTransaction: Proptypes.func.isRequired,
   updateTransaction: Proptypes.func.isRequired,
+  categories: Proptypes.array.isRequired,
+  loading: Proptypes.bool.isRequired,
 };
 
 export default memo(Transaction);

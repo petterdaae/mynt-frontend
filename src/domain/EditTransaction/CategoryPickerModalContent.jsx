@@ -8,7 +8,12 @@ import {
 import PropTypes from "prop-types";
 import CategoryPicker from "../CategoryPicker/CategoryPicker";
 
-function CategoryPickerModalContent({ toggleCategoryPicker, setNewCategory }) {
+function CategoryPickerModalContent({
+  toggleCategoryPicker,
+  setNewCategory,
+  categories,
+  loading,
+}) {
   return (
     <>
       <ModalHeader>Choose a category</ModalHeader>
@@ -19,6 +24,8 @@ function CategoryPickerModalContent({ toggleCategoryPicker, setNewCategory }) {
             toggleCategoryPicker();
             setNewCategory(newCategory);
           }}
+          categories={categories}
+          loading={loading}
         />
       </ModalBody>
       <ModalFooter>
@@ -31,6 +38,8 @@ function CategoryPickerModalContent({ toggleCategoryPicker, setNewCategory }) {
 CategoryPickerModalContent.propTypes = {
   toggleCategoryPicker: PropTypes.func.isRequired,
   setNewCategory: PropTypes.func.isRequired,
+  categories: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default CategoryPickerModalContent;

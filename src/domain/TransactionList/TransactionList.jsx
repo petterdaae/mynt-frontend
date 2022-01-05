@@ -9,6 +9,7 @@ function TransactionList({
   loading,
   updateCategorizationsForTransaction,
   updateTransaction,
+  categories,
 }) {
   if (categoryId !== undefined) {
     transactions = transactions.filter((t) => t.category.id === categoryId);
@@ -31,6 +32,8 @@ function TransactionList({
             updateCategorizationsForTransaction
           }
           updateTransaction={updateTransaction}
+          categories={categories}
+          loading={loading}
         />
         <Divider />
       </div>
@@ -45,6 +48,7 @@ TransactionList.propTypes = {
   loading: PropTypes.bool.isRequired,
   updateCategorizationsForTransaction: PropTypes.func.isRequired,
   updateTransaction: PropTypes.func.isRequired,
+  categories: PropTypes.array.isRequired,
 };
 
 export default TransactionList;

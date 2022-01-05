@@ -15,6 +15,8 @@ function EditTransactionModal({
   onClose,
   updateCategorizationsForTransaction,
   updateTransaction,
+  categories,
+  loading,
 }) {
   const [showCategoryPicker, { toggle: toggleCategoryPicker }] =
     useBoolean(false);
@@ -29,6 +31,8 @@ function EditTransactionModal({
           <CategoryPickerModalContent
             toggleCategoryPicker={toggleCategoryPicker}
             setNewCategory={setNewCategory}
+            categories={categories}
+            loading={loading}
           />
         ) : (
           <EditTransactionModalContent
@@ -40,6 +44,7 @@ function EditTransactionModal({
               updateCategorizationsForTransaction
             }
             updateTransaction={updateTransaction}
+            categories={categories}
           />
         )}
       </ModalContent>
@@ -53,6 +58,8 @@ EditTransactionModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   updateCategorizationsForTransaction: PropTypes.func.isRequired,
   updateTransaction: PropTypes.func.isRequired,
+  categories: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default EditTransactionModal;
