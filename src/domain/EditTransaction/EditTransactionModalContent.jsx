@@ -26,11 +26,11 @@ function EditTransactionModalContent({
 
   const categoryColor = newCategory
     ? newCategory.color
-    : transaction.categoryColor;
+    : transaction.category.color;
 
   const categoryName = newCategory
     ? newCategory.name
-    : transaction.categoryName;
+    : transaction.category.name;
 
   const [customDateError, setCustomDateError] = useState(null);
 
@@ -43,7 +43,7 @@ function EditTransactionModalContent({
   const [customDateOpen, setCustomDateOpen] = useState(transaction.customDate);
 
   const newCategoryChanged =
-    newCategory && newCategory.id !== transaction.categoryId;
+    newCategory && newCategory.id !== transaction.category.id;
 
   const newCustomDateChanged = customDateOpen
     ? !customDateError && customDate !== transaction.customDate
@@ -88,7 +88,7 @@ function EditTransactionModalContent({
           />
           <Divider />
           <Text fontSize="sm">Account</Text>
-          <Text fontWeight="semibold">{transaction.accountName}</Text>
+          <Text fontWeight="semibold">{transaction.account.name}</Text>
           <Divider />
           <HStack justify="space-between">
             <HStack>

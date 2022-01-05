@@ -1,20 +1,20 @@
 import Transaction from "./Transaction";
-import { useTransactions } from "../../hooks";
 import { Divider, Spinner, Center } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-import { useEffect } from "react";
 
-function TransactionList({ categoryId, fromDate, toDate }) {
-  let { transactions, loading, setFromAndToDate } = useTransactions();
+function TransactionList({
+  categoryId,
+  showCategorized,
+  transactions,
+  loading,
+}) {
+  if (categoryId !== undefined) {
+    transactions = transactions.filter((t) => t.category.id === categoryId);
+  }
 
-  useEffect(() => {
-    setFromAndToDate(fromDate, toDate);
-  }, [fromDate, toDate, setFromAndToDate]);
-
-  transactions =
-    categoryId !== undefined
-      ? transactions.filter((t) => t.category_id === categoryId)
-      : transactions;
+  if (!showCategorized) {
+    transactions = transactions.filter((t) => !t.category);
+  }
 
   return loading ? (
     <Center mt="8">
@@ -32,8 +32,9 @@ function TransactionList({ categoryId, fromDate, toDate }) {
 
 TransactionList.propTypes = {
   categoryId: PropTypes.number,
-  fromDate: PropTypes.string,
-  toDate: PropTypes.string,
+  showCategorized: PropTypes.bool.isRequired,
+  transactions: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default TransactionList;
