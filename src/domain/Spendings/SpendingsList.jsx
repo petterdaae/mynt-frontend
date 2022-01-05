@@ -1,13 +1,16 @@
-import { useCategories } from "../../hooks";
 import Spending from "./Spending";
 import { Divider } from "@chakra-ui/react";
+import PropTypes from "prop-types";
 
-function SpendingsList({ currentCategory, setCurrentCategory }) {
-  const { categories, categoriesLoading } = useCategories();
-  const { spendings, spendingsLoading } = useSpendings();
+function SpendingsList({
+  currentCategory,
+  setCurrentCategory,
+  spendings,
+  categories,
+  loading,
+}) {
   return (
-    !categoriesLoading &&
-    !spendingsLoading &&
+    !loading &&
     categories
       .filter((category) => category.parent_id === currentCategory)
       .map((category) => {
@@ -27,5 +30,13 @@ function SpendingsList({ currentCategory, setCurrentCategory }) {
       })
   );
 }
+
+SpendingsList.propTypes = {
+  currentCategory: PropTypes.number,
+  setCurrentCategory: PropTypes.func,
+  spendings: PropTypes.array,
+  categories: PropTypes.array,
+  loading: PropTypes.bool,
+};
 
 export default SpendingsList;

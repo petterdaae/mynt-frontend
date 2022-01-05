@@ -2,7 +2,10 @@ import { useMemo } from "react";
 import { useRichTransactions } from "./index";
 
 function useSpendings(fromDate, toDate) {
-  const { richTransactions, loading } = useRichTransactions(fromDate, toDate);
+  const { richTransactions, loading, categories } = useRichTransactions(
+    fromDate,
+    toDate
+  );
   const spendings = useMemo(
     () => getSpendings(richTransactions),
     [richTransactions]
@@ -10,6 +13,7 @@ function useSpendings(fromDate, toDate) {
   return {
     transactions: richTransactions,
     spendings,
+    categories,
     loading,
   };
 }

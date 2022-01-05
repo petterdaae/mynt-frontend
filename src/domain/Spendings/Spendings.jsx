@@ -4,21 +4,25 @@ import SpendingsList from "./SpendingsList";
 import Summary from "./Summary";
 import { Text, Divider, Button, HStack } from "@chakra-ui/react";
 import CategoryBreadcrumb from "../CategoryBreadcrumb/CategoryBreadcrumb";
-import {
-  setFromAndToDate,
-  getMonthName,
-  getFromDateFromMonth,
-  getToDateFromMonth,
-} from "./spendingsUtils";
+import { getDateFromMonth, getMonthName } from "./spendingsUtils";
+import { useSpendings } from "../../hooks";
 
 function Spendings() {
   const [currentCategory, setCurrentCategory] = useState(null);
   const currentMonthIndex = useMemo(() => new Date().getMonth(), []);
   const [month, setMonth] = useState(currentMonthIndex);
-  const { setFromAndToDate: setSpendingsFromAndToDate } = useSpendings();
+
+  const [fromDate, setFromDate] = useState(getDateFromMonth(month, 1));
+  const [toDate, setToDate] = useState(getDateFromMonth(month + 1, 0));
+
+  const { spendings, transactions, loading, categories } = useSpendings(
+    fromDate,
+    toDate
+  );
 
   useEffect(() => {
-    setFromAndToDate(month, setSpendingsFromAndToDate);
+    setFromDate(getDateFromMonth(month, 1));
+    setToDate(getDateFromMonth(month + 1, 0));
   }, [month, setMonth]);
 
   return (
@@ -43,6 +47,9 @@ function Spendings() {
       <SpendingsList
         currentCategory={currentCategory}
         setCurrentCategory={setCurrentCategory}
+        spendings={spendings}
+        categories={categories}
+        loading={loading}
       />
       <Text fontSize="2xl" mt="8">
         Transactions
@@ -50,8 +57,9 @@ function Spendings() {
       <Divider mb="2" mt="2" />
       <TransactionList
         categoryId={currentCategory}
-        fromDate={getFromDateFromMonth(month)}
-        toDate={getToDateFromMonth(month)}
+        showCategorized={true}
+        transactions={transactions}
+        loading={loading}
       />
     </>
   );
