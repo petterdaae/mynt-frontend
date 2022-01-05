@@ -1,18 +1,6 @@
-import { createContext, useContext, useState, useEffect } from "react";
-
-const AccountsContext = createContext();
+import { useState, useEffect } from "react";
 
 function useAccounts() {
-  const context = useContext(AccountsContext);
-
-  if (!context) {
-    throw new Error("useAccounts must be used within a AccountsProvider");
-  }
-
-  return context;
-}
-
-function AccountsProvider(props) {
   const [loading, setLoading] = useState(true);
   const [accounts, setAccounts] = useState([]);
   useEffect(() => {
@@ -27,7 +15,7 @@ function AccountsProvider(props) {
       });
   }, [setAccounts, setLoading]);
 
-  return <AccountsContext.Provider value={{ accounts, loading }} {...props} />;
+  return { accounts, loading };
 }
 
-export { AccountsProvider, useAccounts };
+export default useAccounts;
