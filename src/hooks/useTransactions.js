@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { useInvalidation } from "./index";
 
-function useTransactions({ fromDate, toDate }) {
+function useTransactions(fromDate, toDate) {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(false);
   const { transactionsChanged, invalidateTransactions } = useInvalidation();

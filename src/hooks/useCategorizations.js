@@ -21,22 +21,19 @@ function useCategorizations() {
 
   const updateCategorizationsForTransaction = useCallback(
     (transaction, categoryId) => {
-      fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/transactions/update_category`,
-        {
-          method: "PUT",
-          credentials: "include",
-          body: JSON.stringify({
-            transaction_id: transaction.id,
-            categorizations: [
-              {
-                category_id: categoryId,
-                amount: transaction.amount,
-              },
-            ],
-          }),
-        }
-      ).then(() => {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/categorizations`, {
+        method: "PUT",
+        credentials: "include",
+        body: JSON.stringify({
+          transaction_id: transaction.id,
+          categorizations: [
+            {
+              category_id: categoryId,
+              amount: transaction.amount,
+            },
+          ],
+        }),
+      }).then(() => {
         invalidateCategorizations();
       });
     },

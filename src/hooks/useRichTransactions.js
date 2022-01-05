@@ -1,0 +1,1 @@
+function useRichTransactions(fromDate, toDate) {}
