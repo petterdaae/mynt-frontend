@@ -52,7 +52,8 @@ function NewCategory({
     }
 
     if (edit) {
-      updateCategory(category.id, {
+      updateCategory({
+        ...category,
         name: name,
         color: color,
         ignore: ignoreInSummaries,
