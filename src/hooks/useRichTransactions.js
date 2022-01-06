@@ -6,15 +6,9 @@ function useRichTransactions(fromDate, toDate) {
   const transactions = useTransactions(fromDate, toDate);
   const accounts = useAccounts();
   const categories = useCategories();
-  const categorizations = useCategorizations();
-  const loading =
-    transactions.loading ||
-    accounts.loading ||
-    categories.loading ||
-    categorizations.loading;
+  const categorizations = useCategorizations(fromDate, toDate);
 
   const richTransactions = useMemo(() => {
-    if (loading) return [];
     return transactions.transactions.map((transaction) => {
       const categorization = categorizations.categorizations.find(
         (categorization) => categorization.transactionId === transaction.id

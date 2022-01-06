@@ -12,9 +12,9 @@ function SpendingsList({
   return (
     !loading &&
     categories
-      .filter((category) => category.parent_id === currentCategory)
+      .filter((category) => category.parentId === currentCategory)
       .map((category) => {
-        const spending = spendings.find((s) => s.category_id === category.id);
+        const spending = spendings.find((s) => s.category.id === category.id);
         return (
           spending && (
             <div key={category.id}>

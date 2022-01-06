@@ -21,7 +21,7 @@ function Spendings() {
     loading,
     categories,
     updateTransaction,
-    updateTransactionCategorizations,
+    updateCategorizationsForTransaction,
   } = useSpendings(fromDate, toDate);
 
   useEffect(() => {
@@ -44,7 +44,11 @@ function Spendings() {
         setCurrentCategoryId={setCurrentCategory}
       />
       <Divider mb="4" mt="4" />
-      <Summary currentCategory={currentCategory} />
+      <Summary
+        currentCategory={currentCategory}
+        spendings={spendings}
+        loading={loading}
+      />
       <Text fontSize="2xl" mt="8">
         Spendings
       </Text>
@@ -65,8 +69,11 @@ function Spendings() {
         showCategorized={true}
         transactions={transactions}
         loading={loading}
-        updateCategorizationsForTransaction={updateTransactionCategorizations}
+        updateCategorizationsForTransaction={
+          updateCategorizationsForTransaction
+        }
         updateTransaction={updateTransaction}
+        categories={categories}
       />
     </>
   );

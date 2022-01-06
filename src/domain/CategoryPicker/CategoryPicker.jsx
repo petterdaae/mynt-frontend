@@ -36,7 +36,7 @@ function CategoryPicker({ onSelect, categories, loading }) {
                   <CategoryIcon color={category.color} size="sm" />
                   <Text>{category.name}</Text>
                 </HStack>
-                {categories.find((c) => c.parent_id === category.id) && (
+                {categories.find((c) => c.parentId === category.id) && (
                   <Button
                     variant="outline"
                     onClick={(e) => {

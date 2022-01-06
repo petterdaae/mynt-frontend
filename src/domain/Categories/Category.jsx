@@ -63,7 +63,7 @@ function Category({
         onClose={() => setEditCategoryOpen(false)}
         edit={true}
         category={category}
-        parentCategory={category.parent_id}
+        parentCategory={category.parentId}
         addCategory={addCategory}
         updateCategory={updateCategory}
       />

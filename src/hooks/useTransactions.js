@@ -22,7 +22,7 @@ function useTransactions(fromDate, toDate) {
   }, [setLoading, fromDate, toDate, setTransactions, transactionsChanged]);
 
   const update = useCallback((transaction) => {
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/ng/transactions`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/transactions`, {
       method: "PUT",
       credentials: "include",
       body: JSON.stringify({

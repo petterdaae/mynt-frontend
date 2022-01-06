@@ -61,7 +61,7 @@ function NewCategory({
     } else {
       addCategory({
         name: name,
-        parent_id: parentCategory,
+        parentId: parentCategory,
         color: color,
         ignore: ignoreInSummaries,
       });
