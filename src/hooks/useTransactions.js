@@ -3,7 +3,7 @@ import { useInvalidation } from "./index";
 
 function useTransactions(fromDate, toDate) {
   const [transactions, setTransactions] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { transactionsChanged, invalidateTransactions } = useInvalidation();
 
   useEffect(() => {

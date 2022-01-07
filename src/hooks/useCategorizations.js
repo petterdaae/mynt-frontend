@@ -5,7 +5,7 @@ function useCategorizations(fromDate, toDate) {
   const { categorizationsChanged, invalidateCategorizations } =
     useInvalidation();
   const [categorizations, setCategorizations] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);

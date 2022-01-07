@@ -4,7 +4,7 @@ import { useInvalidation } from "./index";
 function useCategories() {
   const { categoriesChanged, invalidateCategories } = useInvalidation();
   const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
