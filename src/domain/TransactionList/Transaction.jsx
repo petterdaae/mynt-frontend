@@ -4,36 +4,14 @@ import Proptypes from "prop-types";
 import EditTransactionModal from "../EditTransaction/EditTransactionModal";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import { useCallback, useMemo, useState, memo } from "react";
-import { useCategories } from "../../hooks/domain/useCategories";
-import { useAccounts } from "../../hooks/domain/useAccounts";
 
-function Transaction({ transaction }) {
-  const { accounts, accountsLoading } = useAccounts();
-  const { categories, categoriesLoading } = useCategories();
-
-  const richTransaction = useMemo(() => {
-    if (accountsLoading || categoriesLoading) return;
-    const account = accounts.find(
-      (account) => account.id === transaction.account_id
-    );
-    const category = categories.find(
-      (category) => category.id === transaction.category_id
-    );
-    return {
-      id: transaction.id,
-      text: transaction.text,
-      amount: transaction.amount,
-      accountingDate: transaction.accounting_date,
-      interestDate: transaction.interest_date,
-      categoryId: category ? category.id : null,
-      categoryName: category ? category.name : "No category",
-      categoryColor: category ? category.color : "lightgray",
-      accountName: account.name,
-      accountNumber: account.account_number,
-      customDate: transaction.customDate,
-    };
-  }, [accounts, categories, transaction, accountsLoading, categoriesLoading]);
-
+function Transaction({
+  transaction,
+  updateCategorizationsForTransaction,
+  updateTransaction,
+  categories,
+  loading,
+}) {
   const [showEditTransactionModal, setShowEditTransactionModal] =
     useState(false);
 
@@ -47,58 +25,63 @@ function Transaction({ transaction }) {
 
   const readableAccountingDate = useMemo(
     () =>
-      formatReadableDate(
-        richTransaction.customDate ?? richTransaction.accountingDate
-      ),
-    [richTransaction]
+      formatReadableDate(transaction.customDate ?? transaction.accountingDate),
+    [transaction]
   );
 
   const formattedCurrency = useMemo(
-    () => formatCurrency(richTransaction.amount),
-    [richTransaction]
+    () => formatCurrency(transaction.amount),
+    [transaction]
   );
 
   return (
-    !accountsLoading &&
-    !categoriesLoading && (
-      <>
-        <HStack
-          justify="space-between"
-          m="4px"
-          p="4px"
-          borderRadius="md"
-          _hover={{ background: "whitesmoke", cursor: "pointer" }}
-          onClick={onClick}
-        >
-          <HStack>
-            <CategoryIcon color={richTransaction.categoryColor} />
-            <VStack align="left" spacing="1px">
-              <Text fontSize="sm">{readableAccountingDate}</Text>
-              <Text fontWeight="bold">{richTransaction.text}</Text>
-              <Text fontSize="sm">{richTransaction.accountName}</Text>
-            </VStack>
-          </HStack>
-          <Box>
-            <Badge
-              colorScheme={richTransaction.amount >= 0 ? "green" : "red"}
-              fontSize="1.0em"
-            >
-              {formattedCurrency}
-            </Badge>
-          </Box>
+    <>
+      <HStack
+        justify="space-between"
+        m="4px"
+        p="4px"
+        borderRadius="md"
+        _hover={{ background: "whitesmoke", cursor: "pointer" }}
+        onClick={onClick}
+      >
+        <HStack>
+          <CategoryIcon color={transaction.category.color} />
+          <VStack align="left" spacing="1px">
+            <Text fontSize="sm">{readableAccountingDate}</Text>
+            <Text fontWeight="bold">{transaction.text}</Text>
+            <Text fontSize="sm">{transaction.account.name}</Text>
+          </VStack>
         </HStack>
-        <EditTransactionModal
-          transaction={richTransaction}
-          isOpen={showEditTransactionModal}
-          onClose={onClose}
-        />
-      </>
-    )
+        <Box>
+          <Badge
+            colorScheme={transaction.amount >= 0 ? "green" : "red"}
+            fontSize="1.0em"
+          >
+            {formattedCurrency}
+          </Badge>
+        </Box>
+      </HStack>
+      <EditTransactionModal
+        transaction={transaction}
+        isOpen={showEditTransactionModal}
+        onClose={onClose}
+        updateCategorizationsForTransaction={
+          updateCategorizationsForTransaction
+        }
+        updateTransaction={updateTransaction}
+        categories={categories}
+        loading={loading}
+      />
+    </>
   );
 }
 
 Transaction.propTypes = {
   transaction: Proptypes.object.isRequired,
+  updateCategorizationsForTransaction: Proptypes.func.isRequired,
+  updateTransaction: Proptypes.func.isRequired,
+  categories: Proptypes.array.isRequired,
+  loading: Proptypes.bool.isRequired,
 };
 
 export default memo(Transaction);

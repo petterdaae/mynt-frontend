@@ -16,15 +16,21 @@ import {
 import PropTypes from "prop-types";
 import ColorPicker from "../../components/color_picker";
 import { useCallback, useState } from "react";
-import { useCategories } from "../../hooks/domain/useCategories";
 
-function NewCategory({ onClose, isOpen, edit, category, parentCategory }) {
+function NewCategory({
+  onClose,
+  isOpen,
+  edit,
+  category,
+  parentCategory,
+  addCategory,
+  updateCategory,
+}) {
   const [name, setName] = useState(edit ? category.name : "");
   const [color, setColor] = useState(edit ? category.color : null);
   const [ignoreInSummaries, setIgnoreInSummaries] = useState(
     edit ? category.ignore : false
   );
-  const { addCategory, updateCategory } = useCategories();
 
   const [nameError, setNameError] = useState(null);
   const [colorError, setColorError] = useState(null);
@@ -46,7 +52,8 @@ function NewCategory({ onClose, isOpen, edit, category, parentCategory }) {
     }
 
     if (edit) {
-      updateCategory(category.id, {
+      updateCategory({
+        ...category,
         name: name,
         color: color,
         ignore: ignoreInSummaries,
@@ -54,7 +61,7 @@ function NewCategory({ onClose, isOpen, edit, category, parentCategory }) {
     } else {
       addCategory({
         name: name,
-        parent_id: parentCategory,
+        parentId: parentCategory,
         color: color,
         ignore: ignoreInSummaries,
       });
@@ -121,6 +128,8 @@ NewCategory.propTypes = {
   edit: PropTypes.bool,
   category: PropTypes.object,
   parentCategory: PropTypes.number,
+  addCategory: PropTypes.func.isRequired,
+  updateCategory: PropTypes.func.isRequired,
 };
 
 export default NewCategory;

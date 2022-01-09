@@ -1,13 +1,11 @@
 import { HStack, Divider, Button, Text } from "@chakra-ui/react";
-import { useCategories } from "../../hooks/domain/useCategories";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import { useState } from "react";
 import { ArrowRightIcon } from "@chakra-ui/icons";
 import PropTypes from "prop-types";
 import CategoryBreadcrumb from "../CategoryBreadcrumb/CategoryBreadcrumb";
 
-function CategoryPicker({ onSelect }) {
-  const { categories, loading } = useCategories();
+function CategoryPicker({ onSelect, categories, loading }) {
   const [currentParentCategoryId, setCurrentParentCategoryId] = useState(null);
 
   return (
@@ -20,7 +18,7 @@ function CategoryPicker({ onSelect }) {
         />
         <Divider />
         {categories
-          .filter((category) => category.parent_id === currentParentCategoryId)
+          .filter((category) => category.parentId === currentParentCategoryId)
           .map((category) => (
             <div key={category.id}>
               <HStack
@@ -38,7 +36,7 @@ function CategoryPicker({ onSelect }) {
                   <CategoryIcon color={category.color} size="sm" />
                   <Text>{category.name}</Text>
                 </HStack>
-                {categories.find((c) => c.parent_id === category.id) && (
+                {categories.find((c) => c.parentId === category.id) && (
                   <Button
                     variant="outline"
                     onClick={(e) => {
@@ -61,6 +59,8 @@ function CategoryPicker({ onSelect }) {
 
 CategoryPicker.propTypes = {
   onSelect: PropTypes.func.isRequired,
+  categories: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default CategoryPicker;

@@ -24,7 +24,7 @@ function Filters({
       <Checkbox
         size="lg"
         isChecked={showCategorized}
-        onChange={(e) => setShowCategorized((prev) => !prev)}
+        onChange={() => setShowCategorized((prev) => !prev)}
       >
         Categorized
       </Checkbox>

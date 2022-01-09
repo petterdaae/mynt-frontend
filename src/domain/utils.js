@@ -25,4 +25,8 @@ function formatCurrency(amount) {
   return `${integer.toLocaleString().replace(",", " ")},${decimal}`;
 }
 
-export { formatDate, formatReadableDate, formatCurrency };
+function mod(n, m) {
+  return ((n % m) + m) % m;
+}
+
+export { formatDate, formatReadableDate, formatCurrency, mod };

@@ -11,7 +11,6 @@ import {
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
-import { useTransactions } from "../../hooks/domain/useTransactions";
 import CustomDate from "./CustomDate";
 import { useCallback, useState } from "react";
 
@@ -20,17 +19,16 @@ function EditTransactionModalContent({
   onClose,
   toggleCategoryPicker,
   newCategory,
+  updateCategorizationsForTransaction,
+  updateTransaction,
 }) {
-  const { updateTransactionCategory, updateTransactionCustomDate } =
-    useTransactions();
-
   const categoryColor = newCategory
     ? newCategory.color
-    : transaction.categoryColor;
+    : transaction.category.color;
 
   const categoryName = newCategory
     ? newCategory.name
-    : transaction.categoryName;
+    : transaction.category.name;
 
   const [customDateError, setCustomDateError] = useState(null);
 
@@ -43,7 +41,7 @@ function EditTransactionModalContent({
   const [customDateOpen, setCustomDateOpen] = useState(transaction.customDate);
 
   const newCategoryChanged =
-    newCategory && newCategory.id !== transaction.categoryId;
+    newCategory && newCategory.id !== transaction.category.id;
 
   const newCustomDateChanged = customDateOpen
     ? !customDateError && customDate !== transaction.customDate
@@ -52,17 +50,18 @@ function EditTransactionModalContent({
   const onSave = useCallback(() => {
     onClose();
     if (newCategoryChanged) {
-      updateTransactionCategory(transaction, newCategory.id);
+      updateCategorizationsForTransaction(transaction, newCategory.id);
     }
     if (newCustomDateChanged) {
       const nullableNewCustomDate = customDateOpen ? customDate : null;
-      updateTransactionCustomDate(transaction, nullableNewCustomDate);
+      updateTransaction({ ...transaction, customDate: nullableNewCustomDate });
     }
   }, [
     transaction,
     newCategory,
     onClose,
-    updateTransactionCategory,
+    updateTransaction,
+    updateCategorizationsForTransaction,
     newCategoryChanged,
     newCustomDateChanged,
     customDate,
@@ -88,7 +87,7 @@ function EditTransactionModalContent({
           />
           <Divider />
           <Text fontSize="sm">Account</Text>
-          <Text fontWeight="semibold">{transaction.accountName}</Text>
+          <Text fontWeight="semibold">{transaction.account.name}</Text>
           <Divider />
           <HStack justify="space-between">
             <HStack>
@@ -122,6 +121,9 @@ EditTransactionModalContent.propTypes = {
   onClose: PropTypes.func.isRequired,
   toggleCategoryPicker: PropTypes.func.isRequired,
   newCategory: PropTypes.object,
+  updateCategorizationsForTransaction: PropTypes.func.isRequired,
+  updateTransaction: PropTypes.func.isRequired,
+  categories: PropTypes.array.isRequired,
 };
 
 export default EditTransactionModalContent;

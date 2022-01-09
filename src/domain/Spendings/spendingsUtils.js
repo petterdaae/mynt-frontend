@@ -1,24 +1,9 @@
-import { formatDate } from "../utils";
+import { formatDate, mod } from "../utils";
 
-function setFromAndToDate(month, setFromAndToDate) {
+function getDateFromMonth(month, day) {
   const currentYear = new Date().getFullYear();
   const year = currentYear + Math.floor(month / 12);
-  const fromDate = new Date(year, month % 12, 1);
-  const toDate = new Date(year, (month % 12) + 1, 0);
-  setFromAndToDate(formatDate(fromDate), formatDate(toDate));
-}
-
-function getFromDateFromMonth(month) {
-  const currentYear = new Date().getFullYear();
-  const year = currentYear + Math.floor(month / 12);
-  const date = new Date(year, month % 12, 1);
-  return formatDate(date);
-}
-
-function getToDateFromMonth(month) {
-  const currentYear = new Date().getFullYear();
-  const year = currentYear + Math.floor(month / 12);
-  const date = new Date(year, (month % 12) + 1, 0);
+  const date = new Date(year, mod(month, 12), day);
   return formatDate(date);
 }
 
@@ -40,9 +25,4 @@ function getMonthName(monthIndex) {
   return months[monthIndex];
 }
 
-export {
-  setFromAndToDate,
-  getMonthName,
-  getFromDateFromMonth,
-  getToDateFromMonth,
-};
+export { getDateFromMonth, getMonthName };

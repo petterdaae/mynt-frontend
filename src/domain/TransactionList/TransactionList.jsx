@@ -1,20 +1,23 @@
 import Transaction from "./Transaction";
-import { useTransactions } from "../../hooks/domain/useTransactions";
 import { Divider, Spinner, Center } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-import { useEffect } from "react";
 
-function TransactionList({ categoryId, fromDate, toDate }) {
-  let { transactions, loading, setFromAndToDate } = useTransactions();
+function TransactionList({
+  categoryId,
+  showCategorized,
+  transactions,
+  loading,
+  updateCategorizationsForTransaction,
+  updateTransaction,
+  categories,
+}) {
+  if (categoryId !== undefined) {
+    transactions = transactions.filter((t) => t.category.id === categoryId);
+  }
 
-  useEffect(() => {
-    setFromAndToDate(fromDate, toDate);
-  }, [fromDate, toDate, setFromAndToDate]);
-
-  transactions =
-    categoryId !== undefined
-      ? transactions.filter((t) => t.category_id === categoryId)
-      : transactions;
+  if (!showCategorized) {
+    transactions = transactions.filter((t) => !t.category);
+  }
 
   return loading ? (
     <Center mt="8">
@@ -23,7 +26,15 @@ function TransactionList({ categoryId, fromDate, toDate }) {
   ) : (
     transactions.map((transaction) => (
       <div key={transaction.id}>
-        <Transaction transaction={transaction} />
+        <Transaction
+          transaction={transaction}
+          updateCategorizationsForTransaction={
+            updateCategorizationsForTransaction
+          }
+          updateTransaction={updateTransaction}
+          categories={categories}
+          loading={loading}
+        />
         <Divider />
       </div>
     ))
@@ -32,8 +43,12 @@ function TransactionList({ categoryId, fromDate, toDate }) {
 
 TransactionList.propTypes = {
   categoryId: PropTypes.number,
-  fromDate: PropTypes.string,
-  toDate: PropTypes.string,
+  showCategorized: PropTypes.bool.isRequired,
+  transactions: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
+  updateCategorizationsForTransaction: PropTypes.func.isRequired,
+  updateTransaction: PropTypes.func.isRequired,
+  categories: PropTypes.array.isRequired,
 };
 
 export default TransactionList;

@@ -14,12 +14,16 @@ import { useState } from "react";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import PropTypes from "prop-types";
 import NewCategory from "./NewCategory";
-import { useCategories } from "../../hooks/domain/useCategories";
 
-function Category({ category, setCurrentCategory }) {
+function Category({
+  category,
+  setCurrentCategory,
+  deleteCategory,
+  addCategory,
+  updateCategory,
+}) {
   const [editCategoryOpen, setEditCategoryOpen] = useState(false);
   const [showDeleteCategory, setShowDeleteCategory] = useState(false);
-  const { deleteCategory } = useCategories();
   return (
     <>
       <HStack
@@ -59,7 +63,9 @@ function Category({ category, setCurrentCategory }) {
         onClose={() => setEditCategoryOpen(false)}
         edit={true}
         category={category}
-        parentCategory={category.parent_id}
+        parentCategory={category.parentId}
+        addCategory={addCategory}
+        updateCategory={updateCategory}
       />
       <Modal
         isOpen={showDeleteCategory}
@@ -98,6 +104,9 @@ function Category({ category, setCurrentCategory }) {
 Category.propTypes = {
   category: PropTypes.object.isRequired,
   setCurrentCategory: PropTypes.func.isRequired,
+  deleteCategory: PropTypes.func.isRequired,
+  addCategory: PropTypes.func.isRequired,
+  updateCategory: PropTypes.func.isRequired,
 };
 
 export default Category;
