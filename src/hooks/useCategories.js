@@ -28,7 +28,9 @@ function useCategories() {
         invalidateCategories();
       });
       setCategories((prev) =>
-        [...prev, newCategory].sort((a, b) => a.name.localeCompare(b.name))
+        [...prev, { ...newCategory, id: "temporary-id" }].sort((a, b) =>
+          a.name.localeCompare(b.name)
+        )
       );
     },
     [setCategories, invalidateCategories]

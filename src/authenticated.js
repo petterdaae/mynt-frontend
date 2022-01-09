@@ -70,25 +70,25 @@ function Authenticated({ children }) {
         <TabList>
           <NavigationItem
             path="/authenticated/transactions"
-            name="Transactions"
+            name="Tr."
             setTabIndex={setTabIndex}
             tabIndex={0}
           />
           <NavigationItem
             path="/authenticated/categories"
-            name="Categories"
+            name="Ca."
             setTabIndex={setTabIndex}
             tabIndex={1}
           />
           <NavigationItem
             path="/authenticated/spendings"
-            name="Spendings"
+            name="Sp."
             setTabIndex={setTabIndex}
             tabIndex={2}
           />
           <NavigationItem
             path="/authenticated/settings"
-            name="Settings"
+            name="Se."
             setTabIndex={setTabIndex}
             tabIndex={3}
           />
