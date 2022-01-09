@@ -9,7 +9,10 @@ function useSpendings(fromDate, toDate) {
     update,
     updateCategorizationsForTransaction,
   } = useRichTransactions(fromDate, toDate);
-  const spendings = useMemo(() => getSpendings(transactions), [transactions]);
+  const spendings = useMemo(
+    () => getSpendings(transactions, categories),
+    [transactions, categories]
+  );
   return {
     transactions,
     spendings,
@@ -20,7 +23,7 @@ function useSpendings(fromDate, toDate) {
   };
 }
 
-function getSpendings(transactions) {
+function getSpendings(transactions, categories) {
   const spendings = new Map();
   for (const transaction of transactions) {
     if (!transaction.categorization) continue;
@@ -46,20 +49,31 @@ function getSpendings(transactions) {
     positiveAmount: 0,
     negativeAmount: 0,
   });
-  groupSpendings(null, spendings);
+  groupSpendings(null, spendings, categories);
   return Array.from(spendings.values());
 }
 
-function groupSpendings(parentCategoryId, spendings) {
+function groupSpendings(parentCategoryId, spendings, categories) {
   const current = spendings.get(parentCategoryId);
+
   for (const spending of spendings.values()) {
     if (spending.category.parentId === parentCategoryId) {
       current.amount += spending.amount;
       current.positiveAmount += spending.positiveAmount;
       current.negativeAmount += spending.negativeAmount;
-      groupSpendings(spending.category.id, spendings);
+
+      const subCategories = groupSpendings(spending.category.id, spendings);
+      current.amount += subCategories.amount;
+      current.positiveAmount += subCategories.positiveAmount;
+      current.negativeAmount += subCategories.negativeAmount;
     }
   }
+
+  return {
+    amount: current.amount,
+    positiveAmount: current.positiveAmount,
+    negativeAmount: current.negativeAmount,
+  };
 }
 
 export default useSpendings;
