@@ -1,9 +1,9 @@
-import { formatDate } from "../utils";
+import { formatDate, mod } from "../utils";
 
 function getDateFromMonth(month, day) {
   const currentYear = new Date().getFullYear();
   const year = currentYear + Math.floor(month / 12);
-  const date = new Date(year, month % 12, day);
+  const date = new Date(year, mod(month, 12), day);
   return formatDate(date);
 }
 

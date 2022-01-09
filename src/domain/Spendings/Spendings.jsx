@@ -6,6 +6,7 @@ import { Text, Divider, Button, HStack } from "@chakra-ui/react";
 import CategoryBreadcrumb from "../CategoryBreadcrumb/CategoryBreadcrumb";
 import { getDateFromMonth, getMonthName } from "./spendingsUtils";
 import { useSpendings } from "../../hooks";
+import { mod } from "../utils";
 
 function Spendings() {
   const [currentCategory, setCurrentCategory] = useState(null);
@@ -35,7 +36,7 @@ function Spendings() {
         <Button onClick={() => setMonth((prev) => prev - 1)}>
           Previous month
         </Button>
-        <Text>{getMonthName(month % 12)}</Text>
+        <Text>{getMonthName(mod(month, 12))}</Text>
         <Button onClick={() => setMonth((prev) => prev + 1)}>Next month</Button>
       </HStack>
       <CategoryBreadcrumb
