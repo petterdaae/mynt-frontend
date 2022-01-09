@@ -33,11 +33,13 @@ function Spendings() {
   return (
     <>
       <HStack justify="space-between">
-        <Button onClick={() => setMonth((prev) => prev - 1)}>
+        <Button onClick={() => setMonth((prev) => prev - 1)} disabled={loading}>
           Previous month
         </Button>
         <Text>{getMonthName(mod(month, 12))}</Text>
-        <Button onClick={() => setMonth((prev) => prev + 1)}>Next month</Button>
+        <Button onClick={() => setMonth((prev) => prev + 1)} disabled={loading}>
+          Next month
+        </Button>
       </HStack>
       <CategoryBreadcrumb
         categories={categories}
