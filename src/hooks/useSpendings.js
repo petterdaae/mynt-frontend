@@ -42,14 +42,16 @@ function calculateSpendings(id, categories, transactions) {
   };
 
   // Add amounts of transactions that are in the category
-  for (const transaction of transactions) {
-    if (!transaction.categorization) continue;
-    if (transaction.categorization.categoryId === id) {
-      spending.amount += transaction.amount;
-      spending.positiveAmount +=
-        transaction.amount > 0 ? transaction.amount : 0;
-      spending.negativeAmount +=
-        transaction.amount < 0 ? transaction.amount : 0;
+  if (!spending.category.ignore) {
+    for (const transaction of transactions) {
+      if (!transaction.categorization) continue;
+      if (transaction.categorization.categoryId === id) {
+        spending.amount += transaction.amount;
+        spending.positiveAmount +=
+          transaction.amount > 0 ? transaction.amount : 0;
+        spending.negativeAmount +=
+          transaction.amount < 0 ? transaction.amount : 0;
+      }
     }
   }
 
@@ -60,9 +62,11 @@ function calculateSpendings(id, categories, transactions) {
       categories,
       transactions
     );
-    spending.amount += childSpending.amount;
-    spending.positiveAmount += childSpending.positiveAmount;
-    spending.negativeAmount += childSpending.negativeAmount;
+    if (!spending.category.ignore) {
+      spending.amount += childSpending.amount;
+      spending.positiveAmount += childSpending.positiveAmount;
+      spending.negativeAmount += childSpending.negativeAmount;
+    }
     spendings.push(childSpending);
   }
 
