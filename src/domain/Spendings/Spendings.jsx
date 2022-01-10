@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import TransactionList from "../TransactionList/TransactionList";
 import SpendingsList from "./SpendingsList";
 import Summary from "./Summary";
@@ -12,9 +12,8 @@ function Spendings() {
   const [currentCategory, setCurrentCategory] = useState(null);
   const currentMonthIndex = useMemo(() => new Date().getMonth(), []);
   const [month, setMonth] = useState(currentMonthIndex);
-
-  const [fromDate, setFromDate] = useState(getDateFromMonth(month, 1));
-  const [toDate, setToDate] = useState(getDateFromMonth(month + 1, 0));
+  const fromDate = useMemo(() => getDateFromMonth(month, 1), [month]);
+  const toDate = useMemo(() => getDateFromMonth(month + 1, 0), [month]);
 
   const {
     spendings,
@@ -24,11 +23,6 @@ function Spendings() {
     updateTransaction,
     updateCategorizationsForTransaction,
   } = useSpendings(fromDate, toDate);
-
-  useEffect(() => {
-    setFromDate(getDateFromMonth(month, 1));
-    setToDate(getDateFromMonth(month + 1, 0));
-  }, [month, setMonth]);
 
   return (
     <>
