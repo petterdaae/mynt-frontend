@@ -10,8 +10,8 @@ function useSpendings(fromDate, toDate) {
     updateCategorizationsForTransaction,
   } = useRichTransactions(fromDate, toDate);
   const spendings = useMemo(
-    () => getSpendings(transactions, categories),
-    [transactions, categories]
+    () => (loading ? [] : calculateSpendings(null, categories, transactions)),
+    [categories, transactions]
   );
   return {
     transactions,
@@ -23,57 +23,50 @@ function useSpendings(fromDate, toDate) {
   };
 }
 
-function getSpendings(transactions, categories) {
-  const spendings = new Map();
-  for (const transaction of transactions) {
-    if (!transaction.categorization) continue;
-    const spending = spendings.get(transaction.category.id);
-    if (spending) {
-      spending.amount += transaction.amount;
-    } else {
-      spendings.set(transaction.category.id, {
-        category: transaction.category,
-        amount: transaction.amount,
-        positiveAmount: transaction.amount >= 0 ? transaction.amount : 0,
-        negativeAmount: transaction.amount < 0 ? transaction.amount : 0,
-      });
-    }
-  }
-  spendings.set(null, {
-    category: {
+// Recursively calculates spendings for each category with subcategories
+function calculateSpendings(id, categories, transactions) {
+  const spendings = [];
+
+  // Create a new spending for each category
+  const spending = {
+    category: categories.find((c) => c.id === id) ?? {
       id: null,
-      color: "lightgray",
       name: "Uncategorized",
+      parentId: null,
+      color: "lightgray",
+      ignore: false,
     },
     amount: 0,
     positiveAmount: 0,
     negativeAmount: 0,
-  });
-  groupSpendings(null, spendings, categories);
-  return Array.from(spendings.values());
-}
+  };
 
-function groupSpendings(parentCategoryId, spendings, categories) {
-  const current = spendings.get(parentCategoryId);
-
-  for (const spending of spendings.values()) {
-    if (spending.category.parentId === parentCategoryId) {
-      current.amount += spending.amount;
-      current.positiveAmount += spending.positiveAmount;
-      current.negativeAmount += spending.negativeAmount;
-
-      const subCategories = groupSpendings(spending.category.id, spendings);
-      current.amount += subCategories.amount;
-      current.positiveAmount += subCategories.positiveAmount;
-      current.negativeAmount += subCategories.negativeAmount;
+  // Add amounts of transactions that are in the category
+  for (const transaction of transactions) {
+    if (!transaction.categorization) continue;
+    if (transaction.categorization.categoryId === id) {
+      spending.amount += transaction.amount;
+      spending.positiveAmount +=
+        transaction.amount > 0 ? transaction.amount : 0;
+      spending.negativeAmount +=
+        transaction.amount < 0 ? transaction.amount : 0;
     }
   }
 
-  return {
-    amount: current.amount,
-    positiveAmount: current.positiveAmount,
-    negativeAmount: current.negativeAmount,
-  };
+  // Recursively add amounts of transactions that are in subcategories
+  for (const child of categories.filter((c) => c.parentId === id)) {
+    const [childSpending] = calculateSpendings(
+      child.id,
+      categories,
+      transactions
+    );
+    spending.amount += childSpending.amount;
+    spending.positiveAmount += childSpending.positiveAmount;
+    spending.negativeAmount += childSpending.negativeAmount;
+    spendings.push(childSpending);
+  }
+
+  return [spending, ...spendings];
 }
 
 export default useSpendings;
