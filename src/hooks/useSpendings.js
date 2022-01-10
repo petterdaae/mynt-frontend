@@ -13,7 +13,6 @@ function useSpendings(fromDate, toDate) {
     () => (loading ? [] : calculateSpendings(null, categories, transactions)),
     [categories, transactions]
   );
-  console.log(spendings);
   return {
     transactions,
     spendings,
