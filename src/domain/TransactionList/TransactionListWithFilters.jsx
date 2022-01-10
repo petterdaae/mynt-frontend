@@ -2,24 +2,24 @@ import { Divider } from "@chakra-ui/react";
 import TransactionList from "./TransactionList";
 import Filters from "./Filters";
 import { useRichTransactions } from "../../hooks";
-import { useEffect, useState } from "react";
+import { useState, useMemo } from "react";
 import { formatDate } from "../utils";
 
 function TransactionListWithFilters() {
   const [showCategorized, setShowCategorized] = useState(true);
   const [monthsBack, setMonthsBack] = useState(1);
 
-  const future = new Date();
-  future.setYear(3000);
-  const toDate = formatDate(future);
-  const [fromDate, setFromDate] = useState(toDate);
+  const toDate = useMemo(() => {
+    const future = new Date();
+    future.setYear(3000);
+    return formatDate(future);
+  }, []);
 
-  useEffect(() => {
-    let fromDate = new Date();
-    fromDate.setMonth(fromDate.getMonth() - monthsBack);
-    fromDate = formatDate(fromDate);
-    setFromDate(fromDate);
-  }, [monthsBack, setFromDate]);
+  const fromDate = useMemo(() => {
+    const past = new Date();
+    past.setMonth(past.getMonth() - monthsBack);
+    return formatDate(past);
+  }, [monthsBack]);
 
   const {
     transactions,
