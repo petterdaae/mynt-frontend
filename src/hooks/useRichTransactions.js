@@ -45,8 +45,6 @@ function useRichTransactions(fromDate, toDate) {
     });
   }, [transactions, accounts, categories, categorizations, loading]);
 
-  console.log(richTransactions, loading);
-
   return {
     transactions: richTransactions,
     accounts,

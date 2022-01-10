@@ -2,10 +2,11 @@ import { useState, useMemo } from "react";
 import TransactionList from "../TransactionList/TransactionList";
 import SpendingsList from "./SpendingsList";
 import Summary from "./Summary";
-import { Text, Divider, Button, HStack } from "@chakra-ui/react";
+import { Text, Divider, HStack, IconButton } from "@chakra-ui/react";
 import CategoryBreadcrumb from "../CategoryBreadcrumb/CategoryBreadcrumb";
 import { getDateFromMonth, getMonthName } from "./spendingsUtils";
 import { useSpendings } from "../../hooks";
+import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import { mod } from "../utils";
 
 function Spendings() {
@@ -27,13 +28,17 @@ function Spendings() {
   return (
     <>
       <HStack justify="space-between">
-        <Button onClick={() => setMonth((prev) => prev - 1)} disabled={loading}>
-          Previous month
-        </Button>
+        <IconButton
+          onClick={() => setMonth((prev) => prev - 1)}
+          disabled={loading}
+          icon={<ArrowBackIcon />}
+        />
         <Text>{getMonthName(mod(month, 12))}</Text>
-        <Button onClick={() => setMonth((prev) => prev + 1)} disabled={loading}>
-          Next month
-        </Button>
+        <IconButton
+          onClick={() => setMonth((prev) => prev + 1)}
+          disabled={loading}
+          icon={<ArrowForwardIcon />}
+        />
       </HStack>
       <CategoryBreadcrumb
         categories={categories}
