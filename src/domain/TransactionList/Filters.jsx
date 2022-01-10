@@ -13,7 +13,7 @@ function Filters({
       <Select
         value={monthsBack}
         onChange={(e) => {
-          setMonthsBack(e.target.value);
+          setMonthsBack(parseInt(e.target.value));
         }}
       >
         <option value={1}>Last 30 days</option>

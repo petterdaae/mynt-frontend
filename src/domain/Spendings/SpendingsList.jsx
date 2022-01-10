@@ -32,11 +32,14 @@ function SpendingsList({
 }
 
 SpendingsList.propTypes = {
-  currentCategory: PropTypes.number,
-  setCurrentCategory: PropTypes.func,
-  spendings: PropTypes.array,
-  categories: PropTypes.array,
-  loading: PropTypes.bool,
+  currentCategory: PropTypes.oneOfType([
+    PropTypes.number.isRequired,
+    PropTypes.oneOf([null]).isRequired,
+  ]),
+  setCurrentCategory: PropTypes.func.isRequired,
+  spendings: PropTypes.array.isRequired,
+  categories: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default SpendingsList;
