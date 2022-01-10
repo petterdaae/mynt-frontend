@@ -1,7 +1,8 @@
 import { useCategories } from "../../hooks";
 import { useState } from "react";
 import Category from "./Category";
-import { Divider, HStack, Button } from "@chakra-ui/react";
+import { Divider, HStack, IconButton } from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
 import CategoryBreadcrumb from "../CategoryBreadcrumb/CategoryBreadcrumb";
 import NewCategory from "./NewCategory";
 
@@ -18,9 +19,12 @@ function Categories() {
           currentCategoryId={currentCategory}
           setCurrentCategoryId={setCurrentCategory}
         />
-        <Button colorScheme="green" onClick={() => setNewCategoryOpen(true)}>
-          Create
-        </Button>
+        <IconButton
+          aria-label="New category"
+          icon={<AddIcon />}
+          colorScheme="green"
+          onClick={() => setNewCategoryOpen(true)}
+        />
       </HStack>
       <Divider />
       {!loading &&

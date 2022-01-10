@@ -9,7 +9,9 @@ import {
   ModalBody,
   ModalFooter,
   ModalCloseButton,
+  IconButton,
 } from "@chakra-ui/react";
+import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import PropTypes from "prop-types";
@@ -39,23 +41,23 @@ function Category({
           <Text>{category.name}</Text>
         </HStack>
         <HStack>
-          <Button
+          <IconButton
+            aria-label="Edit category"
+            icon={<EditIcon />}
             onClick={(e) => {
               setEditCategoryOpen(true);
               e.stopPropagation();
             }}
-          >
-            Edit
-          </Button>
-          <Button
+          />
+          <IconButton
+            aria-label="Delete category"
+            icon={<DeleteIcon />}
             colorScheme="red"
             onClick={(e) => {
               setShowDeleteCategory(true);
               e.stopPropagation();
             }}
-          >
-            Delete
-          </Button>
+          />
         </HStack>
       </HStack>
       <NewCategory

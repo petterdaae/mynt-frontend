@@ -3,50 +3,56 @@ import { useTransactions, useAccounts, useCategories } from "./index";
 import useCategorizations from "./useCategorizations";
 
 function useRichTransactions(fromDate, toDate) {
-  const transactions = useTransactions(fromDate, toDate);
-  const accounts = useAccounts();
-  const categories = useCategories();
-  const categorizations = useCategorizations(fromDate, toDate);
+  const { categories, loading: categoriesLoading } = useCategories();
+  const { accounts, loading: accountsLoading } = useAccounts();
+  const {
+    transactions,
+    update,
+    loading: transactionsLoading,
+  } = useTransactions(fromDate, toDate);
+  const {
+    categorizations,
+    loading: categorizationsLoading,
+    updateCategorizationsForTransaction,
+  } = useCategorizations(fromDate, toDate);
+
+  const loading =
+    transactionsLoading ||
+    accountsLoading ||
+    categoriesLoading ||
+    categorizationsLoading;
 
   const richTransactions = useMemo(() => {
-    return transactions.transactions.map((transaction) => {
-      const categorization = categorizations.categorizations.find(
-        (categorization) => categorization.transactionId === transaction.id
+    if (loading) return [];
+    return transactions.map((t) => {
+      const categorization = categorizations.find(
+        (c) => c.transactionId === t.id
       );
-      const account = accounts.accounts.find(
-        (account) => account.id === transaction.accountId
-      );
+      const account = accounts.find((a) => a.id === t.accountId);
       const category = categorization
-        ? categories.categories.find(
-            (category) => category.id === categorization.categoryId
-          )
+        ? categories.find((c) => c.id === categorization.categoryId)
         : {
             id: null,
             color: "lightgray",
             name: "Uncategorized",
           };
       return {
-        ...transaction,
+        ...t,
         account,
         category,
         categorization,
       };
     });
-  }, [transactions, accounts, categories, categorizations]);
+  }, [transactions, accounts, categories, categorizations, loading]);
 
   return {
     transactions: richTransactions,
-    accounts: accounts.accounts,
-    categories: categories.categories,
+    accounts,
+    categories,
     categorizations,
-    update: transactions.update,
-    updateCategorizationsForTransaction:
-      categorizations.updateCategorizationsForTransaction,
-    loading:
-      transactions.loading ||
-      accounts.loading ||
-      categories.loading ||
-      categorizations.loading,
+    update,
+    updateCategorizationsForTransaction,
+    loading,
   };
 }
 
