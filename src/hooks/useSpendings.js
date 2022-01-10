@@ -13,6 +13,7 @@ function useSpendings(fromDate, toDate) {
     () => (loading ? [] : calculateSpendings(null, categories, transactions)),
     [categories, transactions]
   );
+  console.log(spendings);
   return {
     transactions,
     spendings,
@@ -57,17 +58,17 @@ function calculateSpendings(id, categories, transactions) {
 
   // Recursively add amounts of transactions that are in subcategories
   for (const child of categories.filter((c) => c.parentId === id)) {
-    const [childSpending] = calculateSpendings(
+    const childSpendings = calculateSpendings(
       child.id,
       categories,
       transactions
     );
     if (!spending.category.ignore) {
-      spending.amount += childSpending.amount;
-      spending.positiveAmount += childSpending.positiveAmount;
-      spending.negativeAmount += childSpending.negativeAmount;
+      spending.amount += childSpendings[0].amount;
+      spending.positiveAmount += childSpendings[0].positiveAmount;
+      spending.negativeAmount += childSpendings[0].negativeAmount;
     }
-    spendings.push(childSpending);
+    Array.prototype.push.apply(spendings, childSpendings);
   }
 
   return [spending, ...spendings];
