@@ -95,7 +95,7 @@ function NewCategory({
             <Divider />
             <Checkbox
               isChecked={ignoreInSummaries}
-              onChange={() => setIgnoreInSummaries((prev) => !prev)}
+              onChange={(e) => setIgnoreInSummaries(e.target.checked)}
             >
               Ignore in spendings
             </Checkbox>
