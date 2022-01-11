@@ -27,7 +27,7 @@ function CategoryBreadcrumb({
           <BreadcrumbLink>
             <HStack>
               <CategoryIcon color="lightgrey" size="3xs" mr="1" />
-              <Text>Top-level categories</Text>
+              <Text>Top</Text>
             </HStack>
           </BreadcrumbLink>
         </BreadcrumbItem>
