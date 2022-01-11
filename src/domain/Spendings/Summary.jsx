@@ -12,7 +12,7 @@ function Summary({ currentCategory, spendings, loading }) {
   return loading ? (
     <></>
   ) : (
-    <VStack align="left">
+    <VStack align="left" m="2">
       <HStack justify="space-between">
         <Text fontSize="sm">Spent</Text>
         <Badge colorScheme="red" fontSize="1.0em">
