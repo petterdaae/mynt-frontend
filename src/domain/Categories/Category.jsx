@@ -82,7 +82,7 @@ function Category({
           </ModalBody>
           <ModalFooter>
             <Button
-              variantColor="red"
+              colorScheme="red"
               onClick={() => {
                 deleteCategory(category.id);
                 setShowDeleteCategory(false);
