@@ -27,7 +27,7 @@ function Spendings() {
 
   return (
     <>
-      <HStack justify="space-between">
+      <HStack justify="space-between" m="2">
         <IconButton
           onClick={() => setMonth((prev) => prev - 1)}
           disabled={loading}
@@ -40,6 +40,7 @@ function Spendings() {
           icon={<ArrowForwardIcon />}
         />
       </HStack>
+      <Divider />
       <CategoryBreadcrumb
         categories={categories}
         currentCategoryId={currentCategory}
