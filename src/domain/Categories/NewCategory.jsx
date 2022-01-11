@@ -12,6 +12,8 @@ import {
   Divider,
   Checkbox,
   Text,
+  InputGroup,
+  InputLeftElement,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import ColorPicker from "../../components/color_picker";
@@ -28,16 +30,21 @@ function NewCategory({
 }) {
   const [name, setName] = useState(edit ? category.name : "");
   const [color, setColor] = useState(edit ? category.color : null);
+  const [budget, setBudget] = useState(
+    edit ? (category.budget ? category.budget / 100 : "") : ""
+  );
   const [ignoreInSummaries, setIgnoreInSummaries] = useState(
     edit ? category.ignore : false
   );
 
   const [nameError, setNameError] = useState(null);
   const [colorError, setColorError] = useState(null);
+  const [budgetError, setBudgetError] = useState(null);
 
   const onSave = useCallback(() => {
     const nameInvalid = name.trim().length === 0;
     const colorInvalid = color === null;
+    const budgetInvalid = !(budget === "" || parseInt(budget, 10) >= 0);
 
     if (nameInvalid) {
       setNameError("Name is required");
@@ -47,7 +54,13 @@ function NewCategory({
       setColorError("Color is required");
     }
 
-    if (colorInvalid || nameInvalid) {
+    if (budgetInvalid) {
+      setBudgetError("Budget should be an integer");
+    }
+
+    console.log(budget, budgetInvalid);
+
+    if (colorInvalid || nameInvalid || budgetInvalid) {
       return;
     }
 
@@ -57,6 +70,7 @@ function NewCategory({
         name: name,
         color: color,
         ignore: ignoreInSummaries,
+        budget: budget === "" ? null : parseInt(budget, 10) * 100,
       });
     } else {
       addCategory({
@@ -64,6 +78,7 @@ function NewCategory({
         parentId: parentCategory,
         color: color,
         ignore: ignoreInSummaries,
+        budget: budget === "" ? null : parseInt(budget, 10) * 100,
       });
     }
 
@@ -71,7 +86,22 @@ function NewCategory({
     setName(edit ? name : "");
     setColor(edit ? color : null);
     setIgnoreInSummaries(edit ? ignoreInSummaries : false);
-  }, [onClose, name, color, ignoreInSummaries, setNameError, setColorError]);
+    setBudget(edit ? budget ?? "" : "");
+  }, [
+    onClose,
+    name,
+    color,
+    ignoreInSummaries,
+    budget,
+    setNameError,
+    setColorError,
+    setBudgetError,
+    edit,
+    category,
+    parentCategory,
+    addCategory,
+    updateCategory,
+  ]);
 
   return (
     <Modal onClose={onClose} isOpen={isOpen} size="xl">
@@ -108,6 +138,24 @@ function NewCategory({
               }}
               error={colorError}
             />
+            <Divider />
+            <InputGroup>
+              <InputLeftElement
+                pointerEvents="none"
+                color="gray.300"
+                fontSize="1.2em"
+              >
+                $
+              </InputLeftElement>
+              <Input
+                placeholder="Enter budget"
+                value={budget}
+                onChange={(e) => setBudget(e.target.value)}
+              />
+            </InputGroup>
+            <Text color="red" size="sm">
+              {budgetError}
+            </Text>
             <Divider />
           </VStack>
         </ModalBody>
