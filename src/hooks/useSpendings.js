@@ -59,6 +59,10 @@ function calculateSpendings(id, categories, transactions) {
     }
   }
 
+  spending.estimated = category.budget
+    ? Math.min(spending.negativeAmount, -spending.budget)
+    : spending.negativeAmount;
+
   // Recursively add amounts of transactions that are in subcategories
   for (const child of categories.filter((c) => c.parentId === id)) {
     const childSpendings = calculateSpendings(
@@ -71,15 +75,11 @@ function calculateSpendings(id, categories, transactions) {
       spending.positiveAmount += childSpendings[0].positiveAmount;
       spending.negativeAmount += childSpendings[0].negativeAmount;
       spending.budget += childSpendings[0].budget ?? 0;
+      spending.estimated += childSpendings[0].estimated;
     }
 
     Array.prototype.push.apply(spendings, childSpendings);
   }
-
-  spending.estimated = Math.min(
-    -spending.budget + spending.negativeAmount, // how much is left of budget?
-    spending.negativeAmount
-  );
 
   return [spending, ...spendings];
 }
