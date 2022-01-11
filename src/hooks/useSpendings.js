@@ -28,17 +28,21 @@ function calculateSpendings(id, categories, transactions) {
   const spendings = [];
 
   // Create a new spending for each category
+  const category = categories.find((c) => c.id === id) ?? {
+    id: null,
+    name: "Unknown",
+    parentId: null,
+    color: "lightgray",
+    ignore: false,
+    budget: null,
+  };
+
   const spending = {
-    category: categories.find((c) => c.id === id) ?? {
-      id: null,
-      name: "Uncategorized",
-      parentId: null,
-      color: "lightgray",
-      ignore: false,
-    },
+    category,
     amount: 0,
     positiveAmount: 0,
     negativeAmount: 0,
+    budget: category.budget ?? 0,
   };
 
   // Add amounts of transactions that are in the category
@@ -55,6 +59,10 @@ function calculateSpendings(id, categories, transactions) {
     }
   }
 
+  spending.estimated = spending.category.budget
+    ? spending.amount - spending.budget
+    : 0;
+
   // Recursively add amounts of transactions that are in subcategories
   for (const child of categories.filter((c) => c.parentId === id)) {
     const childSpendings = calculateSpendings(
@@ -66,7 +74,10 @@ function calculateSpendings(id, categories, transactions) {
       spending.amount += childSpendings[0].amount;
       spending.positiveAmount += childSpendings[0].positiveAmount;
       spending.negativeAmount += childSpendings[0].negativeAmount;
+      spending.budget += childSpendings[0].budget ?? 0;
+      spending.estimated += childSpendings[0].estimated;
     }
+
     Array.prototype.push.apply(spendings, childSpendings);
   }
 

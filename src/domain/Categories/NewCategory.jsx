@@ -30,7 +30,9 @@ function NewCategory({
 }) {
   const [name, setName] = useState(edit ? category.name : "");
   const [color, setColor] = useState(edit ? category.color : null);
-  const [budget, setBudget] = useState(edit ? category.budget ?? "" : "");
+  const [budget, setBudget] = useState(
+    edit ? (category.budget ? category.budget / 100 : "") : ""
+  );
   const [ignoreInSummaries, setIgnoreInSummaries] = useState(
     edit ? category.ignore : false
   );
@@ -68,7 +70,7 @@ function NewCategory({
         name: name,
         color: color,
         ignore: ignoreInSummaries,
-        budget: budget === "" ? null : parseInt(budget, 10),
+        budget: budget === "" ? null : parseInt(budget, 10) * 100,
       });
     } else {
       addCategory({
@@ -76,7 +78,7 @@ function NewCategory({
         parentId: parentCategory,
         color: color,
         ignore: ignoreInSummaries,
-        budget: budget === "" ? null : parseInt(budget, 10),
+        budget: budget === "" ? null : parseInt(budget, 10) * 100,
       });
     }
 
