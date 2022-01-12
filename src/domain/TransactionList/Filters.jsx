@@ -20,8 +20,6 @@ function Filters({
   setMonthsBack,
   showCategorized,
   setShowCategorized,
-  categories,
-  loading,
 }) {
   const [newMonthsBack, setNewMonthsBack] = useState(monthsBack);
   return (
@@ -54,7 +52,6 @@ function Filters({
                   <Button
                     colorScheme="green"
                     onSelect={() => {}}
-                    loading={loading}
                     mt="2"
                     onClick={() => {
                       onClose();
@@ -78,8 +75,6 @@ Filters.propTypes = {
   setMonthsBack: PropTypes.func.isRequired,
   showCategorized: PropTypes.bool.isRequired,
   setShowCategorized: PropTypes.func.isRequired,
-  categories: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired,
 };
 
 export default memo(Filters);

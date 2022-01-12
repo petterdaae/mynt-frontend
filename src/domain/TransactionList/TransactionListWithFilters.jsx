@@ -36,8 +36,6 @@ function TransactionListWithFilters() {
         setMonthsBack={setMonthsBack}
         showCategorized={showCategorized}
         setShowCategorized={setShowCategorized}
-        categories={categories}
-        loading={loading}
       />
       <Divider mt="8px" mb="8px" />
       <TransactionList
