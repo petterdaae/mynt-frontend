@@ -33,6 +33,8 @@ const NavWrapper = styled.div`
   width: 100%;
   z-index: 1;
   background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
+    rgb(209, 213, 219) 0px 0px 0px 1px inset;
 `;
 
 const OtherHackyWrapper = styled.div`
@@ -91,10 +93,10 @@ function Authenticated({ children }) {
             <Tabs
               variant="soft-rounded"
               colorScheme="green"
-              mt="2"
-              mb="4"
               index={tabIndex}
               align="center"
+              mt="2"
+              mb="2"
             >
               <TabList>
                 <NavigationItem
