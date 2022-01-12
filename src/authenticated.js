@@ -12,10 +12,10 @@ import {
   MenuItem,
   MenuList,
   HStack,
+  Divider,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 
-const base = 4;
 const breakpoint = 1100;
 
 const ContentWrapper = styled.div`
@@ -24,12 +24,19 @@ const ContentWrapper = styled.div`
 
   @media (max-width: ${breakpoint}px) {
     width: auto;
-    padding: ${2 * base}px;
   }
 `;
 
-const Content = styled.div`
+const NavWrapper = styled.div`
+  position: fixed;
+  top: 0;
   width: 100%;
+  z-index: 1;
+  background-color: white;
+`;
+
+const OtherHackyWrapper = styled.div`
+  margin-top: 75px;
 `;
 
 function Authenticated({ children }) {
@@ -78,57 +85,60 @@ function Authenticated({ children }) {
 
   return (
     <>
-      <ContentWrapper>
-        <HStack justify="space-between">
-          <Tabs
-            variant="soft-rounded"
-            colorScheme="green"
-            mt="2"
-            mb="4"
-            index={tabIndex}
-            align="center"
-          >
-            <TabList>
-              <NavigationItem
-                path="/authenticated/transactions"
-                name="Transactions"
-                setTabIndex={setTabIndex}
-                tabIndex={0}
-              />
-              <NavigationItem
-                path="/authenticated/spendings"
-                name="Spendings"
-                setTabIndex={setTabIndex}
-                tabIndex={1}
-              />
-            </TabList>
-          </Tabs>
-          <Menu placement="bottom-end">
-            <MenuButton as={IconButton} icon={<HamburgerIcon />} />
-            <MenuList>
-              <MenuItem
-                onClick={() => {
-                  setTabIndex(null);
-                  history.push("/authenticated/categories");
-                }}
-              >
-                Categories
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  setTabIndex(null);
-                  history.push("/authenticated/settings");
-                }}
-              >
-                Settings
-              </MenuItem>
-            </MenuList>
-          </Menu>
-        </HStack>
-      </ContentWrapper>
-      <ContentWrapper>
-        <Content>{children}</Content>
-      </ContentWrapper>
+      <NavWrapper>
+        <ContentWrapper>
+          <HStack justify="space-between" align="center" pr="2" pl="2">
+            <Tabs
+              variant="soft-rounded"
+              colorScheme="green"
+              mt="2"
+              mb="4"
+              index={tabIndex}
+              align="center"
+            >
+              <TabList>
+                <NavigationItem
+                  path="/authenticated/transactions"
+                  name="Transactions"
+                  setTabIndex={setTabIndex}
+                  tabIndex={0}
+                />
+                <NavigationItem
+                  path="/authenticated/spendings"
+                  name="Spendings"
+                  setTabIndex={setTabIndex}
+                  tabIndex={1}
+                />
+              </TabList>
+            </Tabs>
+            <Menu placement="bottom-end">
+              <MenuButton as={IconButton} icon={<HamburgerIcon />} />
+              <MenuList>
+                <MenuItem
+                  onClick={() => {
+                    setTabIndex(null);
+                    history.push("/authenticated/categories");
+                  }}
+                >
+                  Categories
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    setTabIndex(null);
+                    history.push("/authenticated/settings");
+                  }}
+                >
+                  Settings
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          </HStack>
+        </ContentWrapper>
+        <Divider />
+      </NavWrapper>
+      <OtherHackyWrapper>
+        <ContentWrapper>{children}</ContentWrapper>
+      </OtherHackyWrapper>
     </>
   );
 }
