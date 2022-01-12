@@ -2,7 +2,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 const base = 4;
-const red = "red";
+const red = "crimson";
 
 const Colors = styled.div`
   display: flex;
@@ -49,7 +49,7 @@ function ColorPicker({ value, onChange, error }) {
           />
         ))}
       </Colors>
-      <ErrorMessage>{error}</ErrorMessage>
+      {error && <ErrorMessage>{error}</ErrorMessage>}
     </>
   );
 }
