@@ -2,7 +2,14 @@ import { useState, useMemo } from "react";
 import TransactionList from "../TransactionList/TransactionList";
 import SpendingsList from "./SpendingsList";
 import Summary from "./Summary";
-import { Text, Divider, HStack, IconButton } from "@chakra-ui/react";
+import {
+  Text,
+  Divider,
+  HStack,
+  IconButton,
+  Center,
+  Spinner,
+} from "@chakra-ui/react";
 import CategoryBreadcrumb from "../CategoryBreadcrumb/CategoryBreadcrumb";
 import { getDateFromMonth, getMonthName } from "./spendingsUtils";
 import { useSpendings } from "../../hooks";
@@ -25,6 +32,10 @@ function Spendings() {
     updateCategorizationsForTransaction,
   } = useSpendings(fromDate, toDate);
 
+  const filteredTransactions = transactions.filter(
+    (t) => t.category.id === currentCategory
+  );
+
   return (
     <>
       <HStack justify="space-between" m="2">
@@ -45,39 +56,47 @@ function Spendings() {
         categories={categories}
         currentCategoryId={currentCategory}
         setCurrentCategoryId={setCurrentCategory}
+        m="2"
       />
-      <Divider mb="4" mt="4" />
-      <Summary
-        currentCategory={currentCategory}
-        spendings={spendings}
-        loading={loading}
-      />
-      <Text fontSize="2xl" mt="8">
-        Spendings
-      </Text>
       <Divider mb="2" mt="2" />
-      <SpendingsList
-        currentCategory={currentCategory}
-        setCurrentCategory={setCurrentCategory}
-        spendings={spendings}
-        categories={categories}
-        loading={loading}
-      />
-      <Text fontSize="2xl" mt="8">
-        Transactions
-      </Text>
-      <Divider mb="2" mt="2" />
-      <TransactionList
-        categoryId={currentCategory}
-        showCategorized={true}
-        transactions={transactions}
-        loading={loading}
-        updateCategorizationsForTransaction={
-          updateCategorizationsForTransaction
-        }
-        updateTransaction={updateTransaction}
-        categories={categories}
-      />
+      {loading ? (
+        <Center mt="8">
+          <Spinner size="xl" />
+        </Center>
+      ) : (
+        <>
+          <Summary
+            currentCategory={currentCategory}
+            spendings={spendings}
+            loading={loading}
+          />
+          <Divider mb="2" mt="2" />
+          <SpendingsList
+            currentCategory={currentCategory}
+            setCurrentCategory={setCurrentCategory}
+            spendings={spendings}
+            categories={categories}
+          />
+          {filteredTransactions.length !== 0 && (
+            <>
+              <Text fontSize="2xl" m="2">
+                Transactions
+              </Text>
+              <Divider mb="2" mt="2" />
+              <TransactionList
+                showCategorized={true}
+                transactions={filteredTransactions}
+                loading={loading}
+                updateCategorizationsForTransaction={
+                  updateCategorizationsForTransaction
+                }
+                updateTransaction={updateTransaction}
+                categories={categories}
+              />
+            </>
+          )}
+        </>
+      )}
     </>
   );
 }

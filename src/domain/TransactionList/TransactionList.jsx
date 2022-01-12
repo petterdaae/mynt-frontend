@@ -3,7 +3,6 @@ import { Divider, Spinner, Center } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 
 function TransactionList({
-  categoryId,
   showCategorized,
   transactions,
   loading,
@@ -11,10 +10,6 @@ function TransactionList({
   updateTransaction,
   categories,
 }) {
-  if (categoryId !== undefined) {
-    transactions = transactions.filter((t) => t.category.id === categoryId);
-  }
-
   if (!showCategorized) {
     transactions = transactions.filter((t) => !t.category);
   }
@@ -42,7 +37,6 @@ function TransactionList({
 }
 
 TransactionList.propTypes = {
-  categoryId: PropTypes.number,
   showCategorized: PropTypes.bool.isRequired,
   transactions: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,

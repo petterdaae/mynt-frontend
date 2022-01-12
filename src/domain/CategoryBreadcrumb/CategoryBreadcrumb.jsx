@@ -9,6 +9,7 @@ function CategoryBreadcrumb({
   setCurrentCategoryId,
   categories,
   loading,
+  ...props
 }) {
   const breadcrumb = useMemo(
     () => getBreadcrumbFromCategoryId(currentCategoryId, categories),
@@ -16,7 +17,7 @@ function CategoryBreadcrumb({
   );
   return (
     !loading && (
-      <HStack mt="4" ml="2" mr="2">
+      <HStack {...props}>
         <IconButton
           onClick={() =>
             setCurrentCategoryId(

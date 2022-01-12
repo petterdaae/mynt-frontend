@@ -7,28 +7,24 @@ function SpendingsList({
   setCurrentCategory,
   spendings,
   categories,
-  loading,
 }) {
-  return (
-    !loading &&
-    categories
-      .filter((category) => category.parentId === currentCategory)
-      .map((category) => {
-        const spending = spendings.find((s) => s.category.id === category.id);
-        return (
-          spending && (
-            <div key={category.id}>
-              <Spending
-                spending={spending}
-                category={category}
-                setCurrentCategory={setCurrentCategory}
-              />
-              <Divider />
-            </div>
-          )
-        );
-      })
-  );
+  return categories
+    .filter((category) => category.parentId === currentCategory)
+    .map((category) => {
+      const spending = spendings.find((s) => s.category.id === category.id);
+      return (
+        spending && (
+          <div key={category.id}>
+            <Spending
+              spending={spending}
+              category={category}
+              setCurrentCategory={setCurrentCategory}
+            />
+            <Divider />
+          </div>
+        )
+      );
+    });
 }
 
 SpendingsList.propTypes = {
@@ -39,7 +35,6 @@ SpendingsList.propTypes = {
   setCurrentCategory: PropTypes.func.isRequired,
   spendings: PropTypes.array.isRequired,
   categories: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired,
 };
 
 export default SpendingsList;
