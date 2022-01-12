@@ -55,10 +55,8 @@ function NewCategory({
     }
 
     if (budgetInvalid) {
-      setBudgetError("Budget should be an integer");
+      setBudgetError("Budget has to be a positive integer.");
     }
-
-    console.log(budget, budgetInvalid);
 
     if (colorInvalid || nameInvalid || budgetInvalid) {
       return;
@@ -118,16 +116,25 @@ function NewCategory({
                 setNameError(null);
               }}
               placeholder="Name"
+              isInvalid={nameError}
             />
-            <Text color="red" size="sm">
-              {nameError}
-            </Text>
+            {nameError && (
+              <Text color="crimson" fontSize="sm">
+                {nameError}
+              </Text>
+            )}
             <Divider />
+            <Text fontSize="sm">
+              If you check this box, the transactions in this category will not
+              be inlcuded in summaries in the spendings tab. Sub-categories will
+              still be included.
+            </Text>
             <Checkbox
               isChecked={ignoreInSummaries}
               onChange={(e) => setIgnoreInSummaries(e.target.checked)}
+              size="lg"
             >
-              Ignore in spendings
+              <Text fontSize="sm">Ignore in spendings</Text>
             </Checkbox>
             <Divider />
             <ColorPicker
@@ -139,6 +146,11 @@ function NewCategory({
               error={colorError}
             />
             <Divider />
+            <Text fontSize="sm">
+              You can set a budget of how much money you think you will spend in
+              a category. This will affect the estimated number in the spendings
+              tab.
+            </Text>
             <InputGroup>
               <InputLeftElement
                 pointerEvents="none"
@@ -150,13 +162,18 @@ function NewCategory({
               <Input
                 placeholder="Enter budget"
                 value={budget}
-                onChange={(e) => setBudget(e.target.value)}
+                onChange={(e) => {
+                  setBudget(e.target.value);
+                  setBudgetError(null);
+                }}
+                isInvalid={budgetError}
               />
             </InputGroup>
-            <Text color="red" size="sm">
-              {budgetError}
-            </Text>
-            <Divider />
+            {budgetError && (
+              <Text color="crimson" size="sm" fontSize="sm">
+                {budgetError}
+              </Text>
+            )}
           </VStack>
         </ModalBody>
         <ModalFooter>
