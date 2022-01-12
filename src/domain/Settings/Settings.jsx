@@ -113,7 +113,7 @@ function Settings() {
   };
 
   return (
-    <VStack align="left">
+    <VStack align="left" m="2">
       <Text fontSize="xl">Sbanken Credentials</Text>
       <Text>
         (If you have not enabled Sbanken beta, enable it{" "}
