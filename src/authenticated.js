@@ -132,7 +132,7 @@ function Authenticated({ children }) {
                     history.push("/authenticated/budgets");
                   }}
                 >
-                  budgets
+                  Budgets
                 </MenuItem>
                 <MenuItem
                   onClick={() => {

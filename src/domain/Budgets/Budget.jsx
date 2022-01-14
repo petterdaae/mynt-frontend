@@ -15,17 +15,11 @@ import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import PropTypes from "prop-types";
-import NewCategory from "./NewBudget";
+import NewBudget from "./NewBudget";
 
-function Category({
-  category,
-  setCurrentCategory,
-  deleteCategory,
-  addCategory,
-  updateCategory,
-}) {
-  const [editCategoryOpen, setEditCategoryOpen] = useState(false);
-  const [showDeleteCategory, setShowDeleteCategory] = useState(false);
+function Budget({ budget, deleteBudget, addBudget, updateBudget }) {
+  const [editBudgetOpen, setEditBudgetOpen] = useState(false);
+  const [showDeleteBudget, setShowDeleteBudget] = useState(false);
   return (
     <>
       <HStack
@@ -34,66 +28,62 @@ function Category({
         p="4px"
         borderRadius="md"
         _hover={{ background: "whitesmoke", cursor: "pointer" }}
-        onClick={() => setCurrentCategory(category.id)}
+        onClick={() => {}}
       >
         <HStack>
-          <CategoryIcon color={category.color} />
-          <Text>{category.name}</Text>
+          <CategoryIcon color={budget.color} />
+          <Text>{budget.name}</Text>
         </HStack>
         <HStack>
           <IconButton
-            aria-label="Edit category"
+            aria-label="Edit budget"
             icon={<EditIcon />}
             onClick={(e) => {
-              setEditCategoryOpen(true);
+              setEditBudgetOpen(true);
               e.stopPropagation();
             }}
           />
           <IconButton
-            aria-label="Delete category"
+            aria-label="Delete budget"
             icon={<DeleteIcon />}
             colorScheme="red"
             onClick={(e) => {
-              setShowDeleteCategory(true);
+              setShowDeleteBudget(true);
               e.stopPropagation();
             }}
           />
         </HStack>
       </HStack>
-      <NewCategory
-        isOpen={editCategoryOpen}
-        onClose={() => setEditCategoryOpen(false)}
+      <NewBudget
+        isOpen={editBudgetOpen}
+        onClose={() => setEditBudgetOpen(false)}
         edit={true}
-        category={category}
-        parentCategory={category.parentId}
-        addCategory={addCategory}
-        updateCategory={updateCategory}
+        budget={budget}
+        addBudget={addBudget}
+        updateBudget={updateBudget}
       />
       <Modal
-        isOpen={showDeleteCategory}
-        onClose={() => setShowDeleteCategory(false)}
+        isOpen={showDeleteBudget}
+        onClose={() => setShowDeleteBudget(false)}
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Delete Category</ModalHeader>
+          <ModalHeader>Delete Budget</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Text>Are you sure you want to delete this category?</Text>
+            <Text>Are you sure you want to delete this budget?</Text>
           </ModalBody>
           <ModalFooter>
             <Button
               colorScheme="red"
               onClick={() => {
-                deleteCategory(category.id);
-                setShowDeleteCategory(false);
+                deleteBudget(budget.id);
+                setShowDeleteBudget(false);
               }}
             >
               Delete
             </Button>
-            <Button
-              variant="ghost"
-              onClick={() => setShowDeleteCategory(false)}
-            >
+            <Button variant="ghost" onClick={() => setShowDeleteBudget(false)}>
               Cancel
             </Button>
           </ModalFooter>
@@ -103,12 +93,11 @@ function Category({
   );
 }
 
-Category.propTypes = {
-  category: PropTypes.object.isRequired,
-  setCurrentCategory: PropTypes.func.isRequired,
-  deleteCategory: PropTypes.func.isRequired,
-  addCategory: PropTypes.func.isRequired,
-  updateCategory: PropTypes.func.isRequired,
+Budget.propTypes = {
+  budget: PropTypes.object.isRequired,
+  deleteBudget: PropTypes.func.isRequired,
+  addBudget: PropTypes.func.isRequired,
+  updateBudget: PropTypes.func.isRequired,
 };
 
-export default Category;
+export default Budget;

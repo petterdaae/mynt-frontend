@@ -10,41 +10,22 @@ import {
   VStack,
   Input,
   Divider,
-  Checkbox,
   Text,
-  InputGroup,
-  InputLeftElement,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import ColorPicker from "../../components/color_picker";
 import { useCallback, useState } from "react";
 
-function NewCategory({
-  onClose,
-  isOpen,
-  edit,
-  category,
-  parentCategory,
-  addCategory,
-  updateCategory,
-}) {
-  const [name, setName] = useState(edit ? category.name : "");
-  const [color, setColor] = useState(edit ? category.color : null);
-  const [budget, setBudget] = useState(
-    edit ? (category.budget ? category.budget / 100 : "") : ""
-  );
-  const [ignoreInSummaries, setIgnoreInSummaries] = useState(
-    edit ? category.ignore : false
-  );
+function NewBudget({ onClose, isOpen, edit, budget, addBudget, updateBudget }) {
+  const [name, setName] = useState(edit ? budget.name : "");
+  const [color, setColor] = useState(edit ? budget.color : null);
 
   const [nameError, setNameError] = useState(null);
   const [colorError, setColorError] = useState(null);
-  const [budgetError, setBudgetError] = useState(null);
 
   const onSave = useCallback(() => {
     const nameInvalid = name.trim().length === 0;
     const colorInvalid = color === null;
-    const budgetInvalid = !(budget === "" || parseInt(budget, 10) >= 0);
 
     if (nameInvalid) {
       setNameError("Name is required");
@@ -54,58 +35,44 @@ function NewCategory({
       setColorError("Color is required");
     }
 
-    if (budgetInvalid) {
-      setBudgetError("Budget has to be a positive integer.");
-    }
-
-    if (colorInvalid || nameInvalid || budgetInvalid) {
+    if (colorInvalid || nameInvalid) {
       return;
     }
 
     if (edit) {
-      updateCategory({
-        ...category,
+      updateBudget({
+        ...budget,
         name: name,
         color: color,
-        ignore: ignoreInSummaries,
-        budget: budget === "" ? null : parseInt(budget, 10) * 100,
       });
     } else {
-      addCategory({
+      addBudget({
         name: name,
-        parentId: parentCategory,
         color: color,
-        ignore: ignoreInSummaries,
-        budget: budget === "" ? null : parseInt(budget, 10) * 100,
       });
     }
 
     onClose();
     setName(edit ? name : "");
     setColor(edit ? color : null);
-    setIgnoreInSummaries(edit ? ignoreInSummaries : false);
-    setBudget(edit ? budget ?? "" : "");
   }, [
     onClose,
     name,
     color,
-    ignoreInSummaries,
     budget,
     setNameError,
     setColorError,
-    setBudgetError,
     edit,
-    category,
-    parentCategory,
-    addCategory,
-    updateCategory,
+    budget,
+    addBudget,
+    updateBudget,
   ]);
 
   return (
     <Modal onClose={onClose} isOpen={isOpen} size="xl">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>New category</ModalHeader>
+        <ModalHeader>{edit ? "Edit budget" : "New budget"}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <VStack align="left">
@@ -124,19 +91,6 @@ function NewCategory({
               </Text>
             )}
             <Divider />
-            <Text fontSize="sm">
-              If you check this box, the transactions in this category will not
-              be inlcuded in summaries in the spendings tab. Sub-categories will
-              still be included.
-            </Text>
-            <Checkbox
-              isChecked={ignoreInSummaries}
-              onChange={(e) => setIgnoreInSummaries(e.target.checked)}
-              size="lg"
-            >
-              <Text fontSize="sm">Ignore in spendings</Text>
-            </Checkbox>
-            <Divider />
             <ColorPicker
               value={color}
               onChange={(color) => {
@@ -145,35 +99,6 @@ function NewCategory({
               }}
               error={colorError}
             />
-            <Divider />
-            <Text fontSize="sm">
-              You can set a budget of how much money you think you will spend in
-              a category. This will affect the estimated number in the spendings
-              tab.
-            </Text>
-            <InputGroup>
-              <InputLeftElement
-                pointerEvents="none"
-                color="gray.300"
-                fontSize="1.2em"
-              >
-                $
-              </InputLeftElement>
-              <Input
-                placeholder="Enter budget"
-                value={budget}
-                onChange={(e) => {
-                  setBudget(e.target.value);
-                  setBudgetError(null);
-                }}
-                isInvalid={budgetError}
-              />
-            </InputGroup>
-            {budgetError && (
-              <Text color="crimson" size="sm" fontSize="sm">
-                {budgetError}
-              </Text>
-            )}
           </VStack>
         </ModalBody>
         <ModalFooter>
@@ -187,14 +112,13 @@ function NewCategory({
   );
 }
 
-NewCategory.propTypes = {
+NewBudget.propTypes = {
   onClose: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
   edit: PropTypes.bool,
-  category: PropTypes.object,
-  parentCategory: PropTypes.number,
-  addCategory: PropTypes.func.isRequired,
-  updateCategory: PropTypes.func.isRequired,
+  budget: PropTypes.object,
+  addBudget: PropTypes.func.isRequired,
+  updateBudget: PropTypes.func.isRequired,
 };
 
-export default NewCategory;
+export default NewBudget;
