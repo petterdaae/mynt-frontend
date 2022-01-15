@@ -17,7 +17,13 @@ import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import PropTypes from "prop-types";
 import NewBudget from "./NewBudget";
 
-function Budget({ budget, deleteBudget, addBudget, updateBudget }) {
+function Budget({
+  budget,
+  deleteBudget,
+  addBudget,
+  updateBudget,
+  setCurrentBudget,
+}) {
   const [editBudgetOpen, setEditBudgetOpen] = useState(false);
   const [showDeleteBudget, setShowDeleteBudget] = useState(false);
   return (
@@ -28,7 +34,7 @@ function Budget({ budget, deleteBudget, addBudget, updateBudget }) {
         p="4px"
         borderRadius="md"
         _hover={{ background: "whitesmoke", cursor: "pointer" }}
-        onClick={() => {}}
+        onClick={() => setCurrentBudget(budget.id)}
       >
         <HStack>
           <CategoryIcon color={budget.color} />
@@ -98,6 +104,7 @@ Budget.propTypes = {
   deleteBudget: PropTypes.func.isRequired,
   addBudget: PropTypes.func.isRequired,
   updateBudget: PropTypes.func.isRequired,
+  setCurrentBudget: PropTypes.func.isRequired,
 };
 
 export default Budget;

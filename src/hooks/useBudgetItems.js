@@ -8,7 +8,7 @@ function useBudgetItems() {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/budgets_items`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/budget_items`, {
       credentials: "include",
     })
       .then((res) => res.json())
@@ -65,7 +65,7 @@ function useBudgetItems() {
   );
 
   return {
-    budgets: budgetItems,
+    budgetItems,
     loading,
     addBudgetItem,
     deleteBudgetItem,
