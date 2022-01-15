@@ -105,7 +105,7 @@ function NewCategory({
     <Modal onClose={onClose} isOpen={isOpen} size="xl">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>New category</ModalHeader>
+        <ModalHeader>{edit ? "Edit category" : "New category"}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <VStack align="left">

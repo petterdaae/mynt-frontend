@@ -11,7 +11,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  HStack,
+  Flex,
   Divider,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
@@ -82,6 +82,8 @@ function Authenticated({ children }) {
       setTabIndex(1);
     } else if (location.pathname === "/authenticated/settings") {
       setTabIndex(null);
+    } else if (location.pathname === "/authenticated/budgets") {
+      setTabIndex(null);
     }
   }, [location]);
 
@@ -89,7 +91,7 @@ function Authenticated({ children }) {
     <>
       <NavWrapper>
         <ContentWrapper>
-          <HStack justify="space-between" align="center" pr="2" pl="2">
+          <Flex justify="space-between" align="center" pr="2" pl="2">
             <Tabs
               variant="soft-rounded"
               colorScheme="green"
@@ -127,6 +129,14 @@ function Authenticated({ children }) {
                 <MenuItem
                   onClick={() => {
                     setTabIndex(null);
+                    history.push("/authenticated/budgets");
+                  }}
+                >
+                  Budgets
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    setTabIndex(null);
                     history.push("/authenticated/settings");
                   }}
                 >
@@ -134,7 +144,7 @@ function Authenticated({ children }) {
                 </MenuItem>
               </MenuList>
             </Menu>
-          </HStack>
+          </Flex>
         </ContentWrapper>
         <Divider />
       </NavWrapper>
