@@ -7,7 +7,6 @@ function Summary({ currentCategory, spendings }) {
     amount: 0,
     positiveAmount: 0,
     negativeAmount: 0,
-    budget: 0,
   };
   return (
     <VStack align="left" m="2">
@@ -29,20 +28,6 @@ function Summary({ currentCategory, spendings }) {
         <Text fontSize="md">Balance (earned - spent)</Text>
         <Badge colorScheme="blue" fontSize="1.0em">
           {formatCurrency(spending.amount)}
-        </Badge>
-      </HStack>
-
-      <HStack justify="space-between">
-        <Text fontSize="md">Budget</Text>
-        <Badge colorScheme="yellow" fontSize="1.0em">
-          {formatCurrency(spending.budget)}
-        </Badge>
-      </HStack>
-
-      <HStack justify="space-between">
-        <Text fontSize="md">Estimated</Text>
-        <Badge colorScheme="purple" fontSize="1.0em">
-          {formatCurrency(spending.estimated)}
         </Badge>
       </HStack>
     </VStack>
