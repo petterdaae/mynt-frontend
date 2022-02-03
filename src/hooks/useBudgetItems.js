@@ -2,7 +2,7 @@ import { useCrud } from "./index";
 
 function useBudgetItems() {
   const { elements, loading, addElement, updateElement, deleteElement } =
-    useCrud(`${process.env.REACT_APP_BACKEND_URL}/budgetItems`);
+    useCrud(`${process.env.REACT_APP_BACKEND_URL}/budget_items`);
 
   return {
     budgetItems: elements,

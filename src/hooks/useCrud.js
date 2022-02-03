@@ -18,18 +18,21 @@ function useCrud(endpoint) {
 
   const addElement = useCallback(
     (newElement) => {
-      setLoading(true);
+      const temporaryId = Math.max(...elements.map((e) => e.id)) + 10;
+      setElements((prev) => [...prev, { ...newElement, id: temporaryId }]);
       fetch(endpoint, {
         credentials: "include",
         method: "POST",
         body: JSON.stringify(newElement),
-      });
-      setElements((prev) => [
-        ...prev,
-        { ...newElement, id: Math.max(prev.map((e) => e.id) + 1) },
-      ]);
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          setElements((prev) =>
+            prev.map((e) => (e.id === temporaryId ? { ...e, id: res.id } : e))
+          );
+        });
     },
-    [setElements]
+    [setElements, elements]
   );
 
   const updateElement = useCallback(
