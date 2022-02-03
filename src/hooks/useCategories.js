@@ -1,79 +1,15 @@
-import { useState, useEffect, useCallback } from "react";
-import { useInvalidation } from "./index";
+import { useCrud } from "./index";
 
 function useCategories() {
-  const { categoriesChanged, invalidateCategories } = useInvalidation();
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setLoading(true);
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`, {
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setCategories(data);
-        setLoading(false);
-      });
-  }, [setCategories, categoriesChanged]);
-
-  const addCategory = useCallback(
-    (newCategory) => {
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`, {
-        credentials: "include",
-        method: "POST",
-        body: JSON.stringify(newCategory),
-      }).then(() => {
-        invalidateCategories();
-      });
-      setCategories((prev) =>
-        [...prev, { ...newCategory, id: "temporary-id" }].sort((a, b) =>
-          a.name.localeCompare(b.name)
-        )
-      );
-    },
-    [setCategories, invalidateCategories]
-  );
-
-  const updateCategory = useCallback(
-    (category) => {
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`, {
-        credentials: "include",
-        method: "PUT",
-        body: JSON.stringify(category),
-      }).then(() => {
-        invalidateCategories();
-      });
-      setCategories((prev) =>
-        prev
-          .map((c) => (c.id === category.id ? category : c))
-          .sort((a, b) => a.name.localeCompare(b.name))
-      );
-    },
-    [setCategories]
-  );
-
-  const deleteCategory = useCallback(
-    (categoryId) => {
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/categories`, {
-        credentials: "include",
-        method: "DELETE",
-        body: JSON.stringify({
-          id: categoryId,
-        }),
-      });
-      setCategories((prev) => prev.filter((c) => c.id !== categoryId));
-    },
-    [setCategories]
-  );
+  const { elements, loading, addElement, updateElement, deleteElement } =
+    useCrud(`${process.env.REACT_APP_BACKEND_URL}/categories`);
 
   return {
-    categories,
-    loading,
-    addCategory,
-    deleteCategory,
-    updateCategory,
+    categories: elements,
+    loading: loading,
+    addCategory: addElement,
+    deleteCategory: deleteElement,
+    updateCategory: updateElement,
   };
 }
 

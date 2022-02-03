@@ -9,26 +9,23 @@ import TransactionListWithFilters from "./domain/TransactionList/TransactionList
 import Spendings from "./domain/Spendings/Spendings";
 import Categories from "./domain/Categories/Categories";
 import Budgets from "./domain/Budgets/Budgets";
-import { InvalidationProvider } from "./hooks";
 
 function App() {
   return (
     <ChakraProvider>
-      <InvalidationProvider>
-        <Switch>
-          <Route exact path="/" component={Login} />
-          <Authenticated>
-            <Route
-              path="/authenticated/transactions"
-              component={TransactionListWithFilters}
-            />
-            <Route path="/authenticated/settings" component={Settings} />
-            <Route path="/authenticated/spendings" component={Spendings} />
-            <Route path="/authenticated/categories" component={Categories} />
-            <Route path="/authenticated/budgets" component={Budgets} />
-          </Authenticated>
-        </Switch>
-      </InvalidationProvider>
+      <Switch>
+        <Route exact path="/" component={Login} />
+        <Authenticated>
+          <Route
+            path="/authenticated/transactions"
+            component={TransactionListWithFilters}
+          />
+          <Route path="/authenticated/settings" component={Settings} />
+          <Route path="/authenticated/spendings" component={Spendings} />
+          <Route path="/authenticated/categories" component={Categories} />
+          <Route path="/authenticated/budgets" component={Budgets} />
+        </Authenticated>
+      </Switch>
     </ChakraProvider>
   );
 }

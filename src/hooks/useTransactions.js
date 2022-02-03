@@ -1,10 +1,8 @@
 import { useState, useCallback, useEffect } from "react";
-import { useInvalidation } from "./index";
 
 function useTransactions(fromDate, toDate) {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { transactionsChanged, invalidateTransactions } = useInvalidation();
 
   useEffect(() => {
     setLoading(true);
@@ -19,7 +17,7 @@ function useTransactions(fromDate, toDate) {
         setTransactions(data);
         setLoading(false);
       });
-  }, [setLoading, fromDate, toDate, setTransactions, transactionsChanged]);
+  }, [setLoading, fromDate, toDate, setTransactions]);
 
   const update = useCallback((transaction) => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/transactions`, {
@@ -29,8 +27,6 @@ function useTransactions(fromDate, toDate) {
         id: transaction.id,
         customDate: transaction.customDate,
       }),
-    }).then(() => {
-      invalidateTransactions();
     });
 
     setTransactions((prev) =>
