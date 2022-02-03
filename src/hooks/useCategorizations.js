@@ -1,9 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import { useInvalidation } from "./index";
 
 function useCategorizations(fromDate, toDate) {
-  const { categorizationsChanged, invalidateCategorizations } =
-    useInvalidation();
   const [categorizations, setCategorizations] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -20,7 +17,7 @@ function useCategorizations(fromDate, toDate) {
         setCategorizations(data);
         setLoading(false);
       });
-  }, [setCategorizations, categorizationsChanged, fromDate, toDate]);
+  }, [setCategorizations, fromDate, toDate]);
 
   const updateCategorizationsForTransaction = useCallback(
     (transaction, categoryId) => {
@@ -36,11 +33,17 @@ function useCategorizations(fromDate, toDate) {
             },
           ],
         }),
-      }).then(() => {
-        invalidateCategorizations();
       });
+      setCategorizations((prev) => [
+        ...prev.filter((c) => c.transactionId !== transaction.id),
+        {
+          categoryId: categoryId,
+          transactionId: transaction.id,
+          amount: transaction.amount,
+        },
+      ]);
     },
-    [invalidateCategorizations]
+    [setCategorizations]
   );
 
   return {

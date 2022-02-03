@@ -1,4 +1,4 @@
-import { useBudgets, useCategories } from "../../hooks";
+import { useBudgets, useCategories, useSettings } from "../../hooks";
 import { useState } from "react";
 import Budget from "./Budget";
 import { Divider, HStack, IconButton, Center, Spinner } from "@chakra-ui/react";
@@ -12,6 +12,7 @@ function Budgets() {
   const { categories, categoriesLoading } = useCategories();
   const [newBudgetOpen, setNewBudgetOpen] = useState(false);
   const [currentBudget, setCurrentBudget] = useState(null);
+  const { settings, update: updateSettings } = useSettings();
   return !(budgetsLoading || categoriesLoading) ? (
     currentBudget === null ? (
       <>
@@ -34,6 +35,10 @@ function Budgets() {
                 addBudget={addBudget}
                 updateBudget={updateBudget}
                 categories={categories}
+                mainBudgetId={settings.mainBudgetId}
+                setMainBudgetId={(id) =>
+                  updateSettings({ ...settings, mainBudgetId: id })
+                }
               />
               <Divider />
             </div>

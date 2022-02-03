@@ -1,51 +1,47 @@
 import PropTypes from "prop-types";
-import { formatCurrency } from "./../utils";
-import { Badge, VStack, HStack, Text } from "@chakra-ui/react";
+import { Center, HStack, VStack } from "@chakra-ui/react";
+import Bar from "./Bar";
 
 function Summary({ currentCategory, spendings }) {
   const spending = spendings.find((s) => s.category.id === currentCategory) ?? {
     amount: 0,
     positiveAmount: 0,
     negativeAmount: 0,
-    budget: 0,
+    positiveBudget: 0,
+    negativeBudget: 0,
   };
+  const max = Math.max(
+    spending.positiveAmount,
+    -spending.negativeAmount,
+    spending.positiveBudget,
+    spending.negativeBudget
+  );
   return (
-    <VStack align="left" m="2">
-      <HStack justify="space-between">
-        <Text fontSize="md">Spent</Text>
-        <Badge colorScheme="red" fontSize="1.0em">
-          {formatCurrency(spending.negativeAmount)}
-        </Badge>
-      </HStack>
-
-      <HStack justify="space-between">
-        <Text fontSize="md">Earned</Text>
-        <Badge colorScheme="green" fontSize="1.0em">
-          {formatCurrency(spending.positiveAmount)}
-        </Badge>
-      </HStack>
-
-      <HStack justify="space-between">
-        <Text fontSize="md">Balance (earned - spent)</Text>
-        <Badge colorScheme="blue" fontSize="1.0em">
-          {formatCurrency(spending.amount)}
-        </Badge>
-      </HStack>
-
-      <HStack justify="space-between">
-        <Text fontSize="md">Budget</Text>
-        <Badge colorScheme="yellow" fontSize="1.0em">
-          {formatCurrency(spending.budget)}
-        </Badge>
-      </HStack>
-
-      <HStack justify="space-between">
-        <Text fontSize="md">Estimated</Text>
-        <Badge colorScheme="purple" fontSize="1.0em">
-          {formatCurrency(spending.estimated)}
-        </Badge>
-      </HStack>
-    </VStack>
+    <Center m="2">
+      <VStack>
+        <HStack>
+          {max !== 0 && (
+            <>
+              <Bar
+                max={max}
+                height={200}
+                width={85}
+                actual={-spending.negativeAmount}
+                budget={spending.negativeBudget}
+              />
+              <Bar
+                max={max}
+                height={200}
+                width={85}
+                actual={spending.positiveAmount}
+                budget={spending.positiveBudget}
+                isIncome
+              />
+            </>
+          )}
+        </HStack>
+      </VStack>
+    </Center>
   );
 }
 
