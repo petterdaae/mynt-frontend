@@ -10,8 +10,9 @@ import {
   ModalFooter,
   ModalCloseButton,
   IconButton,
+  theme,
 } from "@chakra-ui/react";
-import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import { EditIcon, DeleteIcon, StarIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import PropTypes from "prop-types";
@@ -23,6 +24,8 @@ function Budget({
   addBudget,
   updateBudget,
   setCurrentBudget,
+  mainBudgetId,
+  setMainBudgetId,
 }) {
   const [editBudgetOpen, setEditBudgetOpen] = useState(false);
   const [showDeleteBudget, setShowDeleteBudget] = useState(false);
@@ -41,6 +44,22 @@ function Budget({
           <Text>{budget.name}</Text>
         </HStack>
         <HStack>
+          <IconButton
+            aria-label="Delete budget"
+            icon={
+              <StarIcon
+                color={
+                  mainBudgetId === budget.id
+                    ? theme.colors.yellow[500]
+                    : undefined
+                }
+              />
+            }
+            onClick={(e) => {
+              setMainBudgetId(budget.id);
+              e.stopPropagation();
+            }}
+          />
           <IconButton
             aria-label="Edit budget"
             icon={<EditIcon />}
@@ -105,6 +124,8 @@ Budget.propTypes = {
   addBudget: PropTypes.func.isRequired,
   updateBudget: PropTypes.func.isRequired,
   setCurrentBudget: PropTypes.func.isRequired,
+  mainBudgetId: PropTypes.number,
+  setMainBudgetId: PropTypes.func.isRequired,
 };
 
 export default Budget;
