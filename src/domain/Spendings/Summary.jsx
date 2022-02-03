@@ -16,7 +16,6 @@ function Summary({ currentCategory, spendings }) {
     spending.positiveBudget,
     spending.negativeBudget
   );
-  console.log(spending);
   return (
     <Center m="2">
       <VStack>
