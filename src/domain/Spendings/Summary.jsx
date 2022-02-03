@@ -3,30 +3,43 @@ import { Center, HStack, VStack } from "@chakra-ui/react";
 import Bar from "./Bar";
 
 function Summary({ currentCategory, spendings }) {
-  // const spending = spendings.find((s) => s.category.id === currentCategory) ?? {
-  //   amount: 0,
-  //   positiveAmount: 0,
-  //   negativeAmount: 0,
-  // };
+  const spending = spendings.find((s) => s.category.id === currentCategory) ?? {
+    amount: 0,
+    positiveAmount: 0,
+    negativeAmount: 0,
+    positiveBudget: 0,
+    negativeBudget: 0,
+  };
+  const max = Math.max(
+    spending.positiveAmount,
+    -spending.negativeAmount,
+    spending.positiveBudget,
+    spending.negativeBudget
+  );
+  console.log(spending);
   return (
     <Center m="2">
       <VStack>
         <HStack>
-          <Bar
-            max={23456}
-            height={200}
-            width={85}
-            actual={19234}
-            budget={23456}
-          />
-          <Bar
-            max={23456}
-            height={200}
-            width={85}
-            actual={9345}
-            budget={8345}
-            isIncome
-          />
+          {max !== 0 && (
+            <>
+              <Bar
+                max={max}
+                height={200}
+                width={85}
+                actual={-spending.negativeAmount}
+                budget={spending.negativeBudget}
+              />
+              <Bar
+                max={max}
+                height={200}
+                width={85}
+                actual={spending.positiveAmount}
+                budget={spending.positiveBudget}
+                isIncome
+              />
+            </>
+          )}
         </HStack>
       </VStack>
     </Center>

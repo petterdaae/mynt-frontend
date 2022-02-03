@@ -30,10 +30,10 @@ function NewBudgetItem({
 }) {
   const [name, setName] = useState(edit ? budgetItem.name : "");
   const [positiveAmount, setPositiveAmount] = useState(
-    edit ? budgetItem.positiveAmount : ""
+    edit ? Math.round(budgetItem.positiveAmount / 100) : ""
   );
   const [negativeAmount, setNegativeAmount] = useState(
-    edit ? budgetItem.negativeAmount : ""
+    edit ? Math.round(budgetItem.negativeAmount / 100) : ""
   );
   const [categoryId, setCategoryId] = useState(
     edit ? budgetItem.categoryId : null
@@ -89,9 +89,9 @@ function NewBudgetItem({
         name,
         categoryId,
         positiveAmount:
-          positiveAmount === "" ? null : parseInt(positiveAmount, 10),
+          positiveAmount === "" ? null : parseInt(positiveAmount, 10) * 100,
         negativeAmount:
-          negativeAmount === "" ? null : parseInt(negativeAmount, 10),
+          negativeAmount === "" ? null : parseInt(negativeAmount, 10) * 100,
       });
     } else {
       console.log(categoryId);
@@ -100,9 +100,9 @@ function NewBudgetItem({
         name,
         categoryId,
         positiveAmount:
-          positiveAmount === "" ? null : parseInt(positiveAmount, 10),
+          positiveAmount === "" ? null : parseInt(positiveAmount, 10) * 100,
         negativeAmount:
-          negativeAmount === "" ? null : parseInt(negativeAmount, 10),
+          negativeAmount === "" ? null : parseInt(negativeAmount, 10) * 100,
       });
     }
 
