@@ -26,16 +26,29 @@ function Summary({ currentCategory, spendings }) {
                 max={max}
                 height={200}
                 width={85}
-                actual={-spending.negativeAmount}
-                budget={spending.negativeBudget}
+                value={spending.negativeBudget}
+                colorScheme="gray"
               />
               <Bar
                 max={max}
                 height={200}
                 width={85}
-                actual={spending.positiveAmount}
-                budget={spending.positiveBudget}
-                isIncome
+                value={-spending.negativeAmount}
+                colorScheme="red"
+              />
+              <Bar
+                max={max}
+                height={200}
+                width={85}
+                value={spending.positiveAmount}
+                colorScheme="blue"
+              />
+              <Bar
+                max={max}
+                height={200}
+                width={85}
+                value={spending.positiveBudget}
+                colorScheme="gray"
               />
             </>
           )}

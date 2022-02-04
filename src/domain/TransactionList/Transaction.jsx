@@ -54,7 +54,7 @@ function Transaction({
         </HStack>
         <Box>
           <Badge
-            colorScheme={transaction.amount >= 0 ? "green" : "red"}
+            colorScheme={transaction.amount >= 0 ? "blue" : "red"}
             fontSize="1.0em"
           >
             {formattedCurrency}

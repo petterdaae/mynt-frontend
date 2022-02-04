@@ -28,12 +28,17 @@ function NewBudgetItem({
   updateBudgetItem,
   categories,
 }) {
+  const initialValue = useCallback(
+    (value) => (value ? Math.round(value / 100) : ""),
+    [edit]
+  );
+
   const [name, setName] = useState(edit ? budgetItem.name : "");
   const [positiveAmount, setPositiveAmount] = useState(
-    edit ? Math.round(budgetItem.positiveAmount / 100) : ""
+    edit ? initialValue(budgetItem.positiveAmount) : ""
   );
   const [negativeAmount, setNegativeAmount] = useState(
-    edit ? Math.round(budgetItem.negativeAmount / 100) : ""
+    edit ? initialValue(budgetItem.negativeAmount) : ""
   );
   const [categoryId, setCategoryId] = useState(
     edit ? budgetItem.categoryId : null
@@ -108,6 +113,12 @@ function NewBudgetItem({
 
     onClose();
     setName(edit ? name : "");
+    setPositiveAmount(edit ? positiveAmount : "");
+    setNegativeAmount(edit ? negativeAmount : "");
+    setCategoryId(edit ? categoryId : null);
+    setNameError(null);
+    setAmountError(null);
+    setCategoryError(null);
   }, [
     onClose,
     name,
@@ -140,7 +151,9 @@ function NewBudgetItem({
           />
         ) : (
           <>
-            <ModalHeader>{edit ? "Edit budget" : "New budget"}</ModalHeader>
+            <ModalHeader>
+              {edit ? "Edit budgetitem" : "New budgetitem"}
+            </ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <VStack align="left">

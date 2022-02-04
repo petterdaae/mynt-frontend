@@ -52,13 +52,6 @@ function Spendings() {
         />
       </HStack>
       <Divider />
-      <CategoryBreadcrumb
-        categories={categories}
-        currentCategoryId={currentCategory}
-        setCurrentCategoryId={setCurrentCategory}
-        m="2"
-      />
-      <Divider mb="2" mt="2" />
       {loading ? (
         <Center mt="8">
           <Spinner size="xl" />
@@ -71,6 +64,14 @@ function Spendings() {
             loading={loading}
           />
           <Divider mb="2" mt="2" />
+          <CategoryBreadcrumb
+            categories={categories}
+            currentCategoryId={currentCategory}
+            setCurrentCategoryId={setCurrentCategory}
+            m="2"
+          />
+          <Divider mb="2" mt="2" />
+
           <SpendingsList
             currentCategory={currentCategory}
             setCurrentCategory={setCurrentCategory}

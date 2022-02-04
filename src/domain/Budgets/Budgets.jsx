@@ -2,7 +2,7 @@ import { useBudgets, useCategories, useSettings } from "../../hooks";
 import { useState } from "react";
 import Budget from "./Budget";
 import { Divider, HStack, IconButton, Center, Spinner } from "@chakra-ui/react";
-import { AddIcon } from "@chakra-ui/icons";
+import { AddIcon, ArrowBackIcon } from "@chakra-ui/icons";
 import NewBudget from "./NewBudget";
 import BudgetItems from "../BudgetItems/BudgetItems";
 
@@ -16,7 +16,14 @@ function Budgets() {
   return !(budgetsLoading || categoriesLoading) ? (
     currentBudget === null ? (
       <>
-        <HStack justify="right" m="2">
+        <HStack justify="space-between" m="2">
+          <IconButton
+            aria-label="Back"
+            icon={<ArrowBackIcon />}
+            onClick={() => {}}
+            disabled
+          />
+
           <IconButton
             aria-label="New budget"
             icon={<AddIcon />}

@@ -18,41 +18,21 @@ const Actual = styled.div`
   bottom: 0;
   border-radius: 5px;
 `;
-
-const Budget = styled.div`
-  position: absolute;
-  height: ${(props) => props.height}px;
-  width: ${(props) => props.width}px;
-  background-color: ${theme.colors.orange[200]};
-  z-index: ${(props) => props.zIndex};
-  bottom: 0;
-  border-radius: 5px;
-`;
-
-function Bar({ height, width, actual, budget, isIncome, max }) {
-  const actualHeight = Math.round((actual / max) * height);
-  const budgetHeight = Math.round((budget / max) * height);
-  const actualColor = isIncome
-    ? theme.colors.green[300]
-    : theme.colors.red[300];
-  const colorScheme = isIncome ? "green" : "red";
+function Bar({ height, width, max, value, colorScheme }) {
+  const actualHeight = Math.round((value / max) * height);
+  const barColor =
+    colorScheme === "blue"
+      ? theme.colors.blue[300]
+      : colorScheme === "red"
+      ? theme.colors.red[300]
+      : theme.colors.gray[300];
   return (
     <VStack justifyContent="center">
       <BarWrapper height={height} width={width}>
-        <Actual
-          height={actualHeight}
-          width={width}
-          color={actualColor}
-          zIndex={actual > budget ? 1 : 2}
-        />
-        <Budget
-          height={budgetHeight}
-          width={width}
-          zIndex={actual > budget ? 2 : 1}
-        />
+        <Actual height={actualHeight} width={width} color={barColor} />
       </BarWrapper>
       <Badge colorScheme={colorScheme} size="lg" fontSize="1.0em">
-        {formatCurrency(actual)}
+        {formatCurrency(value)}
       </Badge>
     </VStack>
   );
@@ -60,11 +40,10 @@ function Bar({ height, width, actual, budget, isIncome, max }) {
 
 Bar.propTypes = {
   height: PropTypes.number,
-  max: PropTypes.number,
   width: PropTypes.number,
-  actual: PropTypes.number,
-  budget: PropTypes.number,
-  isIncome: PropTypes.bool,
+  max: PropTypes.number,
+  value: PropTypes.number,
+  colorScheme: PropTypes.string,
 };
 
 export default Bar;
