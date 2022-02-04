@@ -2,7 +2,7 @@ import { HStack, Text, IconButton } from "@chakra-ui/react";
 import { useMemo } from "react";
 import PropTypes from "prop-types";
 import { getBreadcrumbFromCategoryId } from "./categoryBreadcrumbUtils";
-import { ArrowBackIcon } from "@chakra-ui/icons";
+import { ArrowUpIcon } from "@chakra-ui/icons";
 
 function CategoryBreadcrumb({
   currentCategoryId,
@@ -27,7 +27,7 @@ function CategoryBreadcrumb({
             )
           }
           disabled={loading || currentCategoryId === null}
-          icon={<ArrowBackIcon />}
+          icon={<ArrowUpIcon />}
         />
         {breadcrumb.map((crumb, index) => (
           <HStack key={crumb.id}>
