@@ -18,7 +18,7 @@ function Spending({ spending, category, setCurrentCategory }) {
         <Text>{category.name}</Text>
       </HStack>
       <Badge
-        colorScheme={spending.amount >= 0 ? "green" : "red"}
+        colorScheme={spending.amount >= 0 ? "blue" : "red"}
         fontSize="1.0em"
       >
         {formatCurrency(spending.amount)}

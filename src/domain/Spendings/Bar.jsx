@@ -21,11 +21,11 @@ const Actual = styled.div`
 function Bar({ height, width, max, value, colorScheme }) {
   const actualHeight = Math.round((value / max) * height);
   const barColor =
-    colorScheme === "green"
-      ? theme.colors.green[300]
+    colorScheme === "blue"
+      ? theme.colors.blue[300]
       : colorScheme === "red"
       ? theme.colors.red[300]
-      : theme.colors.orange[300];
+      : theme.colors.gray[300];
   return (
     <VStack justifyContent="center">
       <BarWrapper height={height} width={width}>

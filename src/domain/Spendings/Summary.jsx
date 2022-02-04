@@ -27,7 +27,7 @@ function Summary({ currentCategory, spendings }) {
                 height={200}
                 width={85}
                 value={spending.negativeBudget}
-                colorScheme="yellow"
+                colorScheme="gray"
               />
               <Bar
                 max={max}
@@ -41,14 +41,14 @@ function Summary({ currentCategory, spendings }) {
                 height={200}
                 width={85}
                 value={spending.positiveAmount}
-                colorScheme="green"
+                colorScheme="blue"
               />
               <Bar
                 max={max}
                 height={200}
                 width={85}
                 value={spending.positiveBudget}
-                colorScheme="yellow"
+                colorScheme="gray"
               />
             </>
           )}
