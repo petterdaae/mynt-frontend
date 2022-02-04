@@ -10,12 +10,14 @@ import {
   ModalFooter,
   ModalCloseButton,
   IconButton,
+  Badge,
 } from "@chakra-ui/react";
-import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import { DeleteIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import PropTypes from "prop-types";
 import NewBudgetItem from "./NewBudgetItem";
+import { formatCurrency } from "../utils";
 
 function BudgetItem({
   budgetItem,
@@ -37,21 +39,25 @@ function BudgetItem({
         p="4px"
         borderRadius="md"
         _hover={{ background: "whitesmoke", cursor: "pointer" }}
-        onClick={() => {}}
+        onClick={() => {
+          setEditBudgetItemOpen(true);
+        }}
       >
         <HStack>
           <CategoryIcon color={category.color} />
           <Text>{budgetItem.name}</Text>
         </HStack>
         <HStack>
-          <IconButton
-            aria-label="Edit budget"
-            icon={<EditIcon />}
-            onClick={(e) => {
-              setEditBudgetItemOpen(true);
-              e.stopPropagation();
-            }}
-          />
+          {budgetItem.negativeAmount && (
+            <Badge colorScheme="red" size="lg" fontSize="1.0em">
+              {formatCurrency(budgetItem.negativeAmount)}
+            </Badge>
+          )}
+          {budgetItem.positiveAmount && (
+            <Badge colorScheme="blue" size="lg" fontSize="1.0em">
+              {formatCurrency(budgetItem.positiveAmount)}
+            </Badge>
+          )}
           <IconButton
             aria-label="Delete budget"
             icon={<DeleteIcon />}
