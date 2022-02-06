@@ -33,7 +33,9 @@ function Spendings() {
   } = useSpendings(fromDate, toDate);
 
   const filteredTransactions = transactions.filter(
-    (t) => t.category.id === currentCategory
+    (t) =>
+      t.categorizations.some((c) => c.categoryId === currentCategory) ||
+      (currentCategory === null && t.categorizations.length === 0)
   );
 
   return (
