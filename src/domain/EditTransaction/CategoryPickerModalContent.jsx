@@ -9,8 +9,9 @@ import PropTypes from "prop-types";
 import CategoryPicker from "../CategoryPicker/CategoryPicker";
 
 function CategoryPickerModalContent({
-  toggleCategoryPicker,
-  setNewCategory,
+  setCategorizationBeingEdited,
+  categorizationBeingEdited,
+  setNewCategorizations,
   categories,
   loading,
 }) {
@@ -21,25 +22,34 @@ function CategoryPickerModalContent({
       <ModalBody>
         <CategoryPicker
           onSelect={(newCategory) => {
-            toggleCategoryPicker();
-            setNewCategory(newCategory);
+            setCategorizationBeingEdited(null);
+            setNewCategorizations((p) =>
+              p.map((c) =>
+                c.id === categorizationBeingEdited
+                  ? { ...c, category: newCategory }
+                  : c
+              )
+            );
           }}
           categories={categories}
           loading={loading}
         />
       </ModalBody>
       <ModalFooter>
-        <Button onClick={() => toggleCategoryPicker()}>Cancel</Button>
+        <Button onClick={() => setCategorizationBeingEdited(null)}>
+          Cancel
+        </Button>
       </ModalFooter>
     </>
   );
 }
 
 CategoryPickerModalContent.propTypes = {
-  toggleCategoryPicker: PropTypes.func.isRequired,
-  setNewCategory: PropTypes.func.isRequired,
+  setNewCategorizations: PropTypes.func.isRequired,
   categories: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,
+  setCategorizationBeingEdited: PropTypes.func.isRequired,
+  categorizationBeingEdited: PropTypes.number,
 };
 
 export default CategoryPickerModalContent;

@@ -45,7 +45,7 @@ function Transaction({
         onClick={onClick}
       >
         <HStack>
-          <CategoryIcon color={transaction.category.color} />
+          <CategoryIcon color={transaction.firstCategory.color} />
           <VStack align="left" spacing="1px">
             <Text fontSize="sm">{readableAccountingDate}</Text>
             <Text fontWeight="bold">{transaction.text}</Text>

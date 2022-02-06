@@ -22,15 +22,26 @@ function useRichTransactions(fromDate, toDate) {
     categoriesLoading ||
     categorizationsLoading;
 
+  const richCategorizations = useMemo(
+    () =>
+      loading
+        ? []
+        : categorizations.map((c) => ({
+            ...c,
+            category: categories.find((cat) => cat.id === c.categoryId),
+          })),
+    [categorizations, categories, loading]
+  );
+
   const richTransactions = useMemo(() => {
     if (loading) return [];
     return transactions.map((t) => {
-      const categorization = categorizations.find(
+      const firstCategorization = categorizations.find(
         (c) => c.transactionId === t.id
       );
       const account = accounts.find((a) => a.id === t.accountId);
-      const category = categorization
-        ? categories.find((c) => c.id === categorization.categoryId)
+      const firstCategory = firstCategorization
+        ? categories.find((c) => c.id === firstCategorization.categoryId)
         : {
             id: null,
             color: "lightgray",
@@ -39,11 +50,21 @@ function useRichTransactions(fromDate, toDate) {
       return {
         ...t,
         account,
-        category,
-        categorization,
+        firstCategory: firstCategory,
+        firstCategorization: firstCategorization,
+        categorizations: richCategorizations.filter(
+          (c) => c.transactionId === t.id
+        ),
       };
     });
-  }, [transactions, accounts, categories, categorizations, loading]);
+  }, [
+    transactions,
+    accounts,
+    categories,
+    categorizations,
+    loading,
+    richCategorizations,
+  ]);
 
   return {
     transactions: richTransactions,
