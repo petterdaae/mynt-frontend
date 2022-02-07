@@ -15,14 +15,15 @@ const formatReadableDate = (datetime) => {
 };
 
 function formatCurrency(amount) {
-  const integer = Math.floor(amount / 100);
-  let decimal = Math.abs(amount % 100);
-
-  if (decimal < 10) {
-    decimal = `0${decimal}`;
+  const formatted = `${(amount / 100).toLocaleString().replace(",", " ")}`;
+  if (formatted.indexOf(".") === -1) {
+    return formatted + ".00";
+  }
+  if (formatted.indexOf(".") === formatted.length - 2) {
+    return formatted + "0";
   }
 
-  return `${integer.toLocaleString().replace(",", " ")},${decimal}`;
+  return formatted;
 }
 
 function mod(n, m) {

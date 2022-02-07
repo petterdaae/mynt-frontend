@@ -1,6 +1,10 @@
 import { useMemo } from "react";
-import { useTransactions, useAccounts, useCategories } from "./index";
-import useCategorizations from "./useCategorizations";
+import {
+  useTransactions,
+  useAccounts,
+  useCategories,
+  useCategorizations,
+} from "./index";
 
 function useRichTransactions(fromDate, toDate) {
   const { categories, loading: categoriesLoading } = useCategories();
@@ -24,13 +28,18 @@ function useRichTransactions(fromDate, toDate) {
 
   const richTransactions = useMemo(() => {
     if (loading) return [];
+    const richCategorizations = categorizations.map((c) => ({
+      ...c,
+      category: categories.find((cat) => cat.id === c.categoryId),
+    }));
+
     return transactions.map((t) => {
-      const categorization = categorizations.find(
+      const firstCategorization = categorizations.find(
         (c) => c.transactionId === t.id
       );
       const account = accounts.find((a) => a.id === t.accountId);
-      const category = categorization
-        ? categories.find((c) => c.id === categorization.categoryId)
+      const firstCategory = firstCategorization
+        ? categories.find((c) => c.id === firstCategorization.categoryId)
         : {
             id: null,
             color: "lightgray",
@@ -39,8 +48,11 @@ function useRichTransactions(fromDate, toDate) {
       return {
         ...t,
         account,
-        category,
-        categorization,
+        firstCategory: firstCategory,
+        firstCategorization: firstCategorization,
+        categorizations: richCategorizations.filter(
+          (c) => c.transactionId === t.id
+        ),
       };
     });
   }, [transactions, accounts, categories, categorizations, loading]);

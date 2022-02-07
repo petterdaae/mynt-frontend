@@ -5,31 +5,26 @@ import {
   ModalBody,
   ModalFooter,
   VStack,
-  HStack,
   Text,
   Divider,
+  Badge,
+  HStack,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import CustomDate from "./CustomDate";
+import Categorizations from "./Categorizations";
 import { useCallback, useState } from "react";
+import { formatCurrency } from "../utils";
 
 function EditTransactionModalContent({
   transaction,
   onClose,
-  toggleCategoryPicker,
-  newCategory,
   updateCategorizationsForTransaction,
   updateTransaction,
+  newCategorizations,
+  setNewCategorizations,
+  setCategorizationBeingEdited,
 }) {
-  const categoryColor = newCategory
-    ? newCategory.color
-    : transaction.category.color;
-
-  const categoryName = newCategory
-    ? newCategory.name
-    : transaction.category.name;
-
   const [customDateError, setCustomDateError] = useState(null);
 
   const [customDate, setCustomDate] = useState(
@@ -40,31 +35,26 @@ function EditTransactionModalContent({
 
   const [customDateOpen, setCustomDateOpen] = useState(transaction.customDate);
 
-  const newCategoryChanged =
-    newCategory && newCategory.id !== transaction.category.id;
-
-  const newCustomDateChanged = customDateOpen
-    ? !customDateError && customDate !== transaction.customDate
-    : transaction.customDate;
+  const [categorizationsError, setCategorizationsError] = useState(null);
 
   const onSave = useCallback(() => {
     onClose();
-    if (newCategoryChanged) {
-      updateCategorizationsForTransaction(transaction, newCategory.id);
-    }
-    if (newCustomDateChanged) {
-      const nullableNewCustomDate = customDateOpen ? customDate : null;
-      updateTransaction({ ...transaction, customDate: nullableNewCustomDate });
-    }
+    const mappedNewCategorizations = newCategorizations.map((c) => ({
+      amount: c.newAmount ? parseFloat(c.newAmount) * 100 : c.amount,
+      category: c.category,
+      categoryId: c.categoryId,
+    }));
+    updateCategorizationsForTransaction(transaction, mappedNewCategorizations);
+    const nullableNewCustomDate = customDateOpen ? customDate : null;
+    updateTransaction({ ...transaction, customDate: nullableNewCustomDate });
   }, [
     transaction,
-    newCategory,
     onClose,
     updateTransaction,
     updateCategorizationsForTransaction,
-    newCategoryChanged,
-    newCustomDateChanged,
+    newCategorizations,
     customDate,
+    customDateOpen,
   ]);
 
   return (
@@ -75,6 +65,13 @@ function EditTransactionModalContent({
         <VStack align="left">
           <Text fontSize="sm">Description</Text>
           <Text fontWeight="semibold">{transaction.text}</Text>
+          <Divider />
+          <Text fontSize="sm">Amount</Text>
+          <HStack>
+            <Badge colorScheme={transaction.amount >= 0 ? "blue" : "red"}>
+              {formatCurrency(transaction.amount)}
+            </Badge>
+          </HStack>
           <Divider />
           <CustomDate
             transaction={transaction}
@@ -89,15 +86,14 @@ function EditTransactionModalContent({
           <Text fontSize="sm">Account</Text>
           <Text fontWeight="semibold">{transaction.account.name}</Text>
           <Divider />
-          <HStack justify="space-between">
-            <HStack>
-              <CategoryIcon color={categoryColor} size="sm" />
-              <Text fontWeight="semibold">{categoryName}</Text>
-            </HStack>
-            <Button variant="outline" onClick={toggleCategoryPicker}>
-              Change category
-            </Button>
-          </HStack>
+          <Categorizations
+            setCategorizationBeingEdited={setCategorizationBeingEdited}
+            newCategorizations={newCategorizations}
+            setNewCategorizations={setNewCategorizations}
+            categorizationsError={categorizationsError}
+            setCategorizationsError={setCategorizationsError}
+            transaction={transaction}
+          />
           <Divider />
         </VStack>
       </ModalBody>
@@ -106,11 +102,18 @@ function EditTransactionModalContent({
           onClick={onSave}
           mr="8px"
           colorScheme="green"
-          disabled={!(newCategoryChanged || newCustomDateChanged)}
+          disabled={customDateError || categorizationsError}
         >
           Save
         </Button>
-        <Button onClick={onClose}>Close</Button>
+        <Button
+          onClick={() => {
+            onClose();
+            setNewCategorizations(transaction.categorizations);
+          }}
+        >
+          Close
+        </Button>
       </ModalFooter>
     </>
   );
@@ -119,11 +122,11 @@ function EditTransactionModalContent({
 EditTransactionModalContent.propTypes = {
   transaction: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
-  toggleCategoryPicker: PropTypes.func.isRequired,
-  newCategory: PropTypes.object,
   updateCategorizationsForTransaction: PropTypes.func.isRequired,
   updateTransaction: PropTypes.func.isRequired,
-  categories: PropTypes.array.isRequired,
+  newCategorizations: PropTypes.array.isRequired,
+  setNewCategorizations: PropTypes.func.isRequired,
+  setCategorizationBeingEdited: PropTypes.func.isRequired,
 };
 
 export default EditTransactionModalContent;

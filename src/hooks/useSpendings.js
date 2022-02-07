@@ -68,13 +68,15 @@ function calculateSpendings(id, categories, transactions, budgetItems) {
   // Add amounts of transactions that are in the category
   if (!spending.category.ignore) {
     for (const transaction of transactions) {
-      if (!transaction.categorization) continue;
-      if (transaction.categorization.categoryId === id) {
-        spending.amount += transaction.amount;
-        spending.positiveAmount +=
-          transaction.amount > 0 ? transaction.amount : 0;
-        spending.negativeAmount +=
-          transaction.amount < 0 ? transaction.amount : 0;
+      for (const categorization of transaction.categorizations) {
+        if (categorization.categoryId === id) {
+          spending.amount += categorization.amount;
+          if (categorization.amount > 0) {
+            spending.positiveAmount += categorization.amount;
+          } else {
+            spending.negativeAmount += categorization.amount;
+          }
+        }
       }
     }
   }

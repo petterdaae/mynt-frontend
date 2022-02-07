@@ -20,27 +20,26 @@ function useCategorizations(fromDate, toDate) {
   }, [setCategorizations, fromDate, toDate]);
 
   const updateCategorizationsForTransaction = useCallback(
-    (transaction, categoryId) => {
+    (transaction, newCategorizations) => {
       fetch(`${process.env.REACT_APP_BACKEND_URL}/categorizations`, {
         method: "PUT",
         credentials: "include",
         body: JSON.stringify({
           transactionId: transaction.id,
-          categorizations: [
-            {
-              categoryId: categoryId,
-              amount: transaction.amount,
-            },
-          ],
+          categorizations: newCategorizations.map((c) => ({
+            categoryId: c.category.id,
+            amount: c.amount,
+          })),
         }),
       });
       setCategorizations((prev) => [
         ...prev.filter((c) => c.transactionId !== transaction.id),
-        {
-          categoryId: categoryId,
+        ...newCategorizations.map((c) => ({
+          id: c.id,
+          amount: c.amount,
           transactionId: transaction.id,
-          amount: transaction.amount,
-        },
+          categoryId: c.categoryId,
+        })),
       ]);
     },
     [setCategorizations]

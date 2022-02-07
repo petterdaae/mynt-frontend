@@ -1,9 +1,4 @@
-import {
-  Modal,
-  ModalOverlay,
-  useBoolean,
-  ModalContent,
-} from "@chakra-ui/react";
+import { Modal, ModalOverlay, ModalContent } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import CategoryPickerModalContent from "./CategoryPickerModalContent";
@@ -18,33 +13,37 @@ function EditTransactionModal({
   categories,
   loading,
 }) {
-  const [showCategoryPicker, { toggle: toggleCategoryPicker }] =
-    useBoolean(false);
+  const [newCategorizations, setNewCategorizations] = useState(
+    transaction.categorizations
+  );
 
-  const [newCategory, setNewCategory] = useState(null);
+  const [categorizationBeingEdited, setCategorizationBeingEdited] =
+    useState(null);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <ModalOverlay />
       <ModalContent>
-        {showCategoryPicker ? (
+        {categorizationBeingEdited !== null ? (
           <CategoryPickerModalContent
-            toggleCategoryPicker={toggleCategoryPicker}
-            setNewCategory={setNewCategory}
-            categories={categories}
+            setCategorizationBeingEdited={setCategorizationBeingEdited}
+            categorizationBeingEdited={categorizationBeingEdited}
+            setNewCategorizations={setNewCategorizations}
+            newCategorizations={newCategorizations}
             loading={loading}
+            categories={categories}
           />
         ) : (
           <EditTransactionModalContent
             transaction={transaction}
-            toggleCategoryPicker={toggleCategoryPicker}
+            setCategorizationBeingEdited={setCategorizationBeingEdited}
             onClose={onClose}
-            newCategory={newCategory}
             updateCategorizationsForTransaction={
               updateCategorizationsForTransaction
             }
             updateTransaction={updateTransaction}
-            categories={categories}
+            newCategorizations={newCategorizations}
+            setNewCategorizations={setNewCategorizations}
           />
         )}
       </ModalContent>
