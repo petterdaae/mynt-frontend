@@ -34,10 +34,10 @@ function useCategorizations(fromDate, toDate) {
       });
       setCategorizations((prev) => [
         ...prev.filter((c) => c.transactionId !== transaction.id),
-        ...categorizations.map((c) => ({
+        ...newCategorizations.map((c) => ({
           id: c.id,
           amount: c.amount,
-          transactionId: c.transactionId,
+          transactionId: transaction.id,
           categoryId: c.categoryId,
         })),
       ]);

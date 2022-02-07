@@ -6,7 +6,7 @@ import {
   Button,
   Input,
 } from "@chakra-ui/react";
-import { EditIcon } from "@chakra-ui/icons";
+import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
@@ -20,6 +20,12 @@ function Categorizations({
   transaction,
 }) {
   useEffect(() => {
+    console.log(newCategorizations);
+    if (newCategorizations.length === 0) {
+      setCategorizationsError(null);
+      return;
+    }
+
     const allHaveCategories = newCategorizations.every(
       (categorization) => categorization.category.id != null
     );
@@ -80,6 +86,16 @@ function Categorizations({
                 aria-label="Edit category"
                 icon={<EditIcon />}
                 onClick={() => setCategorizationBeingEdited(categorization.id)}
+              />
+              <IconButton
+                aria-label="Delete category"
+                icon={<DeleteIcon />}
+                colorScheme="red"
+                onClick={() =>
+                  setNewCategorizations((prev) =>
+                    prev.filter((c) => c.id !== categorization.id)
+                  )
+                }
               />
             </HStack>
           </HStack>

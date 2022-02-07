@@ -25,7 +25,6 @@ function EditTransactionModalContent({
   setNewCategorizations,
   setCategorizationBeingEdited,
 }) {
-  console.log(transaction);
   const [customDateError, setCustomDateError] = useState(null);
 
   const [customDate, setCustomDate] = useState(
@@ -48,7 +47,9 @@ function EditTransactionModalContent({
     onClose,
     updateTransaction,
     updateCategorizationsForTransaction,
+    newCategorizations,
     customDate,
+    customDateOpen,
   ]);
 
   return (
@@ -100,7 +101,14 @@ function EditTransactionModalContent({
         >
           Save
         </Button>
-        <Button onClick={onClose}>Close</Button>
+        <Button
+          onClick={() => {
+            onClose();
+            setNewCategorizations(transaction.categorizations);
+          }}
+        >
+          Close
+        </Button>
       </ModalFooter>
     </>
   );

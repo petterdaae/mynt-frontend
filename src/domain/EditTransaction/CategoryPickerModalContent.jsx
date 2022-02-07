@@ -26,7 +26,7 @@ function CategoryPickerModalContent({
             setNewCategorizations((p) =>
               p.map((c) =>
                 c.id === categorizationBeingEdited
-                  ? { ...c, category: newCategory }
+                  ? { ...c, category: newCategory, categoryId: newCategory.id }
                   : c
               )
             );
