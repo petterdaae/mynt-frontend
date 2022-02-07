@@ -25,6 +25,7 @@ function EditTransactionModalContent({
   setNewCategorizations,
   setCategorizationBeingEdited,
 }) {
+  console.log(transaction);
   const [customDateError, setCustomDateError] = useState(null);
 
   const [customDate, setCustomDate] = useState(
