@@ -20,7 +20,6 @@ function Categorizations({
   transaction,
 }) {
   useEffect(() => {
-    console.log(newCategorizations);
     if (newCategorizations.length === 0) {
       setCategorizationsError(null);
       return;
@@ -33,8 +32,10 @@ function Categorizations({
       (categorization) => categorization.amount !== ""
     );
     const equalsAmount =
-      newCategorizations.reduce((acc, curr) => acc + curr.amount, 0) ===
-      transaction.amount;
+      newCategorizations.reduce((acc, curr) => {
+        if (!curr.newAmount && curr.newAmount !== "") return acc + curr.amount;
+        return acc + parseFloat(curr.newAmount) * 100;
+      }, 0) === transaction.amount;
 
     if (!allHaveCategories) {
       setCategorizationsError("All categorizations must have a category.");
@@ -65,18 +66,22 @@ function Categorizations({
             </HStack>
             <HStack align="right">
               <Input
-                type="number"
-                step="0.01"
                 value={
-                  categorization.amount === ""
+                  !categorization.newAmount && categorization.newAmount !== ""
+                    ? (categorization.amount / 100).toFixed(2)
+                    : categorization.newAmount === ""
                     ? ""
-                    : categorization.amount / 100
+                    : categorization.newAmount
                 }
                 onChange={(e) => {
                   setNewCategorizations((prev) => {
+                    const regex = /^-?\d*(\.\d{0,2})?$/g;
+                    if (!regex.test(e.target.value)) {
+                      return prev;
+                    }
                     return prev.map((c) =>
                       c.id === categorization.id
-                        ? { ...c, amount: e.target.value * 100 }
+                        ? { ...c, newAmount: e.target.value }
                         : c
                     );
                   });
@@ -113,7 +118,7 @@ function Categorizations({
                   name: "No category",
                   color: "lightgray",
                 },
-                amount: "",
+                newAmount: "",
               },
             ];
           });

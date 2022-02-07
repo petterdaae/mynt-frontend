@@ -39,7 +39,12 @@ function EditTransactionModalContent({
 
   const onSave = useCallback(() => {
     onClose();
-    updateCategorizationsForTransaction(transaction, newCategorizations);
+    const mappedNewCategorizations = newCategorizations.map((c) => ({
+      amount: c.newAmount ? parseFloat(c.newAmount) * 100 : c.amount,
+      category: c.category,
+      categoryId: c.categoryId,
+    }));
+    updateCategorizationsForTransaction(transaction, mappedNewCategorizations);
     const nullableNewCustomDate = customDateOpen ? customDate : null;
     updateTransaction({ ...transaction, customDate: nullableNewCustomDate });
   }, [
