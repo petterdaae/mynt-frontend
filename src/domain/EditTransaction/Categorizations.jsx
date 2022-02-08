@@ -93,9 +93,7 @@ function Categorizations({
                           ? { ...c, newAmount: e.target.value }
                           : {
                               ...c,
-                              newAmount: otherAmount
-                                .toFixed(2)
-                                .replace(" ", ""),
+                              newAmount: otherAmount.toFixed(2),
                             }
                       );
                     }
@@ -143,7 +141,9 @@ function Categorizations({
                   color: "lightgray",
                 },
                 newAmount:
-                  prev.length === 0 ? formatCurrency(transaction.amount) : "",
+                  prev.length === 0
+                    ? formatCurrency(transaction.amount).replace(" ", "")
+                    : "",
               },
             ];
           });
