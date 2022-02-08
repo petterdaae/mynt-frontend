@@ -142,7 +142,7 @@ function Categorizations({
                 },
                 newAmount:
                   prev.length === 0
-                    ? formatCurrency(transaction.amount).replace(" ", "")
+                    ? formatCurrency(transaction.amount).replace(/\s/g, "")
                     : "",
               },
             ];
