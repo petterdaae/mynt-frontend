@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { useCallback, useState, useMemo } from "react";
-import CategoryPickerModalContent from "../EditTransaction/CategoryPickerModalContent";
+import CategoryPickerModalContent from "../CategoryPicker/CategoryPickerModalContent";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 
 function NewBudgetItem({
@@ -141,10 +141,11 @@ function NewBudgetItem({
       <ModalContent>
         {showChooseCategories ? (
           <CategoryPickerModalContent
-            toggleCategoryPicker={() => setShowChooseCategories(false)}
-            setNewCategory={(category) => {
+            onCancel={() => setShowChooseCategories(false)}
+            onSelect={(category) => {
               setCategoryId(category.id);
               setCategoryError(null);
+              setShowChooseCategories(false);
             }}
             categories={categories}
             loading={false}
