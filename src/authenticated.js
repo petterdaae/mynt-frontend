@@ -38,7 +38,7 @@ const NavWrapper = styled.div`
 `;
 
 const OtherHackyWrapper = styled.div`
-  margin-top: 75px;
+  margin-top: 68px;
 `;
 
 function Authenticated({ children }) {
