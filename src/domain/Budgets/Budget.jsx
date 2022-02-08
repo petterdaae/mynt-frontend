@@ -50,8 +50,8 @@ function Budget({
               <StarIcon
                 color={
                   mainBudgetId === budget.id
-                    ? theme.colors.yellow[500]
-                    : undefined
+                    ? theme.colors.yellow[400]
+                    : theme.colors.gray[400]
                 }
               />
             }
