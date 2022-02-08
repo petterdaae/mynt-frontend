@@ -16,7 +16,7 @@ function CategoryPicker({ onSelect, categories, loading }) {
           currentCategoryId={currentParentCategoryId}
           setCurrentCategoryId={setCurrentParentCategoryId}
         />
-        <Divider />
+        <Divider mt="2" />
         {categories
           .filter((category) => category.parentId === currentParentCategoryId)
           .map((category) => (

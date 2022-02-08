@@ -14,7 +14,6 @@ const Actual = styled.div`
   height: ${(props) => props.height}px;
   width: ${(props) => props.width}px;
   background-color: ${(props) => props.color};
-  z-index: 2;
   bottom: 0;
   border-radius: 5px;
 `;

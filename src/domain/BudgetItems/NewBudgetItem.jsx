@@ -99,7 +99,6 @@ function NewBudgetItem({
           negativeAmount === "" ? null : parseInt(negativeAmount, 10) * 100,
       });
     } else {
-      console.log(categoryId);
       addBudgetItem({
         budgetId,
         name,
