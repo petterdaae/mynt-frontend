@@ -22,7 +22,9 @@ function formatCurrency(amount) {
   const formatted = `${formatter
     .format(amount / 100)
     .replace("kr", "")
-    .replace(",", ".")}`;
+    .replace(",", ".")
+    .replace("−", "-")
+    .trim()}`;
   return formatted;
 }
 

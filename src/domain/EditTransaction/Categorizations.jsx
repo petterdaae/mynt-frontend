@@ -10,6 +10,7 @@ import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
+import { formatCurrency } from "../utils";
 
 function Categorizations({
   setCategorizationBeingEdited,
@@ -79,6 +80,21 @@ function Categorizations({
                     if (!regex.test(e.target.value)) {
                       return prev;
                     }
+
+                    if (
+                      prev.length === 2 &&
+                      parseFloat(e.target.value).toString() !== "NaN"
+                    ) {
+                      const currentAmount = parseFloat(e.target.value);
+                      const otherAmount =
+                        transaction.amount / 100 - currentAmount;
+                      return prev.map((c) =>
+                        c.id === categorization.id
+                          ? { ...c, newAmount: e.target.value }
+                          : { ...c, newAmount: otherAmount.toFixed(2) }
+                      );
+                    }
+
                     return prev.map((c) =>
                       c.id === categorization.id
                         ? { ...c, newAmount: e.target.value }
@@ -112,13 +128,17 @@ function Categorizations({
             return [
               ...prev,
               {
-                id: Math.max(...prev.map((c) => c.id)) + 1,
+                id:
+                  prev.length === 0
+                    ? 1
+                    : Math.max(...prev.map((c) => c.id)) + 1,
                 category: {
                   id: null,
                   name: "No category",
                   color: "lightgray",
                 },
-                newAmount: "",
+                newAmount:
+                  prev.length === 0 ? formatCurrency(transaction.amount) : "",
               },
             ];
           });
