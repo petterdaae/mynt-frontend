@@ -91,7 +91,12 @@ function Categorizations({
                       return prev.map((c) =>
                         c.id === categorization.id
                           ? { ...c, newAmount: e.target.value }
-                          : { ...c, newAmount: otherAmount.toFixed(2) }
+                          : {
+                              ...c,
+                              newAmount: otherAmount
+                                .toFixed(2)
+                                .replace(" ", ""),
+                            }
                       );
                     }
 
