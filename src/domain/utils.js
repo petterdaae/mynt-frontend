@@ -15,14 +15,16 @@ const formatReadableDate = (datetime) => {
 };
 
 function formatCurrency(amount) {
-  const formatted = `${(amount / 100).toLocaleString().replace(",", " ")}`;
-  if (formatted.indexOf(".") === -1) {
-    return formatted + ".00";
-  }
-  if (formatted.indexOf(".") === formatted.length - 2) {
-    return formatted + "0";
-  }
-
+  const formatter = new Intl.NumberFormat("no-NO", {
+    style: "currency",
+    currency: "NOK",
+  });
+  const formatted = `${formatter
+    .format(amount / 100)
+    .replace("kr", "")
+    .replace(",", ".")
+    .replace("−", "-")
+    .trim()}`;
   return formatted;
 }
 
