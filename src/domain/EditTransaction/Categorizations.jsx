@@ -49,7 +49,7 @@ function Categorizations({
     } else {
       setCategorizationsError(null);
     }
-  }, [newCategorizations]);
+  }, [newCategorizations, setCategorizationsError, transaction.amount]);
 
   return (
     <VStack align="left">

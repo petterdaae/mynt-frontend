@@ -1,7 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 
-function useCrud(endpoint) {
-  const [elements, setElements] = useState([]);
+interface E {
+  id: number;
+}
+
+function useCrud<T extends E>(endpoint: string) {
+  const [elements, setElements] = useState<T[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -14,7 +18,7 @@ function useCrud(endpoint) {
         setElements(elements);
         setLoading(false);
       });
-  }, [setElements]);
+  }, [setElements, endpoint]);
 
   const addElement = useCallback(
     (newElement) => {
@@ -32,7 +36,7 @@ function useCrud(endpoint) {
           );
         });
     },
-    [setElements, elements]
+    [setElements, endpoint, elements]
   );
 
   const updateElement = useCallback(
@@ -46,7 +50,7 @@ function useCrud(endpoint) {
         prev.map((e) => (e.id === element.id ? element : e))
       );
     },
-    [setElements]
+    [setElements, endpoint]
   );
 
   const deleteElement = useCallback(
@@ -60,7 +64,7 @@ function useCrud(endpoint) {
       });
       setElements((prev) => prev.filter((e) => e.id !== id));
     },
-    [setElements]
+    [setElements, endpoint]
   );
 
   return {

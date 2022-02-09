@@ -19,31 +19,34 @@ function useTransactions(fromDate, toDate) {
       });
   }, [setLoading, fromDate, toDate, setTransactions]);
 
-  const update = useCallback((transaction) => {
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/transactions`, {
-      method: "PUT",
-      credentials: "include",
-      body: JSON.stringify({
-        id: transaction.id,
-        customDate: transaction.customDate,
-      }),
-    });
+  const update = useCallback(
+    (transaction) => {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/transactions`, {
+        method: "PUT",
+        credentials: "include",
+        body: JSON.stringify({
+          id: transaction.id,
+          customDate: transaction.customDate,
+        }),
+      });
 
-    setTransactions((prev) =>
-      prev
-        .map((t) => (t.id === transaction.id ? transaction : t))
-        .filter(
-          (t) =>
-            (t.customDate ?? t.accountingDate) >= fromDate &&
-            (t.customDate ?? t.accountingDate) <= toDate
-        )
-        .sort((a, b) => {
-          const aDate = a.customDate ?? a.accountingDate;
-          const bDate = b.customDate ?? b.accountingDate;
-          return aDate === bDate ? a.id - b.id : aDate >= bDate ? -1 : 1;
-        })
-    );
-  });
+      setTransactions((prev) =>
+        prev
+          .map((t) => (t.id === transaction.id ? transaction : t))
+          .filter(
+            (t) =>
+              (t.customDate ?? t.accountingDate) >= fromDate &&
+              (t.customDate ?? t.accountingDate) <= toDate
+          )
+          .sort((a, b) => {
+            const aDate = a.customDate ?? a.accountingDate;
+            const bDate = b.customDate ?? b.accountingDate;
+            return aDate === bDate ? a.id - b.id : aDate >= bDate ? -1 : 1;
+          })
+      );
+    },
+    [fromDate, toDate]
+  );
 
   return {
     transactions,

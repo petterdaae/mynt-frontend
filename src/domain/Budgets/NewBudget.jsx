@@ -63,7 +63,6 @@ function NewBudget({ onClose, isOpen, edit, budget, addBudget, updateBudget }) {
     setNameError,
     setColorError,
     edit,
-    budget,
     addBudget,
     updateBudget,
   ]);

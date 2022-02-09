@@ -30,7 +30,7 @@ function NewBudgetItem({
 }) {
   const initialValue = useCallback(
     (value) => (value ? Math.round(value / 100) : ""),
-    [edit]
+    []
   );
 
   const [name, setName] = useState(edit ? budgetItem.name : "");
@@ -119,19 +119,16 @@ function NewBudgetItem({
     setAmountError(null);
     setCategoryError(null);
   }, [
-    onClose,
     name,
-    budgetItem,
-    setNameError,
-    edit,
-    budgetItem,
-    addBudgetItem,
-    updateBudgetItem,
     categoryId,
-    setCategoryError,
     positiveAmount,
     negativeAmount,
-    setAmountError,
+    edit,
+    onClose,
+    updateBudgetItem,
+    budgetItem,
+    addBudgetItem,
+    budgetId,
   ]);
 
   return (
