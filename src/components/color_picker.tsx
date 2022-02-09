@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import PropTypes from "prop-types";
 
 const base = 4;
 const red = "crimson";
@@ -12,7 +11,7 @@ const Color = styled.div`
   width: ${8 * base}px;
   height: ${8 * base}px;
   border-radius: 50%;
-  border: ${base}px solid ${(props) => props.color};
+  border: ${base}px solid ${(props: { color: string }) => props.color};
   box-sizing: border-box;
 
   &:not(:last-child) {
@@ -23,7 +22,8 @@ const Color = styled.div`
     cursor: pointer;
   }
 
-  ${(props) => props.selected && `background: ${props.color};`}
+  ${(props: { selected: boolean; color: string }) =>
+    props.selected && `background: ${props.color};`}
 `;
 
 const ErrorMessage = styled.div`
@@ -36,7 +36,13 @@ const ErrorMessage = styled.div`
 
 const colors = ["#7f87b2", "#83b2d0", "#95dab6", "#f2e6b1", "#dc8580"];
 
-function ColorPicker({ value, onChange, error }) {
+type Props = {
+  value: string;
+  onChange: (color: string) => void;
+  error: string | null;
+};
+
+function ColorPicker({ value, onChange, error }: Props) {
   return (
     <>
       <Colors>
@@ -53,11 +59,5 @@ function ColorPicker({ value, onChange, error }) {
     </>
   );
 }
-
-ColorPicker.propTypes = {
-  value: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  error: PropTypes.string,
-};
 
 export default ColorPicker;
