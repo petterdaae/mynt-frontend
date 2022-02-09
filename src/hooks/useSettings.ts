@@ -1,7 +1,8 @@
 import { useState, useCallback, useEffect } from "react";
+import { Settings } from "../types";
 
 function useSettings() {
-  const [settings, setSettings] = useState({});
+  const [settings, setSettings] = useState<Settings | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

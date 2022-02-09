@@ -1,7 +1,8 @@
 import { useMemo } from "react";
+import { BudgetItem, Category, RichTransaction, Spending } from "../types";
 import { useRichTransactions, useBudgetItems, useSettings } from "./index";
 
-function useSpendings(fromDate, toDate) {
+function useSpendings(fromDate: string, toDate: string) {
   const {
     transactions,
     loading: richTransactionsLoading,
@@ -21,7 +22,7 @@ function useSpendings(fromDate, toDate) {
             null,
             categories,
             transactions,
-            budgetItems.filter((bi) => bi.budgetId === settings.mainBudgetId)
+            budgetItems.filter((bi) => bi.budgetId === settings?.mainBudgetId)
           ),
     [categories, transactions, loading, budgetItems, settings]
   );
@@ -36,8 +37,13 @@ function useSpendings(fromDate, toDate) {
 }
 
 // Recursively calculates spendings for each category with subcategories
-function calculateSpendings(id, categories, transactions, budgetItems) {
-  const spendings = [];
+function calculateSpendings(
+  id: number | null,
+  categories: Category[],
+  transactions: RichTransaction[],
+  budgetItems: BudgetItem[]
+) {
+  const spendings: Spending[] = [];
 
   // Create a new spending for each category
   const category = categories.find((c) => c.id === id) ?? {
@@ -56,11 +62,11 @@ function calculateSpendings(id, categories, transactions, budgetItems) {
     positiveAmount: 0,
     negativeAmount: 0,
     positiveBudget: currentBudgetItems.reduce(
-      (acc, bi) => acc + bi.positiveAmount,
+      (acc, bi) => acc + (bi.positiveAmount ?? 0),
       0
     ),
     negativeBudget: currentBudgetItems.reduce(
-      (acc, bi) => acc + bi.negativeAmount,
+      (acc, bi) => acc + (bi.negativeAmount ?? 0),
       0
     ),
   };

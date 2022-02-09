@@ -1,4 +1,6 @@
 import { useMemo } from "react";
+import { Category, RichTransaction, Account } from "../types";
+import RichCategorization from "../types/RichCategorization";
 import {
   useTransactions,
   useAccounts,
@@ -26,25 +28,22 @@ function useRichTransactions(fromDate: string, toDate: string) {
     categoriesLoading ||
     categorizationsLoading;
 
-  const richTransactions = useMemo(() => {
+  const richTransactions = useMemo<RichTransaction[]>(() => {
     if (loading) return [];
-    const richCategorizations = categorizations.map((c) => ({
-      ...c,
-      category: categories.find((cat) => cat.id === c.categoryId),
-    }));
+    const richCategorizations: RichCategorization[] = categorizations.map(
+      (c) => ({
+        ...c,
+        category: categories.find((cat) => cat.id === c.categoryId) as Category, // TODO: codesmell?
+      })
+    );
 
     return transactions.map((t) => {
-      const firstCategorization = categorizations.find(
-        (c) => c.transactionId === t.id
-      );
-      const account = accounts.find((a) => a.id === t.accountId);
-      const firstCategory = firstCategorization
-        ? categories.find((c) => c.id === firstCategorization.categoryId)
-        : {
-            id: null,
-            color: "lightgray",
-            name: "Uncategorized",
-          };
+      const firstCategorization =
+        categorizations.find((c) => c.transactionId === t.id) ?? null;
+      const account = accounts.find((a) => a.id === t.accountId) as Account; // TODO: codesmell?
+      const firstCategory =
+        categories.find((c) => c.id === firstCategorization?.categoryId) ??
+        null;
       return {
         ...t,
         account,

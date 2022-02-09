@@ -5,6 +5,8 @@ import Categorization from "./Categorization";
 import Category from "./Category";
 import Settings from "./Settings";
 import Transaction from "./Transaction";
+import RichTransaction from "./RichTransaction";
+import Spending from "./Spending";
 
 export type {
   Account,
@@ -14,4 +16,6 @@ export type {
   Category,
   Settings,
   Transaction,
+  RichTransaction,
+  Spending,
 };

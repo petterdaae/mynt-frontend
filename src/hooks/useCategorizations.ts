@@ -28,7 +28,7 @@ function useCategorizations(fromDate: string, toDate: string) {
         body: JSON.stringify({
           transactionId: transaction.id,
           categorizations: newCategorizations.map((c) => ({
-            categoryId: c.category.id,
+            categoryId: c.categoryId,
             amount: c.amount,
           })),
         }),

@@ -1,12 +1,23 @@
+import { useState, useEffect } from "react";
 import { Account } from "../types";
-import { useCrud } from "./index";
 
 function useAccounts() {
-  const { elements, loading } = useCrud<Account>(
-    `${process.env.REACT_APP_BACKEND_URL}/accounts`
-  );
+  const [accounts, setAccounts] = useState<Account[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  return { accounts: elements, loading: loading };
+  useEffect(() => {
+    setLoading(true);
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/accounts`, {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((elements) => {
+        setAccounts(elements);
+        setLoading(false);
+      });
+  }, [setAccounts]);
+
+  return { accounts, loading };
 }
 
 export default useAccounts;

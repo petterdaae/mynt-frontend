@@ -1,8 +1,9 @@
+import { Category } from "../types";
 import { useCrud } from "./index";
 
 function useCategories() {
   const { elements, loading, addElement, updateElement, deleteElement } =
-    useCrud(`${process.env.REACT_APP_BACKEND_URL}/categories`);
+    useCrud<Category>(`${process.env.REACT_APP_BACKEND_URL}/categories`);
 
   return {
     categories: elements,
