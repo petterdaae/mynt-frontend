@@ -4,6 +4,15 @@ import Proptypes from "prop-types";
 import EditTransactionModal from "../EditTransaction/EditTransactionModal";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import { useCallback, useMemo, useState, memo } from "react";
+import { RichTransaction, Category } from "../../types";
+
+interface Props {
+  transaction: RichTransaction;
+  updateCategorizationsForTransaction: any;
+  updateTransaction: any;
+  categories: Category[];
+  loading: boolean;
+}
 
 function Transaction({
   transaction,
@@ -11,7 +20,7 @@ function Transaction({
   updateTransaction,
   categories,
   loading,
-}) {
+}: Props) {
   const [showEditTransactionModal, setShowEditTransactionModal] =
     useState(false);
 
@@ -45,7 +54,9 @@ function Transaction({
         onClick={onClick}
       >
         <HStack>
-          <CategoryIcon color={transaction.firstCategory.color} />
+          <CategoryIcon
+            color={transaction?.firstCategory?.color ?? "lightgray"}
+          />
           <VStack align="left" spacing="1px">
             <Text fontSize="sm">{readableAccountingDate}</Text>
             <Text fontWeight="bold">{transaction.text}</Text>
