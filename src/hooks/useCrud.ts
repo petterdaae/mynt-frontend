@@ -21,7 +21,7 @@ function useCrud<T extends E>(endpoint: string) {
   }, [setElements, endpoint]);
 
   const addElement = useCallback(
-    (newElement) => {
+    (newElement: T) => {
       const temporaryId = Math.max(...elements.map((e) => e.id)) + 10;
       setElements((prev) => [...prev, { ...newElement, id: temporaryId }]);
       fetch(endpoint, {
@@ -40,7 +40,7 @@ function useCrud<T extends E>(endpoint: string) {
   );
 
   const updateElement = useCallback(
-    (element) => {
+    (element: T) => {
       fetch(endpoint, {
         credentials: "include",
         method: "PUT",
@@ -54,7 +54,7 @@ function useCrud<T extends E>(endpoint: string) {
   );
 
   const deleteElement = useCallback(
-    (id) => {
+    (id: number) => {
       fetch(endpoint, {
         credentials: "include",
         method: "DELETE",

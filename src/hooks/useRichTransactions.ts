@@ -6,7 +6,7 @@ import {
   useCategorizations,
 } from "./index";
 
-function useRichTransactions(fromDate, toDate) {
+function useRichTransactions(fromDate: string, toDate: string) {
   const { categories, loading: categoriesLoading } = useCategories();
   const { accounts, loading: accountsLoading } = useAccounts();
   const {

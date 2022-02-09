@@ -1,8 +1,9 @@
 import { useCrud } from "./index";
+import { Budget } from "../types";
 
 function useBudgets() {
   const { elements, loading, addElement, updateElement, deleteElement } =
-    useCrud(`${process.env.REACT_APP_BACKEND_URL}/budgets`);
+    useCrud<Budget>(`${process.env.REACT_APP_BACKEND_URL}/budgets`);
 
   return {
     budgets: elements,

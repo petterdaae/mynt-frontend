@@ -1,7 +1,8 @@
 import { useState, useCallback, useEffect } from "react";
+import { Transaction } from "../types";
 
-function useTransactions(fromDate, toDate) {
-  const [transactions, setTransactions] = useState([]);
+function useTransactions(fromDate: string, toDate: string) {
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
