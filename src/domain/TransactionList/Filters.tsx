@@ -13,15 +13,14 @@ import {
   PopoverHeader,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
-import PropTypes from "prop-types";
 
-function Filters({
-  monthsBack,
-  setMonthsBack,
-  showCategorized,
-  setShowCategorized,
-}) {
-  const [newMonthsBack, setNewMonthsBack] = useState(monthsBack);
+interface Props {
+  monthsBack: number;
+  setMonthsBack: (monthsBack: number) => void;
+}
+
+function Filters({ monthsBack, setMonthsBack }: Props) {
+  const [newMonthsBack, setNewMonthsBack] = useState<number>(monthsBack);
   return (
     <HStack spacing="16px" ml="2" mr="2">
       <Popover placement="bottom-start">
@@ -69,12 +68,5 @@ function Filters({
     </HStack>
   );
 }
-
-Filters.propTypes = {
-  monthsBack: PropTypes.number.isRequired,
-  setMonthsBack: PropTypes.func.isRequired,
-  showCategorized: PropTypes.bool.isRequired,
-  setShowCategorized: PropTypes.func.isRequired,
-};
 
 export default memo(Filters);

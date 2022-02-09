@@ -1,6 +1,5 @@
 import { Badge, Text, Box, HStack, VStack } from "@chakra-ui/react";
 import { formatCurrency, formatReadableDate } from "../utils";
-import Proptypes from "prop-types";
 import EditTransactionModal from "../EditTransaction/EditTransactionModal";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import { useCallback, useMemo, useState, memo } from "react";
@@ -86,13 +85,5 @@ function Transaction({
     </>
   );
 }
-
-Transaction.propTypes = {
-  transaction: Proptypes.object.isRequired,
-  updateCategorizationsForTransaction: Proptypes.func.isRequired,
-  updateTransaction: Proptypes.func.isRequired,
-  categories: Proptypes.array.isRequired,
-  loading: Proptypes.bool.isRequired,
-};
 
 export default memo(Transaction);

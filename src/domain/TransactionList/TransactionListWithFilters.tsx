@@ -6,12 +6,11 @@ import { useState, useMemo } from "react";
 import { formatDate } from "../utils";
 
 function TransactionListWithFilters() {
-  const [showCategorized, setShowCategorized] = useState(true);
   const [monthsBack, setMonthsBack] = useState(1);
 
   const toDate = useMemo(() => {
     const future = new Date();
-    future.setYear(3000);
+    future.setFullYear(3000);
     return formatDate(future);
   }, []);
 
@@ -31,15 +30,9 @@ function TransactionListWithFilters() {
 
   return (
     <>
-      <Filters
-        monthsBack={monthsBack}
-        setMonthsBack={setMonthsBack}
-        showCategorized={showCategorized}
-        setShowCategorized={setShowCategorized}
-      />
+      <Filters monthsBack={monthsBack} setMonthsBack={setMonthsBack} />
       <Divider mt="8px" mb="8px" />
       <TransactionList
-        showCategorized
         transactions={transactions}
         loading={loading}
         updateTransaction={update}
