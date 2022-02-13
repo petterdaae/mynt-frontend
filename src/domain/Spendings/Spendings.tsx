@@ -17,7 +17,7 @@ import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import { mod } from "../utils";
 
 function Spendings() {
-  const [currentCategory, setCurrentCategory] = useState(null);
+  const [currentCategory, setCurrentCategory] = useState<number | null>(null);
   const currentMonthIndex = useMemo(() => new Date().getMonth(), []);
   const [month, setMonth] = useState(currentMonthIndex);
   const fromDate = useMemo(() => getDateFromMonth(month, 1), [month]);
@@ -42,12 +42,14 @@ function Spendings() {
     <>
       <HStack justify="space-between" m="2">
         <IconButton
+          aria-label="Previous month"
           onClick={() => setMonth((prev) => prev - 1)}
           disabled={loading}
           icon={<ArrowBackIcon />}
         />
         <Text>{getMonthName(mod(month, 12))}</Text>
         <IconButton
+          aria-label="Next month"
           onClick={() => setMonth((prev) => prev + 1)}
           disabled={loading}
           icon={<ArrowForwardIcon />}
@@ -60,16 +62,13 @@ function Spendings() {
         </Center>
       ) : (
         <>
-          <Summary
-            currentCategory={currentCategory}
-            spendings={spendings}
-            loading={loading}
-          />
+          <Summary currentCategory={currentCategory} spendings={spendings} />
           <Divider mb="2" mt="2" />
           <CategoryBreadcrumb
             categories={categories}
             currentCategoryId={currentCategory}
             setCurrentCategoryId={setCurrentCategory}
+            loading={loading}
             m="2"
           />
           <Divider mb="2" mt="2" />
@@ -87,7 +86,6 @@ function Spendings() {
               </Text>
               <Divider mb="2" mt="2" />
               <TransactionList
-                showCategorized={true}
                 transactions={filteredTransactions}
                 loading={loading}
                 updateCategorizationsForTransaction={

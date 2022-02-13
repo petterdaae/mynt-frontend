@@ -1,9 +1,15 @@
 import { HStack, Text, Badge } from "@chakra-ui/react";
-import PropTypes from "prop-types";
+import { Category, Spending as SpendingType } from "../../types";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import { formatCurrency } from "../utils";
 
-function Spending({ spending, category, setCurrentCategory }) {
+interface Props {
+  spending: SpendingType;
+  category: Category;
+  setCurrentCategory: (id: number) => void;
+}
+
+function Spending({ spending, category, setCurrentCategory }: Props) {
   return (
     <HStack
       justify="space-between"
@@ -26,11 +32,5 @@ function Spending({ spending, category, setCurrentCategory }) {
     </HStack>
   );
 }
-
-Spending.propTypes = {
-  spending: PropTypes.object.isRequired,
-  category: PropTypes.object.isRequired,
-  setCurrentCategory: PropTypes.func.isRequired,
-};
 
 export default Spending;

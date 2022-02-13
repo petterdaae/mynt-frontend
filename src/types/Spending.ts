@@ -1,7 +1,7 @@
 import { Category } from ".";
 
 interface Spending {
-  category: Category;
+  category: Category | null;
   amount: number;
   positiveAmount: number;
   negativeAmount: number;

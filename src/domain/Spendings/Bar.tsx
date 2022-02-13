@@ -1,15 +1,25 @@
 import { Badge, VStack, theme } from "@chakra-ui/react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import { formatCurrency } from "../utils";
 
-const BarWrapper = styled.div`
+interface BarWrapperProps {
+  height: number;
+  width: number;
+}
+
+const BarWrapper = styled.div<BarWrapperProps>`
   position: relative;
   height: ${(props) => props.height}px;
   width: ${(props) => props.width}px;
 `;
 
-const Actual = styled.div`
+interface ActualProps {
+  height: number;
+  width: number;
+  color: string;
+}
+
+const Actual = styled.div<ActualProps>`
   position: absolute;
   height: ${(props) => props.height}px;
   width: ${(props) => props.width}px;
@@ -17,7 +27,16 @@ const Actual = styled.div`
   bottom: 0;
   border-radius: 5px;
 `;
-function Bar({ height, width, max, value, colorScheme }) {
+
+interface Props {
+  height: number;
+  width: number;
+  max: number;
+  value: number;
+  colorScheme: string;
+}
+
+function Bar({ height, width, max, value, colorScheme }: Props) {
   const actualHeight = Math.round((value / max) * height);
   const barColor =
     colorScheme === "blue"
@@ -36,13 +55,5 @@ function Bar({ height, width, max, value, colorScheme }) {
     </VStack>
   );
 }
-
-Bar.propTypes = {
-  height: PropTypes.number,
-  width: PropTypes.number,
-  max: PropTypes.number,
-  value: PropTypes.number,
-  colorScheme: PropTypes.string,
-};
 
 export default Bar;

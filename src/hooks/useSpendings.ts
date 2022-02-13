@@ -42,18 +42,11 @@ function calculateSpendings(
   categories: Category[],
   transactions: RichTransaction[],
   budgetItems: BudgetItem[]
-) {
+): Spending[] {
   const spendings: Spending[] = [];
 
   // Create a new spending for each category
-  const category = categories.find((c) => c.id === id) ?? {
-    id: null,
-    name: "Unknown",
-    parentId: null,
-    color: "lightgray",
-    ignore: false,
-  };
-
+  const category = categories.find((c) => c.id === id) ?? null;
   const currentBudgetItems = budgetItems.filter((bi) => bi.categoryId === id);
 
   const spending = {
@@ -72,7 +65,7 @@ function calculateSpendings(
   };
 
   // Add amounts of transactions that are in the category
-  if (!spending.category.ignore) {
+  if (!spending.category?.ignore) {
     for (const transaction of transactions) {
       for (const categorization of transaction.categorizations) {
         if (categorization.categoryId === id) {
@@ -95,7 +88,7 @@ function calculateSpendings(
       transactions,
       budgetItems
     );
-    if (!spending.category.ignore) {
+    if (!spending.category?.ignore) {
       spending.amount += childSpendings[0].amount;
       spending.positiveAmount += childSpendings[0].positiveAmount;
       spending.negativeAmount += childSpendings[0].negativeAmount;

@@ -1,13 +1,13 @@
 import { formatDate, mod } from "../utils";
 
-function getDateFromMonth(month, day) {
+function getDateFromMonth(month: number, day: number): string {
   const currentYear = new Date().getFullYear();
   const year = currentYear + Math.floor(month / 12);
   const date = new Date(year, mod(month, 12), day);
   return formatDate(date);
 }
 
-function getMonthName(monthIndex) {
+function getMonthName(monthIndex: number): string {
   const months = [
     "January",
     "February",

@@ -1,9 +1,16 @@
-import PropTypes from "prop-types";
 import { Center, HStack, VStack } from "@chakra-ui/react";
 import Bar from "./Bar";
+import { Spending } from "../../types";
 
-function Summary({ currentCategory, spendings }) {
-  const spending = spendings.find((s) => s.category.id === currentCategory) ?? {
+interface Props {
+  currentCategory: number | null;
+  spendings: Spending[];
+}
+
+function Summary({ currentCategory, spendings }: Props) {
+  const spending = spendings.find(
+    (s) => (s.category?.id ?? null) === currentCategory
+  ) ?? {
     amount: 0,
     positiveAmount: 0,
     negativeAmount: 0,
@@ -57,10 +64,5 @@ function Summary({ currentCategory, spendings }) {
     </Center>
   );
 }
-
-Summary.propTypes = {
-  currentCategory: PropTypes.number,
-  spendings: PropTypes.array,
-};
 
 export default Summary;
