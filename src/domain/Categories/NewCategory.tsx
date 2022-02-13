@@ -12,39 +12,40 @@ import {
   Divider,
   Checkbox,
   Text,
-  InputGroup,
-  InputLeftElement,
 } from "@chakra-ui/react";
-import PropTypes from "prop-types";
 import ColorPicker from "../../components/ColorPicker";
 import { useCallback, useState } from "react";
+import { Category } from "../../types";
+
+interface Props {
+  onClose: () => void;
+  isOpen: boolean;
+  category: Category | null;
+  parentCategory: number | null;
+  addCategory: (category: Category) => void;
+  updateCategory: (category: Category) => void;
+}
 
 function NewCategory({
   onClose,
   isOpen,
-  edit,
   category,
   parentCategory,
   addCategory,
   updateCategory,
-}) {
-  const [name, setName] = useState(edit ? category.name : "");
-  const [color, setColor] = useState(edit ? category.color : null);
-  const [budget, setBudget] = useState(
-    edit ? (category.budget ? category.budget / 100 : "") : ""
-  );
+}: Props) {
+  const [name, setName] = useState(category ? category.name : "");
+  const [color, setColor] = useState(category ? category.color : null);
   const [ignoreInSummaries, setIgnoreInSummaries] = useState(
-    edit ? category.ignore : false
+    category ? category.ignore : false
   );
 
-  const [nameError, setNameError] = useState(null);
-  const [colorError, setColorError] = useState(null);
-  const [budgetError, setBudgetError] = useState(null);
+  const [nameError, setNameError] = useState<string | null>(null);
+  const [colorError, setColorError] = useState<string | null>(null);
 
   const onSave = useCallback(() => {
     const nameInvalid = name.trim().length === 0;
     const colorInvalid = color === null;
-    const budgetInvalid = !(budget === "" || parseInt(budget, 10) >= 0);
 
     if (nameInvalid) {
       setNameError("Name is required");
@@ -54,47 +55,38 @@ function NewCategory({
       setColorError("Color is required");
     }
 
-    if (budgetInvalid) {
-      setBudgetError("Budget has to be a positive integer.");
-    }
-
-    if (colorInvalid || nameInvalid || budgetInvalid) {
+    if (colorInvalid || nameInvalid) {
       return;
     }
 
-    if (edit) {
+    if (category) {
       updateCategory({
         ...category,
         name: name,
         color: color,
         ignore: ignoreInSummaries,
-        budget: budget === "" ? null : parseInt(budget, 10) * 100,
       });
     } else {
       addCategory({
+        id: -1,
         name: name,
         parentId: parentCategory,
         color: color,
         ignore: ignoreInSummaries,
-        budget: budget === "" ? null : parseInt(budget, 10) * 100,
       });
     }
 
     onClose();
-    setName(edit ? name : "");
-    setColor(edit ? color : null);
-    setIgnoreInSummaries(edit ? ignoreInSummaries : false);
-    setBudget(edit ? budget ?? "" : "");
+    setName(category ? name : "");
+    setColor(category ? color : null);
+    setIgnoreInSummaries(category ? ignoreInSummaries : false);
   }, [
     onClose,
     name,
     color,
     ignoreInSummaries,
-    budget,
     setNameError,
     setColorError,
-    setBudgetError,
-    edit,
     category,
     parentCategory,
     addCategory,
@@ -105,7 +97,7 @@ function NewCategory({
     <Modal onClose={onClose} isOpen={isOpen} size="xl">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{edit ? "Edit category" : "New category"}</ModalHeader>
+        <ModalHeader>{category ? "Edit category" : "New category"}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <VStack align="left">
@@ -116,7 +108,7 @@ function NewCategory({
                 setNameError(null);
               }}
               placeholder="Name"
-              isInvalid={nameError}
+              isInvalid={!!nameError}
             />
             {nameError && (
               <Text color="crimson" fontSize="sm">
@@ -130,7 +122,7 @@ function NewCategory({
               still be included.
             </Text>
             <Checkbox
-              isChecked={ignoreInSummaries}
+              isChecked={!!ignoreInSummaries}
               onChange={(e) => setIgnoreInSummaries(e.target.checked)}
               size="lg"
             >
@@ -145,35 +137,6 @@ function NewCategory({
               }}
               error={colorError}
             />
-            <Divider />
-            <Text fontSize="sm">
-              You can set a budget of how much money you think you will spend in
-              a category. This will affect the estimated number in the spendings
-              tab.
-            </Text>
-            <InputGroup>
-              <InputLeftElement
-                pointerEvents="none"
-                color="gray.300"
-                fontSize="1.2em"
-              >
-                $
-              </InputLeftElement>
-              <Input
-                placeholder="Enter budget"
-                value={budget}
-                onChange={(e) => {
-                  setBudget(e.target.value);
-                  setBudgetError(null);
-                }}
-                isInvalid={budgetError}
-              />
-            </InputGroup>
-            {budgetError && (
-              <Text color="crimson" size="sm" fontSize="sm">
-                {budgetError}
-              </Text>
-            )}
           </VStack>
         </ModalBody>
         <ModalFooter>
@@ -186,15 +149,5 @@ function NewCategory({
     </Modal>
   );
 }
-
-NewCategory.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  edit: PropTypes.bool,
-  category: PropTypes.object,
-  parentCategory: PropTypes.number,
-  addCategory: PropTypes.func.isRequired,
-  updateCategory: PropTypes.func.isRequired,
-};
 
 export default NewCategory;

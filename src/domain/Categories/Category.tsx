@@ -14,8 +14,16 @@ import {
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
-import PropTypes from "prop-types";
 import NewCategory from "./NewCategory";
+import { Category as CategoryType } from "../../types";
+
+interface Props {
+  category: CategoryType;
+  setCurrentCategory: (categoryId: number | null) => void;
+  deleteCategory: (categoryId: number) => void;
+  addCategory: (category: CategoryType) => void;
+  updateCategory: (category: CategoryType) => void;
+}
 
 function Category({
   category,
@@ -23,7 +31,7 @@ function Category({
   deleteCategory,
   addCategory,
   updateCategory,
-}) {
+}: Props) {
   const [editCategoryOpen, setEditCategoryOpen] = useState(false);
   const [showDeleteCategory, setShowDeleteCategory] = useState(false);
   return (
@@ -63,7 +71,6 @@ function Category({
       <NewCategory
         isOpen={editCategoryOpen}
         onClose={() => setEditCategoryOpen(false)}
-        edit={true}
         category={category}
         parentCategory={category.parentId}
         addCategory={addCategory}
@@ -102,13 +109,5 @@ function Category({
     </>
   );
 }
-
-Category.propTypes = {
-  category: PropTypes.object.isRequired,
-  setCurrentCategory: PropTypes.func.isRequired,
-  deleteCategory: PropTypes.func.isRequired,
-  addCategory: PropTypes.func.isRequired,
-  updateCategory: PropTypes.func.isRequired,
-};
 
 export default Category;

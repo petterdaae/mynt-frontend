@@ -9,7 +9,7 @@ import NewCategory from "./NewCategory";
 function Categories() {
   const { categories, deleteCategory, addCategory, updateCategory, loading } =
     useCategories();
-  const [currentCategory, setCurrentCategory] = useState(null);
+  const [currentCategory, setCurrentCategory] = useState<number | null>(null);
   const [newCategoryOpen, setNewCategoryOpen] = useState(false);
   return (
     <>
@@ -18,6 +18,8 @@ function Categories() {
           categories={categories}
           currentCategoryId={currentCategory}
           setCurrentCategoryId={setCurrentCategory}
+          loading={loading}
+          m="2"
         />
         <IconButton
           aria-label="New category"
@@ -45,6 +47,7 @@ function Categories() {
             );
           })}
       <NewCategory
+        category={null}
         isOpen={newCategoryOpen}
         onClose={() => setNewCategoryOpen(false)}
         parentCategory={currentCategory}
