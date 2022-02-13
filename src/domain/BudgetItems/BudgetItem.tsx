@@ -15,9 +15,17 @@ import {
 import { DeleteIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
-import PropTypes from "prop-types";
 import NewBudgetItem from "./NewBudgetItem";
 import { formatCurrency } from "../utils";
+import { BudgetItem as BudgetItemType, Category } from "../../types";
+
+interface Props {
+  budgetItem: BudgetItemType;
+  deleteBudgetItem: (budgetItemId: number) => void;
+  addBudgetItem: (budgetItem: BudgetItemType) => void;
+  updateBudgetItem: (budgetItem: BudgetItemType) => void;
+  categories: Category[];
+}
 
 function BudgetItem({
   budgetItem,
@@ -25,7 +33,7 @@ function BudgetItem({
   addBudgetItem,
   updateBudgetItem,
   categories,
-}) {
+}: Props) {
   const [editBudgetItemOpen, setEditBudgetItemOpen] = useState(false);
   const [showDeleteBudgetItem, setShowDeleteBudgetItem] = useState(false);
   const category = categories.find((c) => c.id === budgetItem.categoryId) ?? {
@@ -72,7 +80,6 @@ function BudgetItem({
       <NewBudgetItem
         isOpen={editBudgetItemOpen}
         onClose={() => setEditBudgetItemOpen(false)}
-        edit={true}
         budgetId={budgetItem.budgetId}
         budgetItem={budgetItem}
         addBudgetItem={addBudgetItem}
@@ -112,13 +119,5 @@ function BudgetItem({
     </>
   );
 }
-
-BudgetItem.propTypes = {
-  budgetItem: PropTypes.object.isRequired,
-  deleteBudgetItem: PropTypes.func.isRequired,
-  addBudgetItem: PropTypes.func.isRequired,
-  updateBudgetItem: PropTypes.func.isRequired,
-  categories: PropTypes.array.isRequired,
-};
 
 export default BudgetItem;

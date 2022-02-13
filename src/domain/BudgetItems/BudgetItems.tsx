@@ -4,9 +4,15 @@ import BudgetItem from "./BudgetItem";
 import { Divider, HStack, IconButton, Text } from "@chakra-ui/react";
 import { AddIcon, ArrowBackIcon } from "@chakra-ui/icons";
 import NewBudgetItem from "./NewBudgetItem";
-import PropTypes from "prop-types";
+import { Budget, Category } from "../../types";
 
-function BudgetItems({ budget, setCurrentBudget, categories }) {
+interface Props {
+  budget: Budget;
+  setCurrentBudget: (budget: Budget | null) => void;
+  categories: Category[];
+}
+
+function BudgetItems({ budget, setCurrentBudget, categories }: Props) {
   const {
     budgetItems,
     deleteBudgetItem,
@@ -56,15 +62,10 @@ function BudgetItems({ budget, setCurrentBudget, categories }) {
         updateBudgetItem={updateBudgetItem}
         categories={categories}
         budgetId={budget.id}
+        budgetItem={null}
       />
     </>
   );
 }
-
-BudgetItems.propTypes = {
-  budget: PropTypes.object.isRequired,
-  setCurrentBudget: PropTypes.func.isRequired,
-  categories: PropTypes.array.isRequired,
-};
 
 export default BudgetItems;

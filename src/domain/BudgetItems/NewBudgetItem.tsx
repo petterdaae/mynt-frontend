@@ -13,39 +13,48 @@ import {
   Text,
   HStack,
 } from "@chakra-ui/react";
-import PropTypes from "prop-types";
 import { useCallback, useState, useMemo } from "react";
 import CategoryPickerModalContent from "../CategoryPicker/CategoryPickerModalContent";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
+import { BudgetItem, Category } from "../../types";
+
+interface Props {
+  onClose: () => void;
+  isOpen: boolean;
+  budgetId: number;
+  budgetItem: BudgetItem | null;
+  addBudgetItem: (budgetItem: BudgetItem) => void;
+  updateBudgetItem: (budgetItem: BudgetItem) => void;
+  categories: Category[];
+}
 
 function NewBudgetItem({
   onClose,
   isOpen,
-  edit,
   budgetId,
   budgetItem,
   addBudgetItem,
   updateBudgetItem,
   categories,
-}) {
+}: Props) {
   const initialValue = useCallback(
-    (value) => (value ? Math.round(value / 100) : ""),
+    (value) => (value ? Math.round(value / 100) : "").toString(),
     []
   );
 
-  const [name, setName] = useState(edit ? budgetItem.name : "");
+  const [name, setName] = useState(budgetItem ? budgetItem.name : "");
   const [positiveAmount, setPositiveAmount] = useState(
-    edit ? initialValue(budgetItem.positiveAmount) : ""
+    budgetItem ? initialValue(budgetItem.positiveAmount) : ""
   );
   const [negativeAmount, setNegativeAmount] = useState(
-    edit ? initialValue(budgetItem.negativeAmount) : ""
+    budgetItem ? initialValue(budgetItem.negativeAmount) : ""
   );
   const [categoryId, setCategoryId] = useState(
-    edit ? budgetItem.categoryId : null
+    budgetItem ? budgetItem.categoryId : null
   );
-  const [nameError, setNameError] = useState(null);
-  const [amountError, setAmountError] = useState(null);
-  const [categoryError, setCategoryError] = useState(null);
+  const [nameError, setNameError] = useState<string | null>(null);
+  const [amountError, setAmountError] = useState<string | null>(null);
+  const [categoryError, setCategoryError] = useState<string | null>(null);
 
   const [showChooseCategories, setShowChooseCategories] = useState(false);
 
@@ -88,7 +97,7 @@ function NewBudgetItem({
       return;
     }
 
-    if (edit) {
+    if (budgetItem) {
       updateBudgetItem({
         ...budgetItem,
         name,
@@ -100,6 +109,7 @@ function NewBudgetItem({
       });
     } else {
       addBudgetItem({
+        id: -1,
         budgetId,
         name,
         categoryId,
@@ -111,10 +121,10 @@ function NewBudgetItem({
     }
 
     onClose();
-    setName(edit ? name : "");
-    setPositiveAmount(edit ? positiveAmount : "");
-    setNegativeAmount(edit ? negativeAmount : "");
-    setCategoryId(edit ? categoryId : null);
+    setName(budgetItem ? name : "");
+    setPositiveAmount(budgetItem ? positiveAmount : "");
+    setNegativeAmount(budgetItem ? negativeAmount : "");
+    setCategoryId(budgetItem ? categoryId : null);
     setNameError(null);
     setAmountError(null);
     setCategoryError(null);
@@ -123,7 +133,6 @@ function NewBudgetItem({
     categoryId,
     positiveAmount,
     negativeAmount,
-    edit,
     onClose,
     updateBudgetItem,
     budgetItem,
@@ -149,7 +158,7 @@ function NewBudgetItem({
         ) : (
           <>
             <ModalHeader>
-              {edit ? "Edit budgetitem" : "New budgetitem"}
+              {budgetItem ? "Edit budgetitem" : "New budgetitem"}
             </ModalHeader>
             <ModalCloseButton />
             <ModalBody>
@@ -161,7 +170,7 @@ function NewBudgetItem({
                     setNameError(null);
                   }}
                   placeholder="Name"
-                  isInvalid={nameError}
+                  isInvalid={!!nameError}
                 />
                 {nameError && (
                   <Text color="crimson" fontSize="sm">
@@ -194,7 +203,7 @@ function NewBudgetItem({
                     setAmountError(null);
                   }}
                   placeholder="Spending budget"
-                  isInvalid={amountError}
+                  isInvalid={!!amountError}
                 />
                 {amountError && (
                   <Text color="crimson" fontSize="sm">
@@ -209,7 +218,7 @@ function NewBudgetItem({
                     setAmountError(null);
                   }}
                   placeholder="Earning budget"
-                  isInvalid={amountError}
+                  isInvalid={!!amountError}
                 />
                 {amountError && (
                   <Text color="crimson" fontSize="sm">
@@ -231,16 +240,5 @@ function NewBudgetItem({
     </Modal>
   );
 }
-
-NewBudgetItem.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  edit: PropTypes.bool,
-  budgetId: PropTypes.number,
-  budgetItem: PropTypes.object,
-  addBudgetItem: PropTypes.func.isRequired,
-  updateBudgetItem: PropTypes.func.isRequired,
-  categories: PropTypes.array.isRequired,
-};
 
 export default NewBudgetItem;
