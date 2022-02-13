@@ -10,23 +10,28 @@ import {
   Badge,
   HStack,
 } from "@chakra-ui/react";
-import PropTypes from "prop-types";
 import CustomDate from "./CustomDate";
 import Categorizations from "./Categorizations";
 import { useCallback, useState } from "react";
 import { formatCurrency } from "../utils";
-import { RichTransaction, SetState, NewCategorization } from "../../types";
+import {
+  RichTransaction,
+  SetState,
+  Categorization,
+  EditableCategorization,
+  Transaction,
+} from "../../types";
 
 interface Props {
   transaction: RichTransaction;
   onClose: () => void;
   updateCategorizationsForTransaction: (
     transaction: RichTransaction,
-    categorizations: NewCategorization[]
+    categorizations: Categorization[]
   ) => void;
-  updateTransaction: (transaction: RichTransaction) => void;
-  newCategorizations: NewCategorization[];
-  setNewCategorizations: SetState<NewCategorization[]>;
+  updateTransaction: (transaction: Transaction) => void;
+  categorizations: EditableCategorization[];
+  setCategorizations: SetState<EditableCategorization[]>;
   setCategorizationBeingEdited: SetState<number | null>;
 }
 
@@ -35,8 +40,8 @@ function EditTransactionModalContent({
   onClose,
   updateCategorizationsForTransaction,
   updateTransaction,
-  newCategorizations,
-  setNewCategorizations,
+  categorizations,
+  setCategorizations,
   setCategorizationBeingEdited,
 }: Props) {
   const [customDateError, setCustomDateError] = useState<string | null>(null);
@@ -54,10 +59,10 @@ function EditTransactionModalContent({
 
   const onSave = useCallback(() => {
     onClose();
-    const mappedNewCategorizations = newCategorizations.map((c) => ({
+    const mappedNewCategorizations = categorizations.map((c) => ({
       ...c,
-      amount: c.newAmount ? parseFloat(c.newAmount) * 100 : c.amount,
-      categoryId: c.categoryId,
+      amount: c.amount as number,
+      categoryId: c.category?.id as number,
     }));
     updateCategorizationsForTransaction(transaction, mappedNewCategorizations);
     const nullableNewCustomDate = customDateOpen ? customDate : null;
@@ -67,7 +72,7 @@ function EditTransactionModalContent({
     onClose,
     updateTransaction,
     updateCategorizationsForTransaction,
-    newCategorizations,
+    categorizations,
     customDate,
     customDateOpen,
   ]);
@@ -103,8 +108,8 @@ function EditTransactionModalContent({
           <Divider />
           <Categorizations
             setCategorizationBeingEdited={setCategorizationBeingEdited}
-            newCategorizations={newCategorizations}
-            setNewCategorizations={setNewCategorizations}
+            categorizations={categorizations}
+            setCategorizations={setCategorizations}
             categorizationsError={categorizationsError}
             setCategorizationsError={setCategorizationsError}
             transaction={transaction}
@@ -124,7 +129,7 @@ function EditTransactionModalContent({
         <Button
           onClick={() => {
             onClose();
-            setNewCategorizations(
+            setCategorizations(
               transaction.categorizations.map((c) => ({
                 ...c,
                 newAmount: "",
@@ -138,15 +143,5 @@ function EditTransactionModalContent({
     </>
   );
 }
-
-EditTransactionModalContent.propTypes = {
-  transaction: PropTypes.object.isRequired,
-  onClose: PropTypes.func.isRequired,
-  updateCategorizationsForTransaction: PropTypes.func.isRequired,
-  updateTransaction: PropTypes.func.isRequired,
-  newCategorizations: PropTypes.array.isRequired,
-  setNewCategorizations: PropTypes.func.isRequired,
-  setCategorizationBeingEdited: PropTypes.func.isRequired,
-};
 
 export default EditTransactionModalContent;

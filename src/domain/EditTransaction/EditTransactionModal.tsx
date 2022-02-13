@@ -6,7 +6,8 @@ import {
   RichTransaction,
   Category,
   Transaction,
-  NewCategorization,
+  EditableCategorization,
+  Categorization,
 } from "../../types";
 
 interface Props {
@@ -14,8 +15,8 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   updateCategorizationsForTransaction: (
-    transactionId: RichTransaction,
-    newCategorizations: NewCategorization[]
+    transaction: Transaction,
+    categorizations: Categorization[]
   ) => void;
   updateTransaction: (transaction: Transaction) => void;
   categories: Category[];
@@ -31,8 +32,8 @@ function EditTransactionModal({
   categories,
   loading,
 }: Props) {
-  const [newCategorizations, setNewCategorizations] = useState<
-    NewCategorization[]
+  const [categorizations, setCategorizations] = useState<
+    EditableCategorization[]
   >(transaction.categorizations.map((c) => ({ ...c, newAmount: "" })));
 
   const [categorizationBeingEdited, setCategorizationBeingEdited] = useState<
@@ -47,21 +48,21 @@ function EditTransactionModal({
           <CategoryPickerModalContent
             setCategorizationBeingEdited={setCategorizationBeingEdited}
             categorizationBeingEdited={categorizationBeingEdited}
-            setNewCategorizations={setNewCategorizations}
+            setCategorizations={setCategorizations}
             loading={loading}
             categories={categories}
           />
         ) : (
           <EditTransactionModalContent
             transaction={transaction}
-            setCategorizationBeingEdited={setCategorizationBeingEdited}
             onClose={onClose}
             updateCategorizationsForTransaction={
               updateCategorizationsForTransaction
             }
             updateTransaction={updateTransaction}
-            newCategorizations={newCategorizations}
-            setNewCategorizations={setNewCategorizations}
+            categorizations={categorizations}
+            setCategorizations={setCategorizations}
+            setCategorizationBeingEdited={setCategorizationBeingEdited}
           />
         )}
       </ModalContent>

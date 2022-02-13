@@ -5,13 +5,13 @@ import {
   ModalBody,
   ModalFooter,
 } from "@chakra-ui/react";
-import { Category, NewCategorization, SetState } from "../../types";
+import { Category, EditableCategorization, SetState } from "../../types";
 import CategoryPicker from "../CategoryPicker/CategoryPicker";
 
 interface Props {
   setCategorizationBeingEdited: (id: number | null) => void;
   categorizationBeingEdited: number | null;
-  setNewCategorizations: SetState<NewCategorization[]>;
+  setCategorizations: SetState<EditableCategorization[]>;
   categories: Category[];
   loading: boolean;
 }
@@ -19,7 +19,7 @@ interface Props {
 function CategoryPickerModalContent({
   setCategorizationBeingEdited,
   categorizationBeingEdited,
-  setNewCategorizations,
+  setCategorizations,
   categories,
   loading,
 }: Props) {
@@ -31,7 +31,7 @@ function CategoryPickerModalContent({
         <CategoryPicker
           onSelect={(newCategory) => {
             setCategorizationBeingEdited(null);
-            setNewCategorizations((p) =>
+            setCategorizations((p) =>
               p.map((c) =>
                 c.id === categorizationBeingEdited
                   ? { ...c, category: newCategory, categoryId: newCategory.id }

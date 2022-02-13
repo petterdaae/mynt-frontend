@@ -8,8 +8,8 @@ import Transaction from "./Transaction";
 import RichTransaction from "./RichTransaction";
 import Spending from "./Spending";
 import RichCategorization from "./RichCategorization";
-import NewCategorization from "./NewCategorization";
 import SetState from "./SetState";
+import EditableCategorization from "./EditableCategorization";
 
 export type {
   Account,
@@ -22,6 +22,6 @@ export type {
   RichTransaction,
   Spending,
   RichCategorization,
-  NewCategorization,
   SetState,
+  EditableCategorization,
 };

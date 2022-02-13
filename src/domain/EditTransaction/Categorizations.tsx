@@ -1,21 +1,14 @@
-import {
-  HStack,
-  Text,
-  VStack,
-  IconButton,
-  Button,
-  Input,
-} from "@chakra-ui/react";
+import { HStack, Text, VStack, IconButton, Button } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import { useEffect } from "react";
-import { formatCurrency } from "../utils";
-import { NewCategorization, Transaction, SetState } from "../../types";
+import { Transaction, SetState, EditableCategorization } from "../../types";
+import CurrencyInput from "../../components/CurrencyInput";
 
 interface Props {
   setCategorizationBeingEdited: (id: number | null) => void;
-  newCategorizations: NewCategorization[];
-  setNewCategorizations: SetState<NewCategorization[]>;
+  categorizations: EditableCategorization[];
+  setCategorizations: SetState<EditableCategorization[]>;
   categorizationsError: string | null;
   setCategorizationsError: (error: string | null) => void;
   transaction: Transaction;
@@ -23,31 +16,23 @@ interface Props {
 
 function Categorizations({
   setCategorizationBeingEdited,
-  newCategorizations,
-  setNewCategorizations,
+  categorizations,
+  setCategorizations,
   categorizationsError,
   setCategorizationsError,
   transaction,
 }: Props) {
   useEffect(() => {
-    if (newCategorizations.length === 0) {
+    if (categorizations.length === 0) {
       setCategorizationsError(null);
       return;
     }
 
-    const allHaveCategories = newCategorizations.every(
-      (categorization) => categorization.category.id != null
-    );
-    const allHaveAmounts = newCategorizations.every(
-      (categorization) =>
-        categorization.amount !== -999999999999 ||
-        categorization.newAmount !== ""
-    );
+    const allHaveCategories = categorizations.every((c) => c.category !== null);
+    const allHaveAmounts = categorizations.every((c) => c.amount !== null);
     const equalsAmount =
-      newCategorizations.reduce((acc, curr) => {
-        if (!curr.newAmount && curr.newAmount !== "") return acc + curr.amount;
-        return acc + parseFloat(curr.newAmount) * 100;
-      }, 0) === transaction.amount;
+      categorizations.reduce((a, c) => a + (c.amount ?? 0), 0) ===
+      transaction.amount;
 
     if (!allHaveCategories) {
       setCategorizationsError("All categorizations must have a category.");
@@ -60,61 +45,38 @@ function Categorizations({
     } else {
       setCategorizationsError(null);
     }
-  }, [newCategorizations, setCategorizationsError, transaction.amount]);
+  }, [categorizations, setCategorizationsError, transaction.amount]);
 
   return (
     <VStack align="left">
       <Text fontSize="sm">Categorizations</Text>
-      {newCategorizations.length === 0 ? (
+      {categorizations.length === 0 ? (
         <HStack>
           <Text>No categorizations</Text>
         </HStack>
       ) : (
-        newCategorizations.map((categorization) => (
+        categorizations.map((categorization) => (
           <HStack justify="space-between" key={categorization.id}>
             <HStack>
-              <CategoryIcon color={categorization.category.color} size="sm" />
-              <Text fontWeight="semibold">{categorization.category.name}</Text>
+              <CategoryIcon
+                color={categorization.category?.color ?? "lightgray"}
+                size="sm"
+              />
+              <Text fontWeight="semibold">
+                {categorization.category?.name ?? "No category"}
+              </Text>
             </HStack>
             <HStack align="right">
-              <Input
-                value={
-                  !categorization.newAmount && categorization.newAmount !== ""
-                    ? (categorization.amount / 100).toFixed(2)
-                    : categorization.newAmount === ""
-                    ? ""
-                    : categorization.newAmount
-                }
-                onChange={(e) => {
-                  setNewCategorizations((prev) => {
-                    const regex = /^-?\d*(\.\d{0,2})?$/g;
-                    if (!regex.test(e.target.value)) {
-                      return prev;
-                    }
-
-                    if (
-                      prev.length === 2 &&
-                      parseFloat(e.target.value).toString() !== "NaN"
-                    ) {
-                      const currentAmount = parseFloat(e.target.value);
-                      const otherAmount =
-                        transaction.amount / 100 - currentAmount;
-                      return prev.map((c) =>
-                        c.id === categorization.id
-                          ? { ...c, newAmount: e.target.value }
-                          : {
-                              ...c,
-                              newAmount: otherAmount.toFixed(2),
-                            }
-                      );
-                    }
-
-                    return prev.map((c) =>
+              <CurrencyInput
+                value={categorization.amount}
+                setValue={(newAmount) => {
+                  setCategorizations((prev) =>
+                    prev.map((c) =>
                       c.id === categorization.id
-                        ? { ...c, newAmount: e.target.value }
+                        ? { ...c, amount: newAmount }
                         : c
-                    );
-                  });
+                    )
+                  );
                 }}
               />
               <IconButton
@@ -127,7 +89,7 @@ function Categorizations({
                 icon={<DeleteIcon />}
                 colorScheme="red"
                 onClick={() =>
-                  setNewCategorizations((prev) =>
+                  setCategorizations((prev) =>
                     prev.filter((c) => c.id !== categorization.id)
                   )
                 }
@@ -138,27 +100,16 @@ function Categorizations({
       )}
       <Button
         onClick={() => {
-          setNewCategorizations((prev) => {
+          setCategorizations((prev) => {
             const temporaryId =
               prev.length === 0 ? 1 : Math.max(...prev.map((c) => c.id)) + 1;
             return [
               ...prev,
               {
-                categoryId: -1,
-                transactionId: transaction.id,
-                amount: -9999999999,
                 id: temporaryId,
-                category: {
-                  id: -1,
-                  name: "No category",
-                  color: "lightgray",
-                  parentId: null,
-                  ignore: false,
-                },
-                newAmount:
-                  prev.length === 0
-                    ? formatCurrency(transaction.amount).replace(/\s/g, "")
-                    : "",
+                transactionId: transaction.id,
+                amount: prev.length === 0 ? transaction.amount : null,
+                category: null,
               },
             ];
           });

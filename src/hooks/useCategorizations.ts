@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Categorization } from "../types";
+import { Categorization, Transaction } from "../types";
 
 function useCategorizations(fromDate: string, toDate: string) {
   const [categorizations, setCategorizations] = useState<Categorization[]>([]);
@@ -21,7 +21,7 @@ function useCategorizations(fromDate: string, toDate: string) {
   }, [setCategorizations, fromDate, toDate]);
 
   const updateCategorizationsForTransaction = useCallback(
-    (transaction, newCategorizations: Categorization[]) => {
+    (transaction: Transaction, newCategorizations: Categorization[]) => {
       fetch(`${process.env.REACT_APP_BACKEND_URL}/categorizations`, {
         method: "PUT",
         credentials: "include",
