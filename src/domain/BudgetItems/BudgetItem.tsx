@@ -52,7 +52,7 @@ function BudgetItem({
         }}
       >
         <HStack>
-          <CategoryIcon color={category.color} />
+          <CategoryIcon color={category.color} size="md" />
           <Text>{budgetItem.name}</Text>
         </HStack>
         <HStack>

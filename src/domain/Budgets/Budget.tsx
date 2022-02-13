@@ -50,7 +50,7 @@ function Budget({
         onClick={() => setCurrentBudget(budget.id)}
       >
         <HStack>
-          <CategoryIcon color={budget.color} />
+          <CategoryIcon color={budget.color} size="md" />
           <Text>{budget.name}</Text>
         </HStack>
         <HStack>

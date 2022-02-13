@@ -20,7 +20,7 @@ function Spending({ spending, category, setCurrentCategory }: Props) {
       onClick={() => setCurrentCategory(category.id)}
     >
       <HStack>
-        <CategoryIcon color={category.color} />
+        <CategoryIcon color={category.color} size="md" />
         <Text>{category.name}</Text>
       </HStack>
       <Badge

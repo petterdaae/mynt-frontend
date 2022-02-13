@@ -55,6 +55,7 @@ function Transaction({
         <HStack>
           <CategoryIcon
             color={transaction?.firstCategory?.color ?? "lightgray"}
+            size="md"
           />
           <VStack align="left" spacing="1px">
             <Text fontSize="sm">{readableAccountingDate}</Text>
