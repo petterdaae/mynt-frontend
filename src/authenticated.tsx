@@ -41,11 +41,11 @@ const OtherHackyWrapper = styled.div`
   margin-top: 68px;
 `;
 
-function Authenticated({ children }) {
+function Authenticated({ children }: { children: React.ReactNode }) {
   const history = useHistory();
   useEffect(() => {
     // Fetch auth expiry cookie and redirect to login if not available
-    const authExpiry = getCookie("auth_expiry");
+    const authExpiry = parseInt(getCookie("auth_expiry") as string);
     if (!authExpiry) {
       window.location.replace(`/`);
       return;
@@ -70,7 +70,7 @@ function Authenticated({ children }) {
     };
   }, []);
 
-  const [tabIndex, setTabIndex] = useState(0);
+  const [tabIndex, setTabIndex] = useState<number | null>(0);
   const location = useLocation();
 
   useEffect(() => {
@@ -95,7 +95,7 @@ function Authenticated({ children }) {
             <Tabs
               variant="soft-rounded"
               colorScheme="green"
-              index={tabIndex}
+              index={tabIndex ?? undefined}
               align="center"
               mt="2"
               mb="2"
@@ -155,17 +155,28 @@ function Authenticated({ children }) {
   );
 }
 
-function getCookie(name) {
+function getCookie(name: string): string {
   const value = "; " + document.cookie;
   const parts = value.split("; " + name + "=");
-  if (parts.length === 2) return parts.pop().split(";").shift();
+  if (parts.length === 2) return parts.pop()?.split(";").shift() as string;
+  return "";
 }
 
 Authenticated.propTypes = {
   children: PropTypes.node,
 };
 
-function NavigationItem({ path, name, setTabIndex, tabIndex }) {
+function NavigationItem({
+  path,
+  name,
+  setTabIndex,
+  tabIndex,
+}: {
+  path: string;
+  name: string;
+  setTabIndex: (index: number | null) => void;
+  tabIndex: number | null;
+}) {
   const history = useHistory();
 
   return (

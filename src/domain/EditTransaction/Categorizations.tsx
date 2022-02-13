@@ -8,9 +8,24 @@ import {
 } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
-import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { formatCurrency } from "../utils";
+import { RichCategorization, Transaction } from "../../types";
+
+interface NewCategorization extends RichCategorization {
+  newAmount: string;
+}
+
+interface Props {
+  setCategorizationBeingEdited: (id: number | null) => void;
+  newCategorizations: NewCategorization[];
+  setNewCategorizations: (
+    c: (a: NewCategorization[]) => NewCategorization[]
+  ) => void;
+  categorizationsError: string | null;
+  setCategorizationsError: (error: string | null) => void;
+  transaction: Transaction;
+}
 
 function Categorizations({
   setCategorizationBeingEdited,
@@ -19,7 +34,7 @@ function Categorizations({
   categorizationsError,
   setCategorizationsError,
   transaction,
-}) {
+}: Props) {
   useEffect(() => {
     if (newCategorizations.length === 0) {
       setCategorizationsError(null);
@@ -30,7 +45,9 @@ function Categorizations({
       (categorization) => categorization.category.id != null
     );
     const allHaveAmounts = newCategorizations.every(
-      (categorization) => categorization.amount !== ""
+      (categorization) =>
+        categorization.amount !== -999999999999 ||
+        categorization.newAmount !== ""
     );
     const equalsAmount =
       newCategorizations.reduce((acc, curr) => {
@@ -128,17 +145,21 @@ function Categorizations({
       <Button
         onClick={() => {
           setNewCategorizations((prev) => {
+            const temporaryId =
+              prev.length === 0 ? 1 : Math.max(...prev.map((c) => c.id)) + 1;
             return [
               ...prev,
               {
-                id:
-                  prev.length === 0
-                    ? 1
-                    : Math.max(...prev.map((c) => c.id)) + 1,
+                categoryId: -1,
+                transactionId: transaction.id,
+                amount: -9999999999,
+                id: temporaryId,
                 category: {
-                  id: null,
+                  id: -1,
                   name: "No category",
                   color: "lightgray",
+                  parentId: null,
+                  ignore: false,
                 },
                 newAmount:
                   prev.length === 0
@@ -157,14 +178,5 @@ function Categorizations({
     </VStack>
   );
 }
-
-Categorizations.propTypes = {
-  setCategorizationBeingEdited: PropTypes.func.isRequired,
-  newCategorizations: PropTypes.arrayOf(PropTypes.object).isRequired,
-  setNewCategorizations: PropTypes.func.isRequired,
-  categorizationsError: PropTypes.string,
-  setCategorizationsError: PropTypes.func.isRequired,
-  transaction: PropTypes.object.isRequired,
-};
 
 export default Categorizations;

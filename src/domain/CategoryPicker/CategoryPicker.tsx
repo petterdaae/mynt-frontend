@@ -1,0 +1,70 @@
+import { HStack, Divider, Button, Text } from "@chakra-ui/react";
+import CategoryIcon from "../CategoryIcon/CategoryIcon";
+import { useState } from "react";
+import { ArrowRightIcon } from "@chakra-ui/icons";
+import CategoryBreadcrumb from "../CategoryBreadcrumb/CategoryBreadcrumb";
+import { Category } from "../../types";
+
+interface Props {
+  onSelect: (category: Category) => void;
+  categories: Category[];
+  loading: boolean;
+}
+
+function CategoryPicker({ onSelect, categories, loading }: Props) {
+  const [currentParentCategoryId, setCurrentParentCategoryId] = useState<
+    number | null
+  >(null);
+
+  return loading ? (
+    <></>
+  ) : (
+    <div>
+      <CategoryBreadcrumb
+        categories={categories}
+        currentCategoryId={currentParentCategoryId}
+        setCurrentCategoryId={setCurrentParentCategoryId}
+        loading={loading}
+        m="2"
+      />
+      <Divider mt="2" />
+      {categories
+        .filter((category) => category.parentId === currentParentCategoryId)
+        .map((category) => (
+          <div key={category.id}>
+            <HStack
+              justify="space-between"
+              p={1}
+              m={1}
+              borderRadius="md"
+              _hover={{
+                backgroundColor: "whitesmoke",
+                cursor: "pointer",
+              }}
+              onClick={() => onSelect(category)}
+            >
+              <HStack>
+                <CategoryIcon color={category.color} size="sm" />
+                <Text>{category.name}</Text>
+              </HStack>
+              {categories.find((c) => c.parentId === category.id) && (
+                <Button
+                  variant="outline"
+                  onClick={(e) => {
+                    setCurrentParentCategoryId(category.id);
+                    e.stopPropagation();
+                  }}
+                  size="sm"
+                >
+                  <ArrowRightIcon />
+                </Button>
+              )}
+            </HStack>
+            <Divider />
+          </div>
+        ))}
+    </div>
+  );
+}
+
+export default CategoryPicker;
