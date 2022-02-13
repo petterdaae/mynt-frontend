@@ -1,8 +1,26 @@
 import { Modal, ModalOverlay, ModalContent } from "@chakra-ui/react";
-import PropTypes from "prop-types";
 import { useState } from "react";
 import CategoryPickerModalContent from "./CategoryPickerModalContent";
 import EditTransactionModalContent from "./EditTransactionModalContent";
+import {
+  RichTransaction,
+  Category,
+  Transaction,
+  NewCategorization,
+} from "../../types";
+
+interface Props {
+  transaction: RichTransaction;
+  isOpen: boolean;
+  onClose: () => void;
+  updateCategorizationsForTransaction: (
+    transactionId: RichTransaction,
+    newCategorizations: NewCategorization[]
+  ) => void;
+  updateTransaction: (transaction: Transaction) => void;
+  categories: Category[];
+  loading: boolean;
+}
 
 function EditTransactionModal({
   transaction,
@@ -12,13 +30,14 @@ function EditTransactionModal({
   updateTransaction,
   categories,
   loading,
-}) {
-  const [newCategorizations, setNewCategorizations] = useState(
-    transaction.categorizations
-  );
+}: Props) {
+  const [newCategorizations, setNewCategorizations] = useState<
+    NewCategorization[]
+  >(transaction.categorizations.map((c) => ({ ...c, newAmount: "" })));
 
-  const [categorizationBeingEdited, setCategorizationBeingEdited] =
-    useState(null);
+  const [categorizationBeingEdited, setCategorizationBeingEdited] = useState<
+    number | null
+  >(null);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
@@ -29,7 +48,6 @@ function EditTransactionModal({
             setCategorizationBeingEdited={setCategorizationBeingEdited}
             categorizationBeingEdited={categorizationBeingEdited}
             setNewCategorizations={setNewCategorizations}
-            newCategorizations={newCategorizations}
             loading={loading}
             categories={categories}
           />
@@ -50,15 +68,5 @@ function EditTransactionModal({
     </Modal>
   );
 }
-
-EditTransactionModal.propTypes = {
-  transaction: PropTypes.object.isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  updateCategorizationsForTransaction: PropTypes.func.isRequired,
-  updateTransaction: PropTypes.func.isRequired,
-  categories: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired,
-};
 
 export default EditTransactionModal;

@@ -5,8 +5,16 @@ import {
   ModalBody,
   ModalFooter,
 } from "@chakra-ui/react";
-import PropTypes from "prop-types";
+import { Category, NewCategorization, SetState } from "../../types";
 import CategoryPicker from "../CategoryPicker/CategoryPicker";
+
+interface Props {
+  setCategorizationBeingEdited: (id: number | null) => void;
+  categorizationBeingEdited: number | null;
+  setNewCategorizations: SetState<NewCategorization[]>;
+  categories: Category[];
+  loading: boolean;
+}
 
 function CategoryPickerModalContent({
   setCategorizationBeingEdited,
@@ -14,7 +22,7 @@ function CategoryPickerModalContent({
   setNewCategorizations,
   categories,
   loading,
-}) {
+}: Props) {
   return (
     <>
       <ModalHeader>Choose a category</ModalHeader>
@@ -43,13 +51,5 @@ function CategoryPickerModalContent({
     </>
   );
 }
-
-CategoryPickerModalContent.propTypes = {
-  setNewCategorizations: PropTypes.func.isRequired,
-  categories: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired,
-  setCategorizationBeingEdited: PropTypes.func.isRequired,
-  categorizationBeingEdited: PropTypes.number,
-};
 
 export default CategoryPickerModalContent;

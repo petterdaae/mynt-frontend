@@ -1,4 +1,4 @@
-const formatDate = (date) => {
+const formatDate = (date: Date) => {
   return (
     date.getFullYear() +
     "-" +
@@ -8,13 +8,13 @@ const formatDate = (date) => {
   );
 };
 
-const formatReadableDate = (datetime) => {
+const formatReadableDate = (datetime: string) => {
   const date = new Date(datetime);
   const month = date.toLocaleString("default", { month: "long" });
   return date.getDate() + ". " + month;
 };
 
-function formatCurrency(amount) {
+function formatCurrency(amount: number) {
   const formatter = new Intl.NumberFormat("no-NO", {
     style: "currency",
     currency: "NOK",
@@ -28,7 +28,7 @@ function formatCurrency(amount) {
   return formatted;
 }
 
-function mod(n, m) {
+function mod(n: number, m: number) {
   return ((n % m) + m) % m;
 }
 

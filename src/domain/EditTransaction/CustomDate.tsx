@@ -6,11 +6,21 @@ import {
   Input,
   Button,
 } from "@chakra-ui/react";
-import PropTypes from "prop-types";
 import { useCallback } from "react";
+import { Transaction, SetState } from "../../types";
 
 const dateRegex =
   /^([0-9]{4}|[0-9]{2})[./-]([0][1-9]|[1][0-2])[./-]([0][1-9]|[1|2][0-9]|[3][0|1])$/;
+
+interface Props {
+  transaction: Transaction;
+  customDate: string;
+  setCustomDate: SetState<string>;
+  error: string | null;
+  setError: SetState<string | null>;
+  customDateOpen: boolean;
+  setCustomDateOpen: (p: (open: boolean) => boolean) => void;
+}
 
 function CustomDate({
   transaction,
@@ -20,7 +30,7 @@ function CustomDate({
   setError,
   customDateOpen,
   setCustomDateOpen,
-}) {
+}: Props) {
   const onChangeCustomDate = useCallback(
     (e) => {
       const newDate = e.target.value.trim();
@@ -62,7 +72,7 @@ function CustomDate({
           </VStack>
           <Checkbox
             isChecked={customDateOpen}
-            onChange={(e) => setCustomDateOpen((prev) => !prev)}
+            onChange={() => setCustomDateOpen((prev) => !prev)}
           >
             Set a custom date
           </Checkbox>
@@ -71,11 +81,19 @@ function CustomDate({
       {customDateOpen && (
         <VStack align="left">
           <HStack>
-            <Button variant="outline" disabled={error} onClick={decreaseMonth}>
+            <Button
+              variant="outline"
+              disabled={!!error}
+              onClick={decreaseMonth}
+            >
               -1 month
             </Button>
             <Input value={customDate} onChange={onChangeCustomDate} />
-            <Button variant="outline" disabled={error} onClick={increaseMonth}>
+            <Button
+              variant="outline"
+              disabled={!!error}
+              onClick={increaseMonth}
+            >
               +1 month
             </Button>
           </HStack>
@@ -85,15 +103,5 @@ function CustomDate({
     </VStack>
   );
 }
-
-CustomDate.propTypes = {
-  transaction: PropTypes.object.isRequired,
-  customDate: PropTypes.string.isRequired,
-  setCustomDate: PropTypes.func.isRequired,
-  error: PropTypes.string,
-  setError: PropTypes.func,
-  customDateOpen: PropTypes.bool,
-  setCustomDateOpen: PropTypes.func,
-};
 
 export default CustomDate;

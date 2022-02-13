@@ -10,18 +10,12 @@ import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import { useEffect } from "react";
 import { formatCurrency } from "../utils";
-import { RichCategorization, Transaction } from "../../types";
-
-interface NewCategorization extends RichCategorization {
-  newAmount: string;
-}
+import { NewCategorization, Transaction, SetState } from "../../types";
 
 interface Props {
   setCategorizationBeingEdited: (id: number | null) => void;
   newCategorizations: NewCategorization[];
-  setNewCategorizations: (
-    c: (a: NewCategorization[]) => NewCategorization[]
-  ) => void;
+  setNewCategorizations: SetState<NewCategorization[]>;
   categorizationsError: string | null;
   setCategorizationsError: (error: string | null) => void;
   transaction: Transaction;

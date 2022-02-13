@@ -15,6 +15,20 @@ import CustomDate from "./CustomDate";
 import Categorizations from "./Categorizations";
 import { useCallback, useState } from "react";
 import { formatCurrency } from "../utils";
+import { RichTransaction, SetState, NewCategorization } from "../../types";
+
+interface Props {
+  transaction: RichTransaction;
+  onClose: () => void;
+  updateCategorizationsForTransaction: (
+    transaction: RichTransaction,
+    categorizations: NewCategorization[]
+  ) => void;
+  updateTransaction: (transaction: RichTransaction) => void;
+  newCategorizations: NewCategorization[];
+  setNewCategorizations: SetState<NewCategorization[]>;
+  setCategorizationBeingEdited: SetState<number | null>;
+}
 
 function EditTransactionModalContent({
   transaction,
@@ -24,22 +38,24 @@ function EditTransactionModalContent({
   newCategorizations,
   setNewCategorizations,
   setCategorizationBeingEdited,
-}) {
-  const [customDateError, setCustomDateError] = useState(null);
-
+}: Props) {
+  const [customDateError, setCustomDateError] = useState<string | null>(null);
   const [customDate, setCustomDate] = useState(
     transaction.customDate
       ? transaction.customDate
       : transaction.accountingDate.split("T")[0]
   );
-
-  const [customDateOpen, setCustomDateOpen] = useState(transaction.customDate);
-
-  const [categorizationsError, setCategorizationsError] = useState(null);
+  const [customDateOpen, setCustomDateOpen] = useState(
+    !!transaction.customDate
+  );
+  const [categorizationsError, setCategorizationsError] = useState<
+    string | null
+  >(null);
 
   const onSave = useCallback(() => {
     onClose();
     const mappedNewCategorizations = newCategorizations.map((c) => ({
+      ...c,
       amount: c.newAmount ? parseFloat(c.newAmount) * 100 : c.amount,
       categoryId: c.categoryId,
     }));
@@ -101,14 +117,19 @@ function EditTransactionModalContent({
           onClick={onSave}
           mr="8px"
           colorScheme="green"
-          disabled={customDateError || categorizationsError}
+          disabled={!!(customDateError || categorizationsError)}
         >
           Save
         </Button>
         <Button
           onClick={() => {
             onClose();
-            setNewCategorizations(transaction.categorizations);
+            setNewCategorizations(
+              transaction.categorizations.map((c) => ({
+                ...c,
+                newAmount: "",
+              }))
+            );
           }}
         >
           Close
