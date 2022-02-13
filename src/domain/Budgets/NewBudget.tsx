@@ -12,16 +12,30 @@ import {
   Divider,
   Text,
 } from "@chakra-ui/react";
-import PropTypes from "prop-types";
 import ColorPicker from "../../components/ColorPicker";
 import { useCallback, useState } from "react";
+import { Budget } from "../../types";
 
-function NewBudget({ onClose, isOpen, edit, budget, addBudget, updateBudget }) {
-  const [name, setName] = useState(edit ? budget.name : "");
-  const [color, setColor] = useState(edit ? budget.color : null);
+interface Props {
+  onClose: () => void;
+  isOpen: boolean;
+  budget: Budget | null;
+  addBudget: (budget: Budget) => void;
+  updateBudget: (budget: Budget) => void;
+}
 
-  const [nameError, setNameError] = useState(null);
-  const [colorError, setColorError] = useState(null);
+function NewBudget({
+  onClose,
+  isOpen,
+  budget,
+  addBudget,
+  updateBudget,
+}: Props) {
+  const [name, setName] = useState(budget ? budget.name : "");
+  const [color, setColor] = useState(budget ? budget.color : null);
+
+  const [nameError, setNameError] = useState<string | null>(null);
+  const [colorError, setColorError] = useState<string | null>(null);
 
   const onSave = useCallback(() => {
     const nameInvalid = name.trim().length === 0;
@@ -39,7 +53,7 @@ function NewBudget({ onClose, isOpen, edit, budget, addBudget, updateBudget }) {
       return;
     }
 
-    if (edit) {
+    if (budget) {
       updateBudget({
         ...budget,
         name: name,
@@ -47,14 +61,15 @@ function NewBudget({ onClose, isOpen, edit, budget, addBudget, updateBudget }) {
       });
     } else {
       addBudget({
+        id: -1,
         name: name,
         color: color,
       });
     }
 
     onClose();
-    setName(edit ? name : "");
-    setColor(edit ? color : null);
+    setName(budget ? name : "");
+    setColor(budget ? color : null);
   }, [
     onClose,
     name,
@@ -62,7 +77,6 @@ function NewBudget({ onClose, isOpen, edit, budget, addBudget, updateBudget }) {
     budget,
     setNameError,
     setColorError,
-    edit,
     addBudget,
     updateBudget,
   ]);
@@ -71,7 +85,7 @@ function NewBudget({ onClose, isOpen, edit, budget, addBudget, updateBudget }) {
     <Modal onClose={onClose} isOpen={isOpen} size="xl">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{edit ? "Edit budget" : "New budget"}</ModalHeader>
+        <ModalHeader>{budget ? "Edit budget" : "New budget"}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <VStack align="left">
@@ -82,7 +96,7 @@ function NewBudget({ onClose, isOpen, edit, budget, addBudget, updateBudget }) {
                 setNameError(null);
               }}
               placeholder="Name"
-              isInvalid={nameError}
+              isInvalid={!!nameError}
             />
             {nameError && (
               <Text color="crimson" fontSize="sm">
@@ -110,14 +124,5 @@ function NewBudget({ onClose, isOpen, edit, budget, addBudget, updateBudget }) {
     </Modal>
   );
 }
-
-NewBudget.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  edit: PropTypes.bool,
-  budget: PropTypes.object,
-  addBudget: PropTypes.func.isRequired,
-  updateBudget: PropTypes.func.isRequired,
-};
 
 export default NewBudget;

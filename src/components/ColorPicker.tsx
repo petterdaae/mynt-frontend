@@ -37,7 +37,7 @@ const ErrorMessage = styled.div`
 const colors = ["#7f87b2", "#83b2d0", "#95dab6", "#f2e6b1", "#dc8580"];
 
 type Props = {
-  value: string;
+  value: string | null;
   onChange: (color: string) => void;
   error: string | null;
 };

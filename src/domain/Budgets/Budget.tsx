@@ -15,8 +15,18 @@ import {
 import { EditIcon, DeleteIcon, StarIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
-import PropTypes from "prop-types";
 import NewBudget from "./NewBudget";
+import { Budget as BudgetType } from "../../types";
+
+interface Props {
+  budget: BudgetType;
+  deleteBudget: (budgetId: number) => void;
+  addBudget: (budget: BudgetType) => void;
+  updateBudget: (budget: BudgetType) => void;
+  setCurrentBudget: (budgetId: number | null) => void;
+  mainBudgetId: number | null;
+  setMainBudgetId: (budgetId: number | null) => void;
+}
 
 function Budget({
   budget,
@@ -26,7 +36,7 @@ function Budget({
   setCurrentBudget,
   mainBudgetId,
   setMainBudgetId,
-}) {
+}: Props) {
   const [editBudgetOpen, setEditBudgetOpen] = useState(false);
   const [showDeleteBudget, setShowDeleteBudget] = useState(false);
   return (
@@ -82,7 +92,6 @@ function Budget({
       <NewBudget
         isOpen={editBudgetOpen}
         onClose={() => setEditBudgetOpen(false)}
-        edit={true}
         budget={budget}
         addBudget={addBudget}
         updateBudget={updateBudget}
@@ -117,15 +126,5 @@ function Budget({
     </>
   );
 }
-
-Budget.propTypes = {
-  budget: PropTypes.object.isRequired,
-  deleteBudget: PropTypes.func.isRequired,
-  addBudget: PropTypes.func.isRequired,
-  updateBudget: PropTypes.func.isRequired,
-  setCurrentBudget: PropTypes.func.isRequired,
-  mainBudgetId: PropTypes.number,
-  setMainBudgetId: PropTypes.func.isRequired,
-};
 
 export default Budget;

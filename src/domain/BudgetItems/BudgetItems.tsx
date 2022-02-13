@@ -8,7 +8,7 @@ import { Budget, Category } from "../../types";
 
 interface Props {
   budget: Budget;
-  setCurrentBudget: (budget: Budget | null) => void;
+  setCurrentBudget: (budgetId: number | null) => void;
   categories: Category[];
 }
 

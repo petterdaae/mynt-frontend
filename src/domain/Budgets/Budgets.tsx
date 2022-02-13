@@ -5,13 +5,19 @@ import { Divider, HStack, IconButton, Center, Spinner } from "@chakra-ui/react";
 import { AddIcon, ArrowBackIcon } from "@chakra-ui/icons";
 import NewBudget from "./NewBudget";
 import BudgetItems from "../BudgetItems/BudgetItems";
+import { Budget as BudgetType } from "../../types";
 
 function Budgets() {
-  const { budgets, deleteBudget, addBudget, updateBudget, budgetsLoading } =
-    useBudgets();
-  const { categories, categoriesLoading } = useCategories();
+  const {
+    budgets,
+    deleteBudget,
+    addBudget,
+    updateBudget,
+    loading: budgetsLoading,
+  } = useBudgets();
+  const { categories, loading: categoriesLoading } = useCategories();
   const [newBudgetOpen, setNewBudgetOpen] = useState(false);
-  const [currentBudget, setCurrentBudget] = useState(null);
+  const [currentBudget, setCurrentBudget] = useState<number | null>(null);
   const { settings, update: updateSettings } = useSettings();
   return !(budgetsLoading || categoriesLoading) ? (
     currentBudget === null ? (
@@ -41,8 +47,7 @@ function Budgets() {
                 deleteBudget={deleteBudget}
                 addBudget={addBudget}
                 updateBudget={updateBudget}
-                categories={categories}
-                mainBudgetId={settings.mainBudgetId}
+                mainBudgetId={settings?.mainBudgetId ?? null}
                 setMainBudgetId={(id) =>
                   updateSettings({ ...settings, mainBudgetId: id })
                 }
@@ -56,12 +61,12 @@ function Budgets() {
           onClose={() => setNewBudgetOpen(false)}
           addBudget={addBudget}
           updateBudget={updateBudget}
-          categories={categories}
+          budget={null}
         />
       </>
     ) : (
       <BudgetItems
-        budget={budgets.find((b) => b.id === currentBudget)}
+        budget={budgets.find((b) => b.id === currentBudget) as BudgetType}
         categories={categories}
         setCurrentBudget={setCurrentBudget}
       />
