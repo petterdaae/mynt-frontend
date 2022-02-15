@@ -102,7 +102,7 @@ function NewBudgetItem({
 
     onClose();
     setName(budgetItem ? name : "");
-    setAmount(budgetItem ? budgetItem.monthlyAmount : null);
+    setAmount(budgetItem ? amount : null);
     setCategoryId(budgetItem ? categoryId : null);
     setNameError(null);
     setAmountError(null);
