@@ -12,12 +12,15 @@ import {
   Divider,
   Text,
   HStack,
+  Select,
 } from "@chakra-ui/react";
 import { useCallback, useState, useMemo } from "react";
 import CategoryPickerModalContent from "../CategoryPicker/CategoryPickerModalContent";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import { BudgetItem, Category } from "../../types";
 import CurrencyInput from "../../components/CurrencyInput";
+import EditableBudgetItemCustomItem from "../../types/EditableBudgetItemCustomItem";
+import BudgetItemCustomItems from "./BudgetItemCustomItems";
 
 interface Props {
   onClose: () => void;
@@ -51,6 +54,14 @@ function NewBudgetItem({
   const [categoryError, setCategoryError] = useState<string | null>(null);
 
   const [showChooseCategories, setShowChooseCategories] = useState(false);
+
+  const [budgetItemKind, setBudgetItemKind] = useState(
+    budgetItem ? "monthly" : "monthly"
+  );
+
+  const [customItems, setCustomItems] = useState<
+    EditableBudgetItemCustomItem[]
+  >([]);
 
   const category = useMemo(
     () =>
@@ -141,6 +152,15 @@ function NewBudgetItem({
             </ModalHeader>
             <ModalCloseButton />
             <ModalBody>
+              <Select
+                mb="2"
+                value={budgetItemKind}
+                onChange={(e) => setBudgetItemKind(e.target.value)}
+              >
+                <option value="monthly">Monthly</option>
+                <option value="custom">Custom</option>
+              </Select>
+              <Divider mb="2" />
               <VStack align="left">
                 <Input
                   value={name}
@@ -175,11 +195,22 @@ function NewBudgetItem({
                   </Text>
                 )}
                 <Divider />
-                <CurrencyInput value={amount} setValue={setAmount} />
-                {amountError && (
-                  <Text color="crimson" fontSize="sm">
-                    {amountError}
-                  </Text>
+                {budgetItemKind === "monthly" && (
+                  <>
+                    <CurrencyInput value={amount} setValue={setAmount} />
+                    {amountError && (
+                      <Text color="crimson" fontSize="sm">
+                        {amountError}
+                      </Text>
+                    )}
+                  </>
+                )}
+                {budgetItemKind === "custom" && (
+                  <BudgetItemCustomItems
+                    budgetItem={budgetItem}
+                    customItems={customItems}
+                    setCustomItems={setCustomItems}
+                  />
                 )}
 
                 <Divider />
