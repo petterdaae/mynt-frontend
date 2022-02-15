@@ -17,6 +17,7 @@ import { useCallback, useState, useMemo } from "react";
 import CategoryPickerModalContent from "../CategoryPicker/CategoryPickerModalContent";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import { BudgetItem, Category } from "../../types";
+import CurrencyInput from "../../components/CurrencyInput";
 
 interface Props {
   onClose: () => void;
@@ -37,18 +38,11 @@ function NewBudgetItem({
   updateBudgetItem,
   categories,
 }: Props) {
-  const initialValue = useCallback(
-    (value) => (value ? Math.round(value / 100) : "").toString(),
-    []
+  const [name, setName] = useState(budgetItem ? budgetItem.name : "");
+  const [amount, setAmount] = useState(
+    budgetItem ? budgetItem.monthlyAmount : null
   );
 
-  const [name, setName] = useState(budgetItem ? budgetItem.name : "");
-  const [positiveAmount, setPositiveAmount] = useState(
-    budgetItem ? initialValue(budgetItem.positiveAmount) : ""
-  );
-  const [negativeAmount, setNegativeAmount] = useState(
-    budgetItem ? initialValue(budgetItem.negativeAmount) : ""
-  );
   const [categoryId, setCategoryId] = useState(
     budgetItem ? budgetItem.categoryId : null
   );
@@ -71,13 +65,7 @@ function NewBudgetItem({
     const nameInvalid = name.trim().length === 0;
     const categoryInvalid = categoryId === null;
 
-    const positiveAmountValid = parseInt(positiveAmount, 10) >= 0;
-    const negativeAmountValid = parseInt(negativeAmount, 10) >= 0;
-
-    const amountValid =
-      (positiveAmountValid && negativeAmountValid) ||
-      (positiveAmountValid && negativeAmount === "") ||
-      (negativeAmountValid && positiveAmount === "");
+    const amountInvalid = amount === null;
 
     if (nameInvalid) {
       setNameError("Name is required");
@@ -87,13 +75,11 @@ function NewBudgetItem({
       setCategoryError("Category is required");
     }
 
-    if (!amountValid) {
-      setAmountError(
-        "Positive or negative amount is required to be an integer"
-      );
+    if (amountInvalid) {
+      setAmountError("InvalidAamount");
     }
 
-    if (nameInvalid || categoryInvalid || !amountValid) {
+    if (nameInvalid || categoryInvalid || amountInvalid) {
       return;
     }
 
@@ -102,10 +88,7 @@ function NewBudgetItem({
         ...budgetItem,
         name,
         categoryId,
-        positiveAmount:
-          positiveAmount === "" ? null : parseInt(positiveAmount, 10) * 100,
-        negativeAmount:
-          negativeAmount === "" ? null : parseInt(negativeAmount, 10) * 100,
+        monthlyAmount: amount,
       });
     } else {
       addBudgetItem({
@@ -113,17 +96,13 @@ function NewBudgetItem({
         budgetId,
         name,
         categoryId,
-        positiveAmount:
-          positiveAmount === "" ? null : parseInt(positiveAmount, 10) * 100,
-        negativeAmount:
-          negativeAmount === "" ? null : parseInt(negativeAmount, 10) * 100,
+        monthlyAmount: amount,
       });
     }
 
     onClose();
     setName(budgetItem ? name : "");
-    setPositiveAmount(budgetItem ? positiveAmount : "");
-    setNegativeAmount(budgetItem ? negativeAmount : "");
+    setAmount(budgetItem ? budgetItem.monthlyAmount : null);
     setCategoryId(budgetItem ? categoryId : null);
     setNameError(null);
     setAmountError(null);
@@ -131,11 +110,11 @@ function NewBudgetItem({
   }, [
     name,
     categoryId,
-    positiveAmount,
-    negativeAmount,
-    onClose,
-    updateBudgetItem,
+    amount,
     budgetItem,
+    onClose,
+    setAmountError,
+    updateBudgetItem,
     addBudgetItem,
     budgetId,
   ]);
@@ -196,35 +175,13 @@ function NewBudgetItem({
                   </Text>
                 )}
                 <Divider />
-                <Input
-                  value={negativeAmount}
-                  onChange={(e) => {
-                    setNegativeAmount(e.target.value);
-                    setAmountError(null);
-                  }}
-                  placeholder="Spending budget"
-                  isInvalid={!!amountError}
-                />
+                <CurrencyInput value={amount} setValue={setAmount} />
                 {amountError && (
                   <Text color="crimson" fontSize="sm">
                     {amountError}
                   </Text>
                 )}
-                <Divider />
-                <Input
-                  value={positiveAmount}
-                  onChange={(e) => {
-                    setPositiveAmount(e.target.value);
-                    setAmountError(null);
-                  }}
-                  placeholder="Earning budget"
-                  isInvalid={!!amountError}
-                />
-                {amountError && (
-                  <Text color="crimson" fontSize="sm">
-                    {amountError}
-                  </Text>
-                )}
+
                 <Divider />
               </VStack>
             </ModalBody>

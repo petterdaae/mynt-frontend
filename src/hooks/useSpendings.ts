@@ -55,11 +55,13 @@ function calculateSpendings(
     positiveAmount: 0,
     negativeAmount: 0,
     positiveBudget: currentBudgetItems.reduce(
-      (acc, bi) => acc + (bi.positiveAmount ?? 0),
+      (acc, bi) =>
+        acc + (bi.monthlyAmount && bi.monthlyAmount > 0 ? bi.monthlyAmount : 0),
       0
     ),
     negativeBudget: currentBudgetItems.reduce(
-      (acc, bi) => acc + (bi.negativeAmount ?? 0),
+      (acc, bi) =>
+        acc + (bi.monthlyAmount && bi.monthlyAmount < 0 ? bi.monthlyAmount : 0),
       0
     ),
   };

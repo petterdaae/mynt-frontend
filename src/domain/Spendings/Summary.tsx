@@ -21,7 +21,7 @@ function Summary({ currentCategory, spendings }: Props) {
     spending.positiveAmount,
     -spending.negativeAmount,
     spending.positiveBudget,
-    spending.negativeBudget
+    -spending.negativeBudget
   );
   return (
     <Center m="2">
@@ -33,7 +33,7 @@ function Summary({ currentCategory, spendings }: Props) {
                 max={max}
                 height={200}
                 width={85}
-                value={spending.negativeBudget}
+                value={-spending.negativeBudget}
                 colorScheme="gray"
               />
               <Bar

@@ -2,8 +2,7 @@ interface BudgetItem {
   id: number;
   budgetId: number;
   categoryId: number;
-  negativeAmount: number | null;
-  positiveAmount: number | null;
+  monthlyAmount: number | null;
   name: string;
 }
 
