@@ -19,7 +19,7 @@ import CategoryPickerModalContent from "../CategoryPicker/CategoryPickerModalCon
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import { BudgetItem, Category } from "../../types";
 import CurrencyInput from "../../components/CurrencyInput";
-import EditableBudgetItemCustomItem from "../../types/EditableBudgetItemCustomItem";
+import BudgetItemCustomItem from "../../types/BudgetItemCustomItem";
 import BudgetItemCustomItems from "./BudgetItemCustomItems";
 
 interface Props {
@@ -41,27 +41,28 @@ function NewBudgetItem({
   updateBudgetItem,
   categories,
 }: Props) {
+  const [showChooseCategories, setShowChooseCategories] = useState(false);
+
+  const [nameError, setNameError] = useState<string | null>(null);
   const [name, setName] = useState(budgetItem ? budgetItem.name : "");
+
+  const [amountError, setAmountError] = useState<string | null>(null);
   const [amount, setAmount] = useState(
     budgetItem ? budgetItem.monthlyAmount : null
   );
 
+  const [categoryError, setCategoryError] = useState<string | null>(null);
   const [categoryId, setCategoryId] = useState(
     budgetItem ? budgetItem.categoryId : null
   );
-  const [nameError, setNameError] = useState<string | null>(null);
-  const [amountError, setAmountError] = useState<string | null>(null);
-  const [categoryError, setCategoryError] = useState<string | null>(null);
 
-  const [showChooseCategories, setShowChooseCategories] = useState(false);
+  const [kind, setKind] = useState(budgetItem ? budgetItem.kind : "monthly");
 
-  const [budgetItemKind, setBudgetItemKind] = useState(
-    budgetItem ? "monthly" : "monthly"
+  const [customItems, setCustomItems] = useState<BudgetItemCustomItem[]>(
+    budgetItem && budgetItem.customItems
+      ? JSON.parse(budgetItem.customItems)
+      : []
   );
-
-  const [customItems, setCustomItems] = useState<
-    EditableBudgetItemCustomItem[]
-  >([]);
 
   const category = useMemo(
     () =>
@@ -73,61 +74,109 @@ function NewBudgetItem({
   );
 
   const onSave = useCallback(() => {
+    // Common
     const nameInvalid = name.trim().length === 0;
     const categoryInvalid = categoryId === null;
-
-    const amountInvalid = amount === null;
-
     if (nameInvalid) {
       setNameError("Name is required");
     }
-
     if (categoryInvalid) {
       setCategoryError("Category is required");
     }
 
-    if (amountInvalid) {
-      setAmountError("InvalidAamount");
+    // Monthly
+    if (kind === "monthly") {
+      const amountInvalid = amount === null;
+      if (amountInvalid) {
+        setAmountError("InvalidAamount");
+      }
+      if (nameInvalid || categoryInvalid || amountInvalid) {
+        return;
+      }
+
+      if (budgetItem) {
+        updateBudgetItem({
+          id: budgetItem.id,
+          budgetId: budgetItem.budgetId,
+          kind: "monthly",
+          name,
+          categoryId,
+          monthlyAmount: amount,
+          customItems: null,
+        });
+      } else {
+        addBudgetItem({
+          id: -1,
+          budgetId,
+          kind: "monthly",
+          name,
+          categoryId,
+          monthlyAmount: amount,
+          customItems: null,
+        });
+      }
     }
 
-    if (nameInvalid || categoryInvalid || amountInvalid) {
-      return;
-    }
+    if (kind === "custom") {
+      const allHaveAmount = customItems.every((item) => item.amount !== null);
+      const allHaveDate = customItems.every((item) => item.date !== null);
+      if (nameInvalid || categoryInvalid || !allHaveAmount || !allHaveDate) {
+        return;
+      }
 
-    if (budgetItem) {
-      updateBudgetItem({
-        ...budgetItem,
-        name,
-        categoryId,
-        monthlyAmount: amount,
-      });
-    } else {
-      addBudgetItem({
-        id: -1,
-        budgetId,
-        name,
-        categoryId,
-        monthlyAmount: amount,
-      });
+      const newCustomItems = customItems.map((item) => ({
+        id: item.id,
+        amount: item.amount as number,
+        date: item.date as string,
+      }));
+
+      if (budgetItem) {
+        updateBudgetItem({
+          id: budgetItem.id,
+          budgetId: budgetItem.budgetId,
+          kind: "custom",
+          name,
+          categoryId,
+          monthlyAmount: null,
+          customItems: JSON.stringify(newCustomItems),
+        });
+      } else {
+        addBudgetItem({
+          id: -1,
+          budgetId,
+          kind: "custom",
+          name,
+          categoryId,
+          monthlyAmount: null,
+          customItems: JSON.stringify(newCustomItems),
+        });
+      }
     }
 
     onClose();
-    setName(budgetItem ? name : "");
-    setAmount(budgetItem ? amount : null);
-    setCategoryId(budgetItem ? categoryId : null);
+
+    setName(budgetItem ? budgetItem.name : "");
+    setAmount(budgetItem ? budgetItem.monthlyAmount : null);
+    setCategoryId(budgetItem ? budgetItem.categoryId : null);
+    setCustomItems(
+      budgetItem && budgetItem.customItems
+        ? JSON.parse(budgetItem.customItems)
+        : []
+    );
     setNameError(null);
     setAmountError(null);
     setCategoryError(null);
   }, [
     name,
     categoryId,
-    amount,
-    budgetItem,
+    kind,
     onClose,
-    setAmountError,
+    budgetItem,
+    amount,
     updateBudgetItem,
     addBudgetItem,
     budgetId,
+    customItems,
   ]);
 
   return (
@@ -154,8 +203,8 @@ function NewBudgetItem({
             <ModalBody>
               <Select
                 mb="2"
-                value={budgetItemKind}
-                onChange={(e) => setBudgetItemKind(e.target.value)}
+                value={kind}
+                onChange={(e) => setKind(e.target.value)}
               >
                 <option value="monthly">Monthly</option>
                 <option value="custom">Custom</option>
@@ -195,7 +244,7 @@ function NewBudgetItem({
                   </Text>
                 )}
                 <Divider />
-                {budgetItemKind === "monthly" && (
+                {kind === "monthly" && (
                   <>
                     <CurrencyInput value={amount} setValue={setAmount} />
                     {amountError && (
@@ -205,9 +254,8 @@ function NewBudgetItem({
                     )}
                   </>
                 )}
-                {budgetItemKind === "custom" && (
+                {kind === "custom" && (
                   <BudgetItemCustomItems
-                    budgetItem={budgetItem}
                     customItems={customItems}
                     setCustomItems={setCustomItems}
                   />

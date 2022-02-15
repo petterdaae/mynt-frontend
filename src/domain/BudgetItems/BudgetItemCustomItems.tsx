@@ -1,21 +1,16 @@
 import { HStack, Text, Button, IconButton } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
-import { SetState, BudgetItem } from "../../types";
-import EditableBudgetItemCustomItem from "../../types/EditableBudgetItemCustomItem";
+import { SetState } from "../../types";
+import BudgetItemCustomItem from "../../types/BudgetItemCustomItem";
 import CurrencyInput from "../../components/CurrencyInput";
 import DateInput from "../../components/DateInput";
 
 interface Props {
-  budgetItem: BudgetItem | null;
-  customItems: EditableBudgetItemCustomItem[];
-  setCustomItems: SetState<EditableBudgetItemCustomItem[]>;
+  customItems: BudgetItemCustomItem[];
+  setCustomItems: SetState<BudgetItemCustomItem[]>;
 }
 
-function BudgetItemCustomItems({
-  budgetItem,
-  customItems,
-  setCustomItems,
-}: Props) {
+function BudgetItemCustomItems({ customItems, setCustomItems }: Props) {
   return (
     <>
       <Text>Custom items</Text>
@@ -62,7 +57,6 @@ function BudgetItemCustomItems({
                   prev.length === 0
                     ? 1
                     : Math.max(...prev.map((e) => e.id)) + 1,
-                budgetItemId: budgetItem ? budgetItem.id : -1,
                 amount: null,
                 date: new Date().toISOString().split("T")[0],
               },

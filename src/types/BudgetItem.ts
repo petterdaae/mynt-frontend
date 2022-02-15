@@ -3,6 +3,8 @@ interface BudgetItem {
   budgetId: number;
   categoryId: number;
   monthlyAmount: number | null;
+  customItems: string | null;
+  kind: string;
   name: string;
 }
 
