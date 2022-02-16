@@ -7,6 +7,8 @@ interface Spending {
   negativeAmount: number;
   positiveBudget: number;
   negativeBudget: number;
+  remainingPositiveBudget: number;
+  remainingNegativeBudget: number;
 }
 
 export default Spending;

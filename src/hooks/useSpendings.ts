@@ -104,6 +104,8 @@ function calculateSpendings(
     negativeAmount: 0,
     positiveBudget,
     negativeBudget,
+    remainingPositiveBudget: 0,
+    remainingNegativeBudget: 0,
   };
 
   // Add amounts of transactions that are in the category
@@ -122,6 +124,15 @@ function calculateSpendings(
     }
   }
 
+  spending.remainingPositiveBudget = Math.max(
+    spending.positiveBudget - spending.positiveAmount,
+    0
+  );
+  spending.remainingNegativeBudget = Math.min(
+    spending.negativeBudget - spending.negativeAmount,
+    0
+  );
+
   // Recursively add amounts of transactions that are in subcategories
   for (const child of categories.filter((c) => c.parentId === id)) {
     const childSpendings = calculateSpendings(
@@ -139,6 +150,10 @@ function calculateSpendings(
     }
     spending.positiveBudget += childSpendings[0].positiveBudget;
     spending.negativeBudget += childSpendings[0].negativeBudget;
+    spending.remainingPositiveBudget +=
+      childSpendings[0].remainingPositiveBudget;
+    spending.remainingNegativeBudget +=
+      childSpendings[0].remainingNegativeBudget;
 
     Array.prototype.push.apply(spendings, childSpendings);
   }

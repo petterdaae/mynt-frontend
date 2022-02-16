@@ -1,6 +1,7 @@
 import { Center, HStack, VStack } from "@chakra-ui/react";
 import Bar from "./Bar";
 import { Spending } from "../../types";
+import DoubleBar from "./DoubleBar";
 
 interface Props {
   currentCategory: number | null;
@@ -26,7 +27,7 @@ function Summary({ currentCategory, spendings }: Props) {
   return (
     <Center m="2">
       <VStack>
-        <HStack>
+        <HStack alignItems="end">
           {max !== 0 && (
             <>
               <Bar
@@ -36,19 +37,23 @@ function Summary({ currentCategory, spendings }: Props) {
                 value={-spending.negativeBudget}
                 colorScheme="gray"
               />
-              <Bar
+              <DoubleBar
                 max={max}
                 height={200}
                 width={85}
-                value={-spending.negativeAmount}
-                colorScheme="red"
+                value1={-spending.negativeAmount}
+                value2={-spending.negativeAmount + 500000}
+                colorScheme1="red"
+                colorScheme2="red"
               />
-              <Bar
+              <DoubleBar
                 max={max}
                 height={200}
                 width={85}
-                value={spending.positiveAmount}
-                colorScheme="blue"
+                value1={spending.positiveAmount}
+                value2={spending.positiveAmount + 500000}
+                colorScheme1="blue"
+                colorScheme2="blue"
               />
               <Bar
                 max={max}
