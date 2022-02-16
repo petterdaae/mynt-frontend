@@ -12,11 +12,15 @@ import {
   Divider,
   Text,
   HStack,
+  Select,
 } from "@chakra-ui/react";
 import { useCallback, useState, useMemo } from "react";
 import CategoryPickerModalContent from "../CategoryPicker/CategoryPickerModalContent";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import { BudgetItem, Category } from "../../types";
+import CurrencyInput from "../../components/CurrencyInput";
+import BudgetItemCustomItems from "./BudgetItemCustomItems";
+import EditableBudgetItemCustomItem from "../../types/EditableBudgetItemCustomItems";
 
 interface Props {
   onClose: () => void;
@@ -37,26 +41,26 @@ function NewBudgetItem({
   updateBudgetItem,
   categories,
 }: Props) {
-  const initialValue = useCallback(
-    (value) => (value ? Math.round(value / 100) : "").toString(),
-    []
+  const [showChooseCategories, setShowChooseCategories] = useState(false);
+
+  const [nameError, setNameError] = useState<string | null>(null);
+  const [name, setName] = useState(budgetItem ? budgetItem.name : "");
+
+  const [amountError, setAmountError] = useState<string | null>(null);
+  const [amount, setAmount] = useState(
+    budgetItem ? budgetItem.monthlyAmount : null
   );
 
-  const [name, setName] = useState(budgetItem ? budgetItem.name : "");
-  const [positiveAmount, setPositiveAmount] = useState(
-    budgetItem ? initialValue(budgetItem.positiveAmount) : ""
-  );
-  const [negativeAmount, setNegativeAmount] = useState(
-    budgetItem ? initialValue(budgetItem.negativeAmount) : ""
-  );
+  const [categoryError, setCategoryError] = useState<string | null>(null);
   const [categoryId, setCategoryId] = useState(
     budgetItem ? budgetItem.categoryId : null
   );
-  const [nameError, setNameError] = useState<string | null>(null);
-  const [amountError, setAmountError] = useState<string | null>(null);
-  const [categoryError, setCategoryError] = useState<string | null>(null);
 
-  const [showChooseCategories, setShowChooseCategories] = useState(false);
+  const [kind, setKind] = useState(budgetItem ? budgetItem.kind : "monthly");
+
+  const [customItems, setCustomItems] = useState<
+    EditableBudgetItemCustomItem[]
+  >(budgetItem?.customItems ?? []);
 
   const category = useMemo(
     () =>
@@ -68,76 +72,105 @@ function NewBudgetItem({
   );
 
   const onSave = useCallback(() => {
+    // Common
     const nameInvalid = name.trim().length === 0;
     const categoryInvalid = categoryId === null;
-
-    const positiveAmountValid = parseInt(positiveAmount, 10) >= 0;
-    const negativeAmountValid = parseInt(negativeAmount, 10) >= 0;
-
-    const amountValid =
-      (positiveAmountValid && negativeAmountValid) ||
-      (positiveAmountValid && negativeAmount === "") ||
-      (negativeAmountValid && positiveAmount === "");
-
     if (nameInvalid) {
       setNameError("Name is required");
     }
-
     if (categoryInvalid) {
       setCategoryError("Category is required");
     }
 
-    if (!amountValid) {
-      setAmountError(
-        "Positive or negative amount is required to be an integer"
-      );
+    // Monthly
+    if (kind === "monthly") {
+      const amountInvalid = amount === null;
+      if (amountInvalid) {
+        setAmountError("InvalidAamount");
+      }
+      if (nameInvalid || categoryInvalid || amountInvalid) {
+        return;
+      }
+
+      if (budgetItem) {
+        updateBudgetItem({
+          id: budgetItem.id,
+          budgetId: budgetItem.budgetId,
+          kind: "monthly",
+          name,
+          categoryId,
+          monthlyAmount: amount,
+          customItems: null,
+        });
+      } else {
+        addBudgetItem({
+          id: -1,
+          budgetId,
+          kind: "monthly",
+          name,
+          categoryId,
+          monthlyAmount: amount,
+          customItems: null,
+        });
+      }
     }
 
-    if (nameInvalid || categoryInvalid || !amountValid) {
-      return;
-    }
+    if (kind === "custom") {
+      const allHaveAmount = customItems.every((item) => item.amount !== null);
+      const allHaveDate = customItems.every((item) => item.date !== null);
+      if (nameInvalid || categoryInvalid || !allHaveAmount || !allHaveDate) {
+        return;
+      }
 
-    if (budgetItem) {
-      updateBudgetItem({
-        ...budgetItem,
-        name,
-        categoryId,
-        positiveAmount:
-          positiveAmount === "" ? null : parseInt(positiveAmount, 10) * 100,
-        negativeAmount:
-          negativeAmount === "" ? null : parseInt(negativeAmount, 10) * 100,
-      });
-    } else {
-      addBudgetItem({
-        id: -1,
-        budgetId,
-        name,
-        categoryId,
-        positiveAmount:
-          positiveAmount === "" ? null : parseInt(positiveAmount, 10) * 100,
-        negativeAmount:
-          negativeAmount === "" ? null : parseInt(negativeAmount, 10) * 100,
-      });
+      const newCustomItems = customItems.map((item) => ({
+        id: item.id,
+        amount: item.amount as number,
+        date: item.date as string,
+      }));
+
+      if (budgetItem) {
+        updateBudgetItem({
+          id: budgetItem.id,
+          budgetId: budgetItem.budgetId,
+          kind: "custom",
+          name,
+          categoryId,
+          monthlyAmount: null,
+          customItems: newCustomItems,
+        });
+      } else {
+        addBudgetItem({
+          id: -1,
+          budgetId,
+          kind: "custom",
+          name,
+          categoryId,
+          monthlyAmount: null,
+          customItems: newCustomItems,
+        });
+      }
     }
 
     onClose();
+
     setName(budgetItem ? name : "");
-    setPositiveAmount(budgetItem ? positiveAmount : "");
-    setNegativeAmount(budgetItem ? negativeAmount : "");
+    setAmount(budgetItem ? amount : null);
     setCategoryId(budgetItem ? categoryId : null);
+    setCustomItems(budgetItem ? customItems : []);
     setNameError(null);
     setAmountError(null);
     setCategoryError(null);
   }, [
     name,
     categoryId,
-    positiveAmount,
-    negativeAmount,
+    kind,
     onClose,
-    updateBudgetItem,
     budgetItem,
+    amount,
+    updateBudgetItem,
     addBudgetItem,
     budgetId,
+    customItems,
   ]);
 
   return (
@@ -162,6 +195,15 @@ function NewBudgetItem({
             </ModalHeader>
             <ModalCloseButton />
             <ModalBody>
+              <Select
+                mb="2"
+                value={kind}
+                onChange={(e) => setKind(e.target.value)}
+              >
+                <option value="monthly">Monthly</option>
+                <option value="custom">Custom</option>
+              </Select>
+              <Divider mb="2" />
               <VStack align="left">
                 <Input
                   value={name}
@@ -196,35 +238,23 @@ function NewBudgetItem({
                   </Text>
                 )}
                 <Divider />
-                <Input
-                  value={negativeAmount}
-                  onChange={(e) => {
-                    setNegativeAmount(e.target.value);
-                    setAmountError(null);
-                  }}
-                  placeholder="Spending budget"
-                  isInvalid={!!amountError}
-                />
-                {amountError && (
-                  <Text color="crimson" fontSize="sm">
-                    {amountError}
-                  </Text>
+                {kind === "monthly" && (
+                  <>
+                    <CurrencyInput value={amount} setValue={setAmount} />
+                    {amountError && (
+                      <Text color="crimson" fontSize="sm">
+                        {amountError}
+                      </Text>
+                    )}
+                  </>
                 )}
-                <Divider />
-                <Input
-                  value={positiveAmount}
-                  onChange={(e) => {
-                    setPositiveAmount(e.target.value);
-                    setAmountError(null);
-                  }}
-                  placeholder="Earning budget"
-                  isInvalid={!!amountError}
-                />
-                {amountError && (
-                  <Text color="crimson" fontSize="sm">
-                    {amountError}
-                  </Text>
+                {kind === "custom" && (
+                  <BudgetItemCustomItems
+                    customItems={customItems}
+                    setCustomItems={setCustomItems}
+                  />
                 )}
+
                 <Divider />
               </VStack>
             </ModalBody>
@@ -232,7 +262,22 @@ function NewBudgetItem({
               <Button mr="8px" colorScheme="green" onClick={onSave}>
                 Save
               </Button>
-              <Button onClick={onClose}>Close</Button>
+              <Button
+                onClick={() => {
+                  onClose();
+                  setName(budgetItem ? budgetItem.name : "");
+                  setAmount(budgetItem ? budgetItem.monthlyAmount : null);
+                  setCategoryId(budgetItem ? budgetItem.categoryId : null);
+                  setCustomItems(
+                    budgetItem?.customItems ? budgetItem.customItems : []
+                  );
+                  setNameError(null);
+                  setAmountError(null);
+                  setCategoryError(null);
+                }}
+              >
+                Close
+              </Button>
             </ModalFooter>
           </>
         )}

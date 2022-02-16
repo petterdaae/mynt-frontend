@@ -22,9 +22,19 @@ function useSpendings(fromDate: string, toDate: string) {
             null,
             categories,
             transactions,
-            budgetItems.filter((bi) => bi.budgetId === settings?.mainBudgetId)
+            budgetItems.filter((bi) => bi.budgetId === settings?.mainBudgetId),
+            fromDate,
+            toDate
           ),
-    [categories, transactions, loading, budgetItems, settings]
+    [
+      loading,
+      categories,
+      transactions,
+      budgetItems,
+      fromDate,
+      toDate,
+      settings?.mainBudgetId,
+    ]
   );
   return {
     transactions,
@@ -41,7 +51,9 @@ function calculateSpendings(
   id: number | null,
   categories: Category[],
   transactions: RichTransaction[],
-  budgetItems: BudgetItem[]
+  budgetItems: BudgetItem[],
+  fromDate: string,
+  toDate: string
 ): Spending[] {
   const spendings: Spending[] = [];
 
@@ -49,19 +61,49 @@ function calculateSpendings(
   const category = categories.find((c) => c.id === id) ?? null;
   const currentBudgetItems = budgetItems.filter((bi) => bi.categoryId === id);
 
+  const [positiveBudget, negativeBudget] = currentBudgetItems.reduce(
+    (acc, bi) => {
+      if (bi.kind === "monthly") {
+        return [
+          acc[0] +
+            (bi.monthlyAmount && bi.monthlyAmount > 0 ? bi.monthlyAmount : 0),
+          acc[1] +
+            (bi.monthlyAmount && bi.monthlyAmount < 0 ? bi.monthlyAmount : 0),
+        ];
+      }
+
+      if (bi.kind === "custom") {
+        if (bi.customItems) {
+          const filteredCustomItems = bi.customItems.filter(
+            (ci) => ci.date <= toDate && ci.date >= fromDate
+          );
+          return [
+            acc[0] +
+              filteredCustomItems.reduce(
+                (acc2, ci) => acc2 + (ci.amount > 0 ? ci.amount : 0),
+                0
+              ),
+            acc[1] +
+              filteredCustomItems.reduce(
+                (acc2, ci) => acc2 + (ci.amount > 0 ? ci.amount : 0),
+                0
+              ),
+          ];
+        }
+      }
+
+      return acc;
+    },
+    [0, 0]
+  );
+
   const spending = {
     category,
     amount: 0,
     positiveAmount: 0,
     negativeAmount: 0,
-    positiveBudget: currentBudgetItems.reduce(
-      (acc, bi) => acc + (bi.positiveAmount ?? 0),
-      0
-    ),
-    negativeBudget: currentBudgetItems.reduce(
-      (acc, bi) => acc + (bi.negativeAmount ?? 0),
-      0
-    ),
+    positiveBudget,
+    negativeBudget,
   };
 
   // Add amounts of transactions that are in the category
@@ -86,7 +128,9 @@ function calculateSpendings(
       child.id,
       categories,
       transactions,
-      budgetItems
+      budgetItems,
+      fromDate,
+      toDate
     );
     if (!spending.category?.ignore) {
       spending.amount += childSpendings[0].amount;
