@@ -56,13 +56,16 @@ function BudgetItem({
           <Text>{budgetItem.name}</Text>
         </HStack>
         <HStack>
-          {budgetItem.monthlyAmount && (
+          {budgetItem.monthlyAmount ? (
             <Badge
               colorScheme={budgetItem.monthlyAmount >= 0 ? "blue" : "red"}
-              size="lg"
               fontSize="1.0em"
             >
               {formatCurrency(budgetItem.monthlyAmount)}
+            </Badge>
+          ) : (
+            <Badge colorScheme="yellow" fontSize="1.0em">
+              Custom
             </Badge>
           )}
           <IconButton

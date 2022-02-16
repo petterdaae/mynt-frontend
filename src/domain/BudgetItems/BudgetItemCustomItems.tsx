@@ -1,13 +1,13 @@
 import { HStack, Text, Button, IconButton } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { SetState } from "../../types";
-import BudgetItemCustomItem from "../../types/BudgetItemCustomItem";
 import CurrencyInput from "../../components/CurrencyInput";
 import DateInput from "../../components/DateInput";
+import EditableBudgetItemCustomItem from "../../types/EditableBudgetItemCustomItems";
 
 interface Props {
-  customItems: BudgetItemCustomItem[];
-  setCustomItems: SetState<BudgetItemCustomItem[]>;
+  customItems: EditableBudgetItemCustomItem[];
+  setCustomItems: SetState<EditableBudgetItemCustomItem[]>;
 }
 
 function BudgetItemCustomItems({ customItems, setCustomItems }: Props) {

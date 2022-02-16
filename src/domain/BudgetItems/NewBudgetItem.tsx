@@ -19,8 +19,8 @@ import CategoryPickerModalContent from "../CategoryPicker/CategoryPickerModalCon
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import { BudgetItem, Category } from "../../types";
 import CurrencyInput from "../../components/CurrencyInput";
-import BudgetItemCustomItem from "../../types/BudgetItemCustomItem";
 import BudgetItemCustomItems from "./BudgetItemCustomItems";
+import EditableBudgetItemCustomItem from "../../types/EditableBudgetItemCustomItems";
 
 interface Props {
   onClose: () => void;
@@ -58,11 +58,9 @@ function NewBudgetItem({
 
   const [kind, setKind] = useState(budgetItem ? budgetItem.kind : "monthly");
 
-  const [customItems, setCustomItems] = useState<BudgetItemCustomItem[]>(
-    budgetItem && budgetItem.customItems
-      ? JSON.parse(budgetItem.customItems)
-      : []
-  );
+  const [customItems, setCustomItems] = useState<
+    EditableBudgetItemCustomItem[]
+  >(budgetItem?.customItems ?? []);
 
   const category = useMemo(
     () =>
@@ -138,7 +136,7 @@ function NewBudgetItem({
           name,
           categoryId,
           monthlyAmount: null,
-          customItems: JSON.stringify(newCustomItems),
+          customItems: newCustomItems,
         });
       } else {
         addBudgetItem({
@@ -148,21 +146,17 @@ function NewBudgetItem({
           name,
           categoryId,
           monthlyAmount: null,
-          customItems: JSON.stringify(newCustomItems),
+          customItems: newCustomItems,
         });
       }
     }
 
     onClose();
 
-    setName(budgetItem ? budgetItem.name : "");
-    setAmount(budgetItem ? budgetItem.monthlyAmount : null);
-    setCategoryId(budgetItem ? budgetItem.categoryId : null);
-    setCustomItems(
-      budgetItem && budgetItem.customItems
-        ? JSON.parse(budgetItem.customItems)
-        : []
-    );
+    setName(budgetItem ? name : "");
+    setAmount(budgetItem ? amount : null);
+    setCategoryId(budgetItem ? categoryId : null);
+    setCustomItems(budgetItem ? customItems : []);
     setNameError(null);
     setAmountError(null);
     setCategoryError(null);
@@ -268,7 +262,22 @@ function NewBudgetItem({
               <Button mr="8px" colorScheme="green" onClick={onSave}>
                 Save
               </Button>
-              <Button onClick={onClose}>Close</Button>
+              <Button
+                onClick={() => {
+                  onClose();
+                  setName(budgetItem ? budgetItem.name : "");
+                  setAmount(budgetItem ? budgetItem.monthlyAmount : null);
+                  setCategoryId(budgetItem ? budgetItem.categoryId : null);
+                  setCustomItems(
+                    budgetItem?.customItems ? budgetItem.customItems : []
+                  );
+                  setNameError(null);
+                  setAmountError(null);
+                  setCategoryError(null);
+                }}
+              >
+                Close
+              </Button>
             </ModalFooter>
           </>
         )}

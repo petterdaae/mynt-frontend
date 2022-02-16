@@ -1,7 +1,7 @@
 interface BudgetItemCustomItem {
   id: number;
-  amount: number | null;
-  date: string | null;
+  amount: number;
+  date: string;
 }
 
 export default BudgetItemCustomItem;

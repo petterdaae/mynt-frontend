@@ -1,5 +1,5 @@
 import { Input } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface Props {
   value: string | null;
@@ -11,11 +11,6 @@ const regex =
 
 function DateInput({ value, setValue }: Props) {
   const [textValue, setTextValue] = useState(value ?? "");
-  useEffect(() => {
-    if (!regex.test(value ?? "")) {
-      setValue(null);
-    }
-  });
 
   return (
     <Input
@@ -24,6 +19,8 @@ function DateInput({ value, setValue }: Props) {
         setTextValue(e.target.value);
         if (regex.test(e.target.value)) {
           setValue(e.target.value);
+        } else {
+          setValue(null);
         }
       }}
     />
