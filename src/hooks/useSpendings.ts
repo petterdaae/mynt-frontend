@@ -85,7 +85,7 @@ function calculateSpendings(
               ),
             acc[1] +
               filteredCustomItems.reduce(
-                (acc2, ci) => acc2 + (ci.amount > 0 ? ci.amount : 0),
+                (acc2, ci) => acc2 + (ci.amount < 0 ? ci.amount : 0),
                 0
               ),
           ];
