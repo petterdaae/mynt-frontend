@@ -9,6 +9,7 @@ import TransactionListWithFilters from "./domain/TransactionList/TransactionList
 import Spendings from "./domain/Spendings/Spendings";
 import Categories from "./domain/Categories/Categories";
 import Budgets from "./domain/Budgets/Budgets";
+import Prediction from "./domain/Prediction/Prediction";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/authenticated/spendings" component={Spendings} />
           <Route path="/authenticated/categories" component={Categories} />
           <Route path="/authenticated/budgets" component={Budgets} />
+          <Route path="/authenticated/prediction" component={Prediction} />
         </Authenticated>
       </Switch>
     </ChakraProvider>
