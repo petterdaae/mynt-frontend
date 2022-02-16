@@ -30,6 +30,10 @@ function calculatePredictions(accounts: Account[], budgetItems: BudgetItem[]) {
     0
   );
 
+  // TODO: Backtrack?
+  // TODO: Make dynamic
+  // TODO: Check how much is left of the budget this month
+
   const months = [
     // ["2022-01-01", "2022-02-01"],
     // ["2022-02-01", "2022-03-01"],
