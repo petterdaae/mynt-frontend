@@ -8,6 +8,7 @@ import useSpendings from "./useSpendings";
 import useTransactions from "./useTransactions";
 import useCrud from "./useCrud";
 import useSettings from "./useSettings";
+import useAccountPrediction from "./useAccountPrediction";
 
 export {
   useAccounts,
@@ -20,4 +21,5 @@ export {
   useTransactions,
   useCrud,
   useSettings,
+  useAccountPrediction,
 };
