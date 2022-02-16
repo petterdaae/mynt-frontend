@@ -77,13 +77,13 @@ function Authenticated({ children }: { children: React.ReactNode }) {
     if (location.pathname === "/authenticated/transactions") {
       setTabIndex(0);
     } else if (location.pathname === "/authenticated/categories") {
-      setTabIndex(null);
+      setTabIndex(-1);
     } else if (location.pathname === "/authenticated/spendings") {
       setTabIndex(1);
     } else if (location.pathname === "/authenticated/settings") {
-      setTabIndex(null);
+      setTabIndex(-1);
     } else if (location.pathname === "/authenticated/budgets") {
-      setTabIndex(null);
+      setTabIndex(-1);
     }
   }, [location]);
 
