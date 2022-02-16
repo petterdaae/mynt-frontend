@@ -32,4 +32,28 @@ function mod(n: number, m: number) {
   return ((n % m) + m) % m;
 }
 
-export { formatDate, formatReadableDate, formatCurrency, mod };
+function monthNameFromIndex(index: number) {
+  const months = [
+    "januar",
+    "februar",
+    "mars",
+    "april",
+    "mai",
+    "juni",
+    "juli",
+    "august",
+    "september",
+    "oktober",
+    "november",
+    "desember",
+  ];
+  return months[index];
+}
+
+export {
+  formatDate,
+  formatReadableDate,
+  formatCurrency,
+  mod,
+  monthNameFromIndex,
+};
