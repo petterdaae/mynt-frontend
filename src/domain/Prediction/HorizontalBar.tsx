@@ -57,7 +57,8 @@ interface Props {
 }
 
 function HorizonalBar({ width, value, max, colorScheme }: Props) {
-  const barWidth = Math.abs(Math.round((value / max) * (width / 2)));
+  const barWidth =
+    max === 0 ? 0 : Math.abs(Math.round((value / max) * (width / 2)));
   const barColor =
     colorScheme === "blue"
       ? theme.colors.blue[300]

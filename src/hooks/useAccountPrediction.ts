@@ -1,22 +1,31 @@
 import { useMemo } from "react";
-import { useAccounts, useBudgetItems, useSettings } from ".";
-import { Account, BudgetItem } from "../types";
+import { useAccounts, useBudgetItems, useSettings, useSpendings } from ".";
+import { Account, BudgetItem, Spending } from "../types";
+import { formatDate, mod } from "../domain/utils";
 
 function useAccountPrediction() {
   const { accounts, loading: accountsLoading } = useAccounts();
   const { settings, loading: settingsLoading } = useSettings();
   const { budgetItems, loading: budgetItemsLoading } = useBudgetItems();
+  const { spendings, loading: spendingsLoading } = useSpendingsThisMonth();
+
+  const loading =
+    accountsLoading ||
+    settingsLoading ||
+    budgetItemsLoading ||
+    spendingsLoading;
 
   const predictions = useMemo(
     () =>
-      calculatePredictions(
-        accounts,
-        budgetItems.filter((bi) => bi.budgetId === settings?.mainBudgetId)
-      ),
-    [accounts, budgetItems, settings?.mainBudgetId]
+      loading
+        ? []
+        : calculatePredictions(
+            accounts,
+            budgetItems.filter((bi) => bi.budgetId === settings?.mainBudgetId),
+            spendings
+          ),
+    [accounts, budgetItems, settings?.mainBudgetId, spendings, loading]
   );
-
-  const loading = accountsLoading || settingsLoading || budgetItemsLoading;
 
   return {
     predictions,
@@ -24,39 +33,56 @@ function useAccountPrediction() {
   };
 }
 
-function calculatePredictions(accounts: Account[], budgetItems: BudgetItem[]) {
+function getDateFromMonth(month: number, day: number): string {
+  const currentYear = new Date().getFullYear();
+  const year = currentYear + Math.floor(month / 12);
+  const date = new Date(year, mod(month, 12), day);
+  return formatDate(date);
+}
+
+function useSpendingsThisMonth() {
+  const currentMonthIndex = useMemo(() => new Date().getMonth(), []);
+  const fromDate = getDateFromMonth(currentMonthIndex, 1);
+  const toDate = getDateFromMonth(currentMonthIndex + 1, 0);
+  return useSpendings(fromDate, toDate);
+}
+
+function calculatePredictions(
+  accounts: Account[],
+  budgetItems: BudgetItem[],
+  spendings: Spending[]
+) {
   let currentAmount = accounts.reduce(
     (acc, account) => acc + account.available,
     0
   );
 
-  // TODO: Backtrack?
-  // TODO: Make dynamic
-  // TODO: Check how much is left of the budget this month
+  const month = new Date().getMonth();
+  const year = new Date().getFullYear();
 
-  const months = [
-    // ["2022-01-01", "2022-02-01"],
-    // ["2022-02-01", "2022-03-01"],
-    ["2022-03-01", "2022-04-01"],
-    ["2022-04-01", "2022-05-01"],
-    ["2022-05-01", "2022-06-01"],
-    ["2022-06-01", "2022-07-01"],
-    ["2022-07-01", "2022-08-01"],
-    ["2022-08-01", "2022-09-01"],
-    ["2022-09-01", "2022-10-01"],
-    ["2022-10-01", "2022-11-01"],
-  ];
+  const months: string[][] = [];
 
-  let currentMonth = 2;
+  for (let i = month; i < 10; i++) {
+    months.push([
+      `${year}-${(i + 1).toString().padStart(2, "0")}-01`,
+      `${year}-${(i + 2).toString().padStart(2, "0")}-01`,
+    ]);
+  }
+
+  const topSpendingThisMonth = spendings.find((s) => s.category === null);
 
   const predictions = [
     {
-      month: currentMonth,
+      month: month + 1,
       initialAmount: currentAmount,
-      amountAfterExpenses: currentAmount,
-      finalAmount: currentAmount,
+      amountAfterExpenses:
+        currentAmount + (topSpendingThisMonth?.remainingNegativeBudget ?? 0),
+      finalAmount:
+        currentAmount + (topSpendingThisMonth?.remainingPositiveBudget ?? 0),
     },
   ];
+
+  let currentMonth = month + 1;
 
   for (const month of months) {
     currentMonth++;

@@ -1,6 +1,6 @@
 import { monthNameFromIndex } from "../utils";
 import HorizonalBar from "./HorizontalBar";
-import { Divider, Text } from "@chakra-ui/react";
+import { Center, Divider, Text } from "@chakra-ui/react";
 
 interface Prediction {
   month: number;
@@ -21,27 +21,31 @@ function Chart2({ predictions }: Props) {
       )
     )
   );
+  const width = 300;
   return (
     <div>
       {predictions.map((prediction) => {
         return (
           <div key={prediction.month}>
-            <Text>{monthNameFromIndex(prediction.month - 1)}</Text>
-            <Divider m="2" />
+            <Center>
+              <Text fontSize="sm">
+                {monthNameFromIndex(prediction.month - 1)}
+              </Text>
+            </Center>
             <HorizonalBar
-              width={600}
+              width={width}
               value={prediction.initialAmount}
               max={max}
               colorScheme={prediction.initialAmount < 0 ? "red" : "blue"}
             />
             <HorizonalBar
-              width={600}
+              width={width}
               value={prediction.amountAfterExpenses}
               max={max}
               colorScheme={prediction.amountAfterExpenses < 0 ? "red" : "blue"}
             />
             <HorizonalBar
-              width={600}
+              width={width}
               value={prediction.finalAmount}
               max={max}
               colorScheme={prediction.finalAmount < 0 ? "red" : "blue"}
