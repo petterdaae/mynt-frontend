@@ -11,12 +11,14 @@ import {
   Tr,
   Td,
 } from "@chakra-ui/react";
+import Chart2 from "./Chart2";
 
 function Prediction() {
   const { predictions } = useAccountPrediction();
   return (
     <Center>
       <VStack>
+        <Chart2 />
         <Table variant="simple">
           <Thead>
             <Tr>
