@@ -14,6 +14,8 @@ interface BarProps {
 const Wrapper = styled.div<Width>`
   display: flex;
   width: ${(props) => props.width}px;
+  margin-top: 2px;
+  margin-bottom: 2px;
 `;
 
 const Left = styled.div<Width>`
