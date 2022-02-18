@@ -43,6 +43,8 @@ function calculatePredictions(accounts: Account[], budgetItems: BudgetItem[]) {
     ["2022-06-01", "2022-07-01"],
     ["2022-07-01", "2022-08-01"],
     ["2022-08-01", "2022-09-01"],
+    ["2022-09-01", "2022-10-01"],
+    ["2022-10-01", "2022-11-01"],
   ];
 
   let currentMonth = 2;
@@ -50,16 +52,23 @@ function calculatePredictions(accounts: Account[], budgetItems: BudgetItem[]) {
   const predictions = [
     {
       month: currentMonth,
-      amount: currentAmount,
+      initialAmount: currentAmount,
+      amountAfterExpenses: currentAmount,
+      finalAmount: currentAmount,
     },
   ];
 
   for (const month of months) {
     currentMonth++;
+    let expenses = 0;
+    const initialAmount = currentAmount;
 
     for (const budgetItem of budgetItems) {
       if (budgetItem.kind === "monthly") {
         currentAmount += budgetItem.monthlyAmount ?? 0;
+        if (budgetItem.monthlyAmount && budgetItem.monthlyAmount < 0) {
+          expenses += budgetItem.monthlyAmount;
+        }
       }
 
       if (budgetItem.kind === "custom") {
@@ -71,11 +80,18 @@ function calculatePredictions(accounts: Account[], budgetItems: BudgetItem[]) {
           (acc, ci) => acc + ci.amount,
           0
         );
+
+        expenses += filteredCustomItems.reduce(
+          (acc, ci) => acc + (ci.amount < 0 ? ci.amount : 0),
+          0
+        );
       }
     }
     predictions.push({
       month: currentMonth,
-      amount: currentAmount,
+      initialAmount,
+      amountAfterExpenses: initialAmount + expenses,
+      finalAmount: currentAmount,
     });
   }
 

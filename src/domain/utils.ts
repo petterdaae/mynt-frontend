@@ -34,18 +34,18 @@ function mod(n: number, m: number) {
 
 function monthNameFromIndex(index: number) {
   const months = [
-    "januar",
-    "februar",
-    "mars",
-    "april",
-    "mai",
-    "juni",
-    "juli",
-    "august",
-    "september",
-    "oktober",
-    "november",
-    "desember",
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
   return months[index];
 }
