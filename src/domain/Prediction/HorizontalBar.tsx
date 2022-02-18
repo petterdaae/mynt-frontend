@@ -14,6 +14,8 @@ interface BarProps {
 const Wrapper = styled.div<Width>`
   display: flex;
   width: ${(props) => props.width}px;
+  margin-top: 2px;
+  margin-bottom: 2px;
 `;
 
 const Left = styled.div<Width>`
@@ -55,7 +57,8 @@ interface Props {
 }
 
 function HorizonalBar({ width, value, max, colorScheme }: Props) {
-  const barWidth = Math.abs(Math.round((value / max) * (width / 2)));
+  const barWidth =
+    max === 0 ? 0 : Math.abs(Math.round((value / max) * (width / 2)));
   const barColor =
     colorScheme === "blue"
       ? theme.colors.blue[300]
