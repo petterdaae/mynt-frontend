@@ -62,7 +62,7 @@ function calculatePredictions(
 
   const months: string[][] = [];
 
-  for (let i = month; i < 10; i++) {
+  for (let i = month + 1; i < 10; i++) {
     months.push([
       `${year}-${(i + 1).toString().padStart(2, "0")}-01`,
       `${year}-${(i + 2).toString().padStart(2, "0")}-01`,
@@ -78,7 +78,9 @@ function calculatePredictions(
       amountAfterExpenses:
         currentAmount + (topSpendingThisMonth?.remainingNegativeBudget ?? 0),
       finalAmount:
-        currentAmount + (topSpendingThisMonth?.remainingPositiveBudget ?? 0),
+        currentAmount +
+        (topSpendingThisMonth?.remainingNegativeBudget ?? 0) +
+        (topSpendingThisMonth?.remainingPositiveBudget ?? 0),
     },
   ];
 
