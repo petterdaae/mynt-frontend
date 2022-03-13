@@ -84,7 +84,7 @@ function calculatePredictions(
     },
   ];
 
-  currentMonth = predictions[0].finalAmount;
+  currentAmount = predictions[0].finalAmount;
 
   let currentMonth = month + 1;
 
