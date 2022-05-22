@@ -95,7 +95,6 @@ function NewElement<T>({
     fields,
     initialElement,
     keys,
-    fieldsErrors,
     updateElement,
     createElement,
   ]);
