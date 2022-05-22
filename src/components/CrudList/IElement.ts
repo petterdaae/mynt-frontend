@@ -1,5 +1,5 @@
 interface IElement<U> {
-  id: string;
+  id: number;
   name: string;
   fields: U;
 }

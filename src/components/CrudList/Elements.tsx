@@ -8,7 +8,7 @@ import IElement from "./IElement";
 interface Props<T> {
   useElements: () => {
     elements: IElement<T>[];
-    deleteElement: (id: string) => void;
+    deleteElement: (id: number) => void;
     createElement: (element: IElement<T>) => void;
     updateElement: (element: IElement<T>) => void;
     loading: boolean;

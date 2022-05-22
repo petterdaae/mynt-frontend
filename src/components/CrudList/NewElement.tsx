@@ -72,13 +72,12 @@ function NewCategory<T>({
     if (element) {
       updateElement({
         ...element,
-        id: "",
         name: name,
         fields: fields,
       });
     } else {
       createElement({
-        id: "",
+        id: 0,
         name: name,
         fields: fields,
       });
