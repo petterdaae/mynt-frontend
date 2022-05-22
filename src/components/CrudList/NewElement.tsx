@@ -24,7 +24,7 @@ interface Props<T> {
   initialElement: IElement<T>;
 }
 
-function NewCategory<T>({
+function NewElement<T>({
   onClose,
   isOpen,
   element,
@@ -42,11 +42,16 @@ function NewCategory<T>({
     [key: string]: string | null;
   }>({});
 
-  let key: keyof typeof fields;
-  const keys: typeof key[] = useMemo(() => [], []);
-  for (key in fields) {
-    keys.push(key);
-  }
+  const keys = useMemo(() => {
+    let key: keyof typeof fields;
+    const keys: typeof key[] = [];
+    for (key in fields) {
+      keys.push(key);
+    }
+    return keys;
+  }, [fields]);
+
+  console.log(keys);
 
   const onSave = useCallback(() => {
     const nameInvalid = name.trim().length === 0;
@@ -130,15 +135,16 @@ function NewCategory<T>({
               const value = fields[key] as unknown as string;
 
               return (
-                <>
+                <div key={stringKey}>
                   <Input
                     value={value}
                     onChange={(e) => {
+                      console.log(key, stringKey, value);
                       setFields((p) => ({
                         ...p,
-                        key: e.target.value,
+                        [key]: e.target.value,
                       }));
-                      setFieldsErrors((p) => ({ ...p, key: null }));
+                      setFieldsErrors((p) => ({ ...p, [key]: null }));
                     }}
                     placeholder={stringKey}
                     isInvalid={!!fieldsErrors[stringKey]}
@@ -149,7 +155,7 @@ function NewCategory<T>({
                     </Text>
                   )}
                   <Divider />
-                </>
+                </div>
               );
             })}
           </VStack>
@@ -165,4 +171,4 @@ function NewCategory<T>({
   );
 }
 
-export default NewCategory;
+export default NewElement;

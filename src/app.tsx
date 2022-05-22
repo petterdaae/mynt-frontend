@@ -10,6 +10,7 @@ import Spendings from "./domain/Spendings/Spendings";
 import Categories from "./domain/Categories/Categories";
 import Budgets from "./domain/Budgets/Budgets";
 import Prediction from "./domain/Prediction/Prediction";
+import Names from "./domain/Names/Names";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/authenticated/categories" component={Categories} />
           <Route path="/authenticated/budgets" component={Budgets} />
           <Route path="/authenticated/prediction" component={Prediction} />
+          <Route path="/authenticated/names" component={Names} />
         </Authenticated>
       </Switch>
     </ChakraProvider>
