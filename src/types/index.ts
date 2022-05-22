@@ -10,6 +10,7 @@ import Spending from "./Spending";
 import RichCategorization from "./RichCategorization";
 import SetState from "./SetState";
 import EditableCategorization from "./EditableCategorization";
+import Name from "./Name";
 
 export type {
   Account,
@@ -24,4 +25,5 @@ export type {
   RichCategorization,
   SetState,
   EditableCategorization,
+  Name,
 };

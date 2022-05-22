@@ -11,6 +11,7 @@ interface RichTransaction extends Transaction {
   firstCategory: Category | null; // TODO: remove
   firstCategorization: Categorization | null; // TODO: remove
   categorizations: RichCategorization[];
+  prettyName: string | null;
 }
 
 export default RichTransaction;

@@ -86,6 +86,8 @@ function Authenticated({ children }: { children: React.ReactNode }) {
       setTabIndex(-1);
     } else if (location.pathname === "/authenticated/prediction") {
       setTabIndex(-1);
+    } else if (location.pathname === "/authenticated/names") {
+      setTabIndex(-1);
     }
   }, [location]);
 
@@ -147,6 +149,13 @@ function Authenticated({ children }: { children: React.ReactNode }) {
                   }}
                 >
                   Prediction
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    history.push("/authenticated/names");
+                  }}
+                >
+                  Names
                 </MenuItem>
               </MenuList>
             </Menu>
