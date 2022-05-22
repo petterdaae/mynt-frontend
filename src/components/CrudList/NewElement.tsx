@@ -51,26 +51,23 @@ function NewElement<T>({
     return keys;
   }, [fields]);
 
-  console.log(keys);
-
   const onSave = useCallback(() => {
     const nameInvalid = name.trim().length === 0;
 
+    let fieldsInvalid = false;
     for (const key of keys) {
-      const stringKey = key as string;
-      let error = false;
-      if (fieldsErrors[stringKey]?.trim().length === 0) {
-        setFieldsErrors((p) => ({ ...p, stringKey: "Invalid" }));
-        error = true;
-      }
-
-      if (error) {
-        return;
+      const value = fields[key] as unknown as string;
+      if (value.trim().length === 0) {
+        setFieldsErrors((p) => ({ ...p, [key]: "Has to be non-empty" }));
+        fieldsInvalid = true;
       }
     }
 
     if (nameInvalid) {
       setNameError("Name is required");
+    }
+
+    if (nameInvalid || fieldsInvalid) {
       return;
     }
 
@@ -139,7 +136,6 @@ function NewElement<T>({
                   <Input
                     value={value}
                     onChange={(e) => {
-                      console.log(key, stringKey, value);
                       setFields((p) => ({
                         ...p,
                         [key]: e.target.value,

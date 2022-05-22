@@ -59,7 +59,9 @@ function Transaction({
           />
           <VStack align="left" spacing="1px">
             <Text fontSize="sm">{readableAccountingDate}</Text>
-            <Text fontWeight="bold">{transaction.text}</Text>
+            <Text fontWeight="bold">
+              {transaction.prettyName ?? transaction.text}
+            </Text>
             <Text fontSize="sm">{transaction.account.name}</Text>
           </VStack>
         </HStack>

@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { Category, RichTransaction, Account } from "../types";
 import RichCategorization from "../types/RichCategorization";
 import {
@@ -7,6 +7,7 @@ import {
   useCategories,
   useCategorizations,
 } from "./index";
+import useNames from "./useNames";
 
 function useRichTransactions(fromDate: string, toDate: string) {
   const { categories, loading: categoriesLoading } = useCategories();
@@ -21,12 +22,35 @@ function useRichTransactions(fromDate: string, toDate: string) {
     loading: categorizationsLoading,
     updateCategorizationsForTransaction,
   } = useCategorizations(fromDate, toDate);
+  const { elements: names, loading: namesLoading } = useNames();
+
+  const regexNames = useMemo(
+    () =>
+      names.map((name) => [
+        new RegExp(name.fields.regex),
+        name.fields.replaceWith,
+      ]),
+    [names]
+  );
+
+  const prettyName = useCallback(
+    (name) => {
+      for (const [regex, replaceWith] of regexNames) {
+        if ((regex as RegExp).test(name)) {
+          return replaceWith as string;
+        }
+      }
+      return null;
+    },
+    [regexNames]
+  );
 
   const loading =
     transactionsLoading ||
     accountsLoading ||
     categoriesLoading ||
-    categorizationsLoading;
+    categorizationsLoading ||
+    namesLoading;
 
   const richTransactions = useMemo<RichTransaction[]>(() => {
     if (loading) return [];
@@ -44,6 +68,7 @@ function useRichTransactions(fromDate: string, toDate: string) {
       const firstCategory =
         categories.find((c) => c.id === firstCategorization?.categoryId) ??
         null;
+
       return {
         ...t,
         account,
@@ -52,9 +77,17 @@ function useRichTransactions(fromDate: string, toDate: string) {
         categorizations: richCategorizations.filter(
           (c) => c.transactionId === t.id
         ),
+        prettyName: prettyName(t.text),
       };
     });
-  }, [transactions, accounts, categories, categorizations, loading]);
+  }, [
+    loading,
+    categorizations,
+    transactions,
+    categories,
+    accounts,
+    prettyName,
+  ]);
 
   return {
     transactions: richTransactions,
