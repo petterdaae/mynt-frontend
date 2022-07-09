@@ -181,7 +181,7 @@ function NewBudgetItem({
           <CategoryPickerModalContent
             onCancel={() => setShowChooseCategories(false)}
             onSelect={(category) => {
-              setCategoryId(category.id);
+              setCategoryId(category?.id ?? null);
               setCategoryError(null);
               setShowChooseCategories(false);
             }}

@@ -37,7 +37,9 @@ function NewElement<T>({
   );
   const [nameError, setNameError] = useState<string | null>(null);
 
-  const [fields, setFields] = useState<T>(initialElement.fields);
+  const [fields, setFields] = useState<T>(
+    element ? element.fields : initialElement.fields
+  );
   const [fieldsErrors, setFieldsErrors] = useState<{
     [key: string]: string | null;
   }>({});
