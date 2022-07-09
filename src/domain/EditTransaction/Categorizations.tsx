@@ -4,9 +4,6 @@ import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import { useEffect } from "react";
 import { Transaction, SetState, EditableCategorization } from "../../types";
 import CurrencyInput from "../../components/CurrencyInput";
-import hd from "hotdrink";
-
-const system = hd.ConstraintSystem();
 
 interface Props {
   setCategorizationBeingEdited: (id: number | null) => void;
