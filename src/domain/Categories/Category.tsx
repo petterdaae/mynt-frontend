@@ -19,14 +19,20 @@ import { Category as CategoryType } from "../../types";
 
 interface Props {
   category: CategoryType;
+  parentCategory: CategoryType | null;
   setCurrentCategory: (categoryId: number | null) => void;
   deleteCategory: (categoryId: number) => void;
   addCategory: (category: CategoryType) => void;
   updateCategory: (category: CategoryType) => void;
+  categories: CategoryType[];
+  loading: boolean;
 }
 
 function Category({
   category,
+  categories,
+  loading,
+  parentCategory,
   setCurrentCategory,
   deleteCategory,
   addCategory,
@@ -72,9 +78,11 @@ function Category({
         isOpen={editCategoryOpen}
         onClose={() => setEditCategoryOpen(false)}
         category={category}
-        parentCategory={category.parentId}
+        parentCategory={parentCategory}
         addCategory={addCategory}
         updateCategory={updateCategory}
+        categories={categories}
+        loading={loading}
       />
       <Modal
         isOpen={showDeleteCategory}

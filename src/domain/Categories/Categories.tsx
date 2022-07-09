@@ -41,6 +41,14 @@ function Categories() {
                   deleteCategory={deleteCategory}
                   addCategory={addCategory}
                   updateCategory={updateCategory}
+                  parentCategory={
+                    category.parentId
+                      ? categories.find((c) => c.id === category.parentId) ??
+                        null
+                      : null
+                  }
+                  categories={categories}
+                  loading={loading}
                 />
                 <Divider />
               </div>
@@ -50,9 +58,13 @@ function Categories() {
         category={null}
         isOpen={newCategoryOpen}
         onClose={() => setNewCategoryOpen(false)}
-        parentCategory={currentCategory}
+        parentCategory={
+          categories.find((c) => c.id === currentCategory) ?? null
+        }
         addCategory={addCategory}
         updateCategory={updateCategory}
+        categories={categories}
+        loading={loading}
       />
     </>
   );
