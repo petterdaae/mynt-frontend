@@ -11,7 +11,7 @@ import CategoryPicker from "./CategoryPicker";
 interface Props {
   categories: Category[];
   loading: boolean;
-  onSelect: (category: Category) => void;
+  onSelect: (category: Category | null) => void;
   onCancel: () => void;
 }
 

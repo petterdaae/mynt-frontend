@@ -34,7 +34,11 @@ function CategoryPickerModalContent({
             setCategorizations((p) =>
               p.map((c) =>
                 c.id === categorizationBeingEdited
-                  ? { ...c, category: newCategory, categoryId: newCategory.id }
+                  ? {
+                      ...c,
+                      category: newCategory,
+                      categoryId: newCategory?.id ?? null,
+                    }
                   : c
               )
             );

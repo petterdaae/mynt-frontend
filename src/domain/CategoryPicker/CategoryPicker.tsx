@@ -6,7 +6,7 @@ import CategoryBreadcrumb from "../CategoryBreadcrumb/CategoryBreadcrumb";
 import { Category } from "../../types";
 
 interface Props {
-  onSelect: (category: Category) => void;
+  onSelect: (category: Category | null) => void;
   categories: Category[];
   loading: boolean;
 }
@@ -15,6 +15,7 @@ function CategoryPicker({ onSelect, categories, loading }: Props) {
   const [currentParentCategoryId, setCurrentParentCategoryId] = useState<
     number | null
   >(null);
+  const categoriesWithNullCategory = [null, ...categories];
 
   return loading ? (
     <></>
@@ -28,41 +29,65 @@ function CategoryPicker({ onSelect, categories, loading }: Props) {
         m="2"
       />
       <Divider mt="2" />
-      {categories
-        .filter((category) => category.parentId === currentParentCategoryId)
-        .map((category) => (
-          <div key={category.id}>
-            <HStack
-              justify="space-between"
-              p={1}
-              m={1}
-              borderRadius="md"
-              _hover={{
-                backgroundColor: "whitesmoke",
-                cursor: "pointer",
-              }}
-              onClick={() => onSelect(category)}
-            >
-              <HStack>
-                <CategoryIcon color={category.color} size="sm" />
-                <Text>{category.name}</Text>
+      {categoriesWithNullCategory
+        .filter(
+          (category) => (category?.parentId ?? null) === currentParentCategoryId
+        )
+        .map((category) =>
+          category === null ? (
+            <div key={-1}>
+              <HStack
+                justify="space-between"
+                p={1}
+                m={1}
+                borderRadius="md"
+                _hover={{
+                  backgroundColor: "whitesmoke",
+                  cursor: "pointer",
+                }}
+                onClick={() => onSelect(null)}
+              >
+                <HStack>
+                  <CategoryIcon color="lightgray" size="sm" />
+                  <Text>No category</Text>
+                </HStack>
               </HStack>
-              {categories.find((c) => c.parentId === category.id) && (
-                <Button
-                  variant="outline"
-                  onClick={(e) => {
-                    setCurrentParentCategoryId(category.id);
-                    e.stopPropagation();
-                  }}
-                  size="sm"
-                >
-                  <ArrowRightIcon />
-                </Button>
-              )}
-            </HStack>
-            <Divider />
-          </div>
-        ))}
+              <Divider />
+            </div>
+          ) : (
+            <div key={category.id}>
+              <HStack
+                justify="space-between"
+                p={1}
+                m={1}
+                borderRadius="md"
+                _hover={{
+                  backgroundColor: "whitesmoke",
+                  cursor: "pointer",
+                }}
+                onClick={() => onSelect(category)}
+              >
+                <HStack>
+                  <CategoryIcon color={category.color} size="sm" />
+                  <Text>{category.name}</Text>
+                </HStack>
+                {categories.find((c) => c.parentId === category.id) && (
+                  <Button
+                    variant="outline"
+                    onClick={(e) => {
+                      setCurrentParentCategoryId(category.id);
+                      e.stopPropagation();
+                    }}
+                    size="sm"
+                  >
+                    <ArrowRightIcon />
+                  </Button>
+                )}
+              </HStack>
+              <Divider />
+            </div>
+          )
+        )}
     </div>
   );
 }
