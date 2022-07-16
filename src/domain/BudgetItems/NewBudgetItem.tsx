@@ -1,5 +1,4 @@
 import {
-  Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
@@ -21,6 +20,7 @@ import { BudgetItem, Category } from "../../types";
 import CurrencyInput from "../../components/CurrencyInput";
 import BudgetItemCustomItems from "./BudgetItemCustomItems";
 import EditableBudgetItemCustomItem from "../../types/EditableBudgetItemCustomItems";
+import ResponsiveModal from "../../components/ResponsiveModal";
 
 interface Props {
   onClose: () => void;
@@ -174,7 +174,7 @@ function NewBudgetItem({
   ]);
 
   return (
-    <Modal onClose={onClose} isOpen={isOpen} size="xl">
+    <ResponsiveModal onClose={onClose} isOpen={isOpen}>
       <ModalOverlay />
       <ModalContent>
         {showChooseCategories ? (
@@ -282,7 +282,7 @@ function NewBudgetItem({
           </>
         )}
       </ModalContent>
-    </Modal>
+    </ResponsiveModal>
   );
 }
 

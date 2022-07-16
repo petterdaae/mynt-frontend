@@ -2,7 +2,6 @@ import {
   HStack,
   Text,
   Button,
-  Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
@@ -15,6 +14,7 @@ import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import NewElement from "./NewElement";
 import IElement from "./IElement";
+import ResponsiveModal from "../ResponsiveModal";
 
 interface Props<T> {
   element: IElement<T>;
@@ -72,7 +72,7 @@ function Element<T>({
         updateElement={updateElement}
         initialElement={initialElement}
       />
-      <Modal
+      <ResponsiveModal
         isOpen={showDeleteElement}
         onClose={() => setShowDeleteElement(false)}
       >
@@ -98,7 +98,7 @@ function Element<T>({
             </Button>
           </ModalFooter>
         </ModalContent>
-      </Modal>
+      </ResponsiveModal>
     </>
   );
 }

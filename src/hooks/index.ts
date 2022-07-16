@@ -9,6 +9,7 @@ import useTransactions from "./useTransactions";
 import useCrud from "./useCrud";
 import useSettings from "./useSettings";
 import useAccountPrediction from "./useAccountPrediction";
+import useWindowSize from "./useWindowSize";
 
 export {
   useAccounts,
@@ -22,4 +23,5 @@ export {
   useCrud,
   useSettings,
   useAccountPrediction,
+  useWindowSize,
 };

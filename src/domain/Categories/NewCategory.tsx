@@ -1,5 +1,4 @@
 import {
-  Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
@@ -19,6 +18,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Category } from "../../types";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import CategoryPickerModalContent from "../CategoryPicker/CategoryPickerModalContent";
+import ResponsiveModal from "../../components/ResponsiveModal";
 
 interface Props {
   onClose: () => void;
@@ -110,7 +110,7 @@ function NewCategory({
   ]);
 
   return (
-    <Modal onClose={onClose} isOpen={isOpen} size="xl">
+    <ResponsiveModal onClose={onClose} isOpen={isOpen}>
       <ModalOverlay />
       <ModalContent>
         {parentCategoryBeingEdited ? (
@@ -198,7 +198,7 @@ function NewCategory({
           </>
         )}
       </ModalContent>
-    </Modal>
+    </ResponsiveModal>
   );
 }
 

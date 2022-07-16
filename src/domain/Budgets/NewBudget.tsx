@@ -1,5 +1,4 @@
 import {
-  Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
@@ -15,6 +14,7 @@ import {
 import ColorPicker from "../../components/ColorPicker";
 import { useCallback, useState } from "react";
 import { Budget } from "../../types";
+import ResponsiveModal from "../../components/ResponsiveModal";
 
 interface Props {
   onClose: () => void;
@@ -82,7 +82,7 @@ function NewBudget({
   ]);
 
   return (
-    <Modal onClose={onClose} isOpen={isOpen} size="xl">
+    <ResponsiveModal onClose={onClose} isOpen={isOpen}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>{budget ? "Edit budget" : "New budget"}</ModalHeader>
@@ -121,7 +121,7 @@ function NewBudget({
           <Button onClick={onClose}>Close</Button>
         </ModalFooter>
       </ModalContent>
-    </Modal>
+    </ResponsiveModal>
   );
 }
 
