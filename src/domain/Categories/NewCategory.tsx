@@ -15,7 +15,7 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import ColorPicker from "../../components/ColorPicker";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Category } from "../../types";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import CategoryPickerModalContent from "../CategoryPicker/CategoryPickerModalContent";
@@ -47,6 +47,10 @@ function NewCategory({
     category ? category.ignore : false
   );
   const [newParentCategory, setNewParentCategory] = useState(parentCategory);
+  useEffect(
+    () => setNewParentCategory(parentCategory),
+    [parentCategory, setNewParentCategory]
+  );
 
   const [nameError, setNameError] = useState<string | null>(null);
   const [colorError, setColorError] = useState<string | null>(null);
