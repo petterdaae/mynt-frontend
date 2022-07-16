@@ -2,6 +2,7 @@
 
 html {
   overflow-y: scroll;
+  position: fixed;
 }
 
 body {
