@@ -1,5 +1,4 @@
 import {
-  Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
@@ -15,10 +14,11 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import ColorPicker from "../../components/ColorPicker";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Category } from "../../types";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import CategoryPickerModalContent from "../CategoryPicker/CategoryPickerModalContent";
+import ResponsiveModal from "../../components/ResponsiveModal";
 
 interface Props {
   onClose: () => void;
@@ -47,6 +47,10 @@ function NewCategory({
     category ? category.ignore : false
   );
   const [newParentCategory, setNewParentCategory] = useState(parentCategory);
+  useEffect(
+    () => setNewParentCategory(parentCategory),
+    [parentCategory, setNewParentCategory]
+  );
 
   const [nameError, setNameError] = useState<string | null>(null);
   const [colorError, setColorError] = useState<string | null>(null);
@@ -106,7 +110,7 @@ function NewCategory({
   ]);
 
   return (
-    <Modal onClose={onClose} isOpen={isOpen} size="xl">
+    <ResponsiveModal onClose={onClose} isOpen={isOpen}>
       <ModalOverlay />
       <ModalContent>
         {parentCategoryBeingEdited ? (
@@ -194,7 +198,7 @@ function NewCategory({
           </>
         )}
       </ModalContent>
-    </Modal>
+    </ResponsiveModal>
   );
 }
 

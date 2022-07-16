@@ -1,5 +1,4 @@
 import {
-  Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
@@ -14,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { useCallback, useMemo, useState } from "react";
 import IElement from "./IElement";
+import ResponsiveModal from "../../components/ResponsiveModal";
 
 interface Props<T> {
   onClose: () => void;
@@ -102,7 +102,7 @@ function NewElement<T>({
   ]);
 
   return (
-    <Modal onClose={onClose} isOpen={isOpen} size="xl">
+    <ResponsiveModal onClose={onClose} isOpen={isOpen}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>{element ? "Edit element" : "New element"}</ModalHeader>
@@ -164,7 +164,7 @@ function NewElement<T>({
           <Button onClick={onClose}>Close</Button>
         </ModalFooter>
       </ModalContent>
-    </Modal>
+    </ResponsiveModal>
   );
 }
 
