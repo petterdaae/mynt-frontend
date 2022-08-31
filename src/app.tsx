@@ -11,12 +11,14 @@ import Categories from "./domain/Categories/Categories";
 import Budgets from "./domain/Budgets/Budgets";
 import Prediction from "./domain/Prediction/Prediction";
 import Names from "./domain/Names/Names";
+import Synching from "./synching";
 
 function App() {
   return (
     <ChakraProvider>
       <Switch>
         <Route exact path="/" component={Login} />
+        <Route path="/authenticated/synching" component={Synching} />
         <Authenticated>
           <Route
             path="/authenticated/transactions"
