@@ -5,14 +5,18 @@ import {
   ModalBody,
   ModalFooter,
 } from "@chakra-ui/react";
-import { Category, EditableCategorization, SetState } from "../../types";
+import {
+  Category as CategoryType,
+  EditableCategorization,
+  SetState,
+} from "../../types";
 import CategoryPicker from "../CategoryPicker/CategoryPicker";
 
 interface Props {
   setCategorizationBeingEdited: (id: number | null) => void;
   categorizationBeingEdited: number | null;
   setCategorizations: SetState<EditableCategorization[]>;
-  categories: Category[];
+  categories: CategoryType[];
   loading: boolean;
 }
 

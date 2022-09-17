@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import ColorPicker from "../../components/ColorPicker";
 import { useCallback, useEffect, useState } from "react";
-import { Category } from "../../types";
+import { Category, DraftCategory } from "../../types";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import CategoryPickerModalContent from "../CategoryPicker/CategoryPickerModalContent";
 import ResponsiveModal from "../../components/ResponsiveModal";
@@ -25,8 +25,8 @@ interface Props {
   isOpen: boolean;
   category: Category | null;
   parentCategory: Category | null;
-  addCategory: (category: Category) => void;
-  updateCategory: (category: Category) => void;
+  addCategory: (category: DraftCategory) => void;
+  updateCategory: (id: number, category: DraftCategory) => void;
   categories: Category[];
   loading: boolean;
 }
@@ -75,7 +75,7 @@ function NewCategory({
     }
 
     if (category) {
-      updateCategory({
+      updateCategory(category.id, {
         ...category,
         name: name,
         color: color,
@@ -84,7 +84,6 @@ function NewCategory({
       });
     } else {
       addCategory({
-        id: -1,
         name: name,
         parentId: newParentCategory?.id ?? null,
         color: color,

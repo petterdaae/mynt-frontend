@@ -2,7 +2,7 @@ import Account from "./Account";
 import Budget from "./Budget";
 import BudgetItem from "./BudgetItem";
 import Categorization from "./Categorization";
-import Category from "./Category";
+import { Category, DraftCategory } from "./Category";
 import Settings from "./Settings";
 import Transaction from "./Transaction";
 import RichTransaction from "./RichTransaction";
@@ -18,6 +18,7 @@ export type {
   BudgetItem,
   Categorization,
   Category,
+  DraftCategory,
   Settings,
   Transaction,
   RichTransaction,

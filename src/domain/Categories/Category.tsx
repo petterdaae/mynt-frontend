@@ -15,15 +15,18 @@ import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import NewCategory from "./NewCategory";
-import { Category as CategoryType } from "../../types";
+import {
+  Category as CategoryType,
+  DraftCategory as DraftCategoryType,
+} from "../../types";
 
 interface Props {
   category: CategoryType;
   parentCategory: CategoryType | null;
   setCurrentCategory: (categoryId: number | null) => void;
   deleteCategory: (categoryId: number) => void;
-  addCategory: (category: CategoryType) => void;
-  updateCategory: (category: CategoryType) => void;
+  addCategory: (category: DraftCategoryType) => void;
+  updateCategory: (id: number, category: DraftCategoryType) => void;
   categories: CategoryType[];
   loading: boolean;
 }

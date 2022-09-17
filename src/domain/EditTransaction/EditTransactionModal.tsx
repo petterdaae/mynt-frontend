@@ -4,10 +4,10 @@ import CategoryPickerModalContent from "./CategoryPickerModalContent";
 import EditTransactionModalContent from "./EditTransactionModalContent";
 import {
   RichTransaction,
-  Category,
   Transaction,
   EditableCategorization,
   Categorization,
+  Category,
 } from "../../types";
 import ResponsiveModal from "../../components/ResponsiveModal";
 
