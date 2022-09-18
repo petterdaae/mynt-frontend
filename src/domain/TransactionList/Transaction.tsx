@@ -1,9 +1,10 @@
 import { Badge, Text, Box, HStack, VStack } from "@chakra-ui/react";
 import { formatCurrency, formatReadableDate } from "../utils";
 import EditTransactionModal from "../EditTransaction/EditTransactionModal";
-import CategoryIcon from "../CategoryIcon/CategoryIcon";
+import SuggestIcon from "../CategoryIcon/SuggestIcon";
 import { useCallback, useMemo, useState, memo } from "react";
 import { RichTransaction, Category } from "../../types";
+import CategoryIcon from "../CategoryIcon/CategoryIcon";
 
 interface Props {
   transaction: RichTransaction;
@@ -44,11 +45,14 @@ function Transaction({
     [transaction]
   );
 
+  const suggestion = useMemo(() => {
+    return suggest(transaction);
+  }, [suggest, transaction]);
+
   const smallText = useMemo(() => {
-    const suggestion = suggest(transaction);
     const suggestionText = suggestion ? `Suggesting: ${suggestion.name}` : null;
     return transaction.firstCategory?.name ?? suggestionText ?? "Uncategorized";
-  }, [suggest, transaction]);
+  }, [suggestion, transaction.firstCategory?.name]);
 
   return (
     <>
@@ -61,10 +65,14 @@ function Transaction({
         onClick={onClick}
       >
         <HStack>
-          <CategoryIcon
-            color={transaction?.firstCategory?.color ?? "lightgray"}
-            size="md"
-          />
+          {suggestion && transaction.firstCategory === null ? (
+            <SuggestIcon size="md" />
+          ) : (
+            <CategoryIcon
+              color={transaction?.firstCategory?.color ?? "lightgray"}
+              size="md"
+            />
+          )}
           <VStack align="left" spacing="1px">
             <Text fontSize="sm">{readableAccountingDate}</Text>
             <Text fontWeight="bold">
