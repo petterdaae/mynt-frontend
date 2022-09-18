@@ -11,7 +11,7 @@ function ResponsiveModal(
   return width > breakpoint ? (
     <Modal {...props} size="xl" />
   ) : (
-    <Modal {...props} size="full" />
+    <Modal {...props} size="xl" />
   );
 }
 
