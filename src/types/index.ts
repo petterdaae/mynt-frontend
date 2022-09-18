@@ -11,6 +11,7 @@ import RichCategorization from "./RichCategorization";
 import SetState from "./SetState";
 import EditableCategorization from "./EditableCategorization";
 import Name from "./Name";
+import Suggestion from "./Suggestion";
 
 export type {
   Account,
@@ -27,4 +28,5 @@ export type {
   SetState,
   EditableCategorization,
   Name,
+  Suggestion,
 };

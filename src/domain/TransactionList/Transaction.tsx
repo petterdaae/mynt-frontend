@@ -11,6 +11,7 @@ interface Props {
   updateTransaction: any;
   categories: Category[];
   loading: boolean;
+  suggest: (transaction: RichTransaction) => Category | null;
 }
 
 function Transaction({
@@ -19,6 +20,7 @@ function Transaction({
   updateTransaction,
   categories,
   loading,
+  suggest,
 }: Props) {
   const [showEditTransactionModal, setShowEditTransactionModal] =
     useState(false);
@@ -42,6 +44,12 @@ function Transaction({
     [transaction]
   );
 
+  const smallText = useMemo(() => {
+    const suggestion = suggest(transaction);
+    const suggestionText = suggestion ? `Suggesting: ${suggestion.name}` : null;
+    return transaction.firstCategory?.name ?? suggestionText ?? "Uncategorized";
+  }, [suggest, transaction]);
+
   return (
     <>
       <HStack
@@ -62,7 +70,7 @@ function Transaction({
             <Text fontWeight="bold">
               {transaction.prettyName ?? transaction.text}
             </Text>
-            <Text fontSize="sm">{transaction.account.name}</Text>
+            <Text fontSize="sm">{smallText}</Text>
           </VStack>
         </HStack>
         <Box>
