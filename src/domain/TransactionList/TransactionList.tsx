@@ -1,6 +1,7 @@
 import Transaction from "./Transaction";
 import { Divider, Spinner, Center } from "@chakra-ui/react";
 import { RichTransaction, Category } from "../../types";
+import useSuggestions from "../../hooks/useSuggestions";
 
 interface Props {
   transactions: RichTransaction[];
@@ -17,6 +18,7 @@ function TransactionList({
   updateTransaction,
   categories,
 }: Props) {
+  const suggest = useSuggestions(transactions);
   return loading ? (
     <Center mt="8">
       <Spinner size="xl" />
@@ -33,6 +35,7 @@ function TransactionList({
             updateTransaction={updateTransaction}
             categories={categories}
             loading={loading}
+            suggest={suggest}
           />
           <Divider />
         </div>

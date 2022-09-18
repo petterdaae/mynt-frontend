@@ -1,9 +1,10 @@
 import { Badge, Text, Box, HStack, VStack } from "@chakra-ui/react";
 import { formatCurrency, formatReadableDate } from "../utils";
 import EditTransactionModal from "../EditTransaction/EditTransactionModal";
-import CategoryIcon from "../CategoryIcon/CategoryIcon";
+import SuggestIcon from "../CategoryIcon/SuggestIcon";
 import { useCallback, useMemo, useState, memo } from "react";
 import { RichTransaction, Category } from "../../types";
+import CategoryIcon from "../CategoryIcon/CategoryIcon";
 
 interface Props {
   transaction: RichTransaction;
@@ -11,6 +12,7 @@ interface Props {
   updateTransaction: any;
   categories: Category[];
   loading: boolean;
+  suggest: (transaction: RichTransaction) => Category | null;
 }
 
 function Transaction({
@@ -19,6 +21,7 @@ function Transaction({
   updateTransaction,
   categories,
   loading,
+  suggest,
 }: Props) {
   const [showEditTransactionModal, setShowEditTransactionModal] =
     useState(false);
@@ -42,6 +45,28 @@ function Transaction({
     [transaction]
   );
 
+  const suggestion = useMemo(() => {
+    return suggest(transaction);
+  }, [suggest, transaction]);
+
+  const smallText = useMemo(() => {
+    const suggestionText = suggestion ? `Suggesting: ${suggestion.name}` : null;
+    return transaction.firstCategory?.name ?? suggestionText ?? "Uncategorized";
+  }, [suggestion, transaction.firstCategory?.name]);
+
+  const acceptSuggestion = useCallback(
+    () =>
+      updateCategorizationsForTransaction(transaction, [
+        {
+          id: -1,
+          transactionId: transaction.id,
+          amount: transaction.amount,
+          categoryId: suggestion?.id,
+        },
+      ]),
+    [suggestion, transaction, updateCategorizationsForTransaction]
+  );
+
   return (
     <>
       <HStack
@@ -53,16 +78,20 @@ function Transaction({
         onClick={onClick}
       >
         <HStack>
-          <CategoryIcon
-            color={transaction?.firstCategory?.color ?? "lightgray"}
-            size="md"
-          />
+          {suggestion && transaction.firstCategory === null ? (
+            <SuggestIcon size="md" onClick={acceptSuggestion} />
+          ) : (
+            <CategoryIcon
+              color={transaction?.firstCategory?.color ?? "lightgray"}
+              size="md"
+            />
+          )}
           <VStack align="left" spacing="1px">
             <Text fontSize="sm">{readableAccountingDate}</Text>
             <Text fontWeight="bold">
               {transaction.prettyName ?? transaction.text}
             </Text>
-            <Text fontSize="sm">{transaction.account.name}</Text>
+            <Text fontSize="sm">{smallText}</Text>
           </VStack>
         </HStack>
         <Box>

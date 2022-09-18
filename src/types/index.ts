@@ -2,7 +2,7 @@ import Account from "./Account";
 import Budget from "./Budget";
 import BudgetItem from "./BudgetItem";
 import Categorization from "./Categorization";
-import Category from "./Category";
+import { Category, DraftCategory } from "./Category";
 import Settings from "./Settings";
 import Transaction from "./Transaction";
 import RichTransaction from "./RichTransaction";
@@ -11,6 +11,7 @@ import RichCategorization from "./RichCategorization";
 import SetState from "./SetState";
 import EditableCategorization from "./EditableCategorization";
 import Name from "./Name";
+import Suggestion from "./Suggestion";
 
 export type {
   Account,
@@ -18,6 +19,7 @@ export type {
   BudgetItem,
   Categorization,
   Category,
+  DraftCategory,
   Settings,
   Transaction,
   RichTransaction,
@@ -26,4 +28,5 @@ export type {
   SetState,
   EditableCategorization,
   Name,
+  Suggestion,
 };

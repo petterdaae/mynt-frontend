@@ -88,6 +88,8 @@ function Authenticated({ children }: { children: React.ReactNode }) {
       setTabIndex(-1);
     } else if (location.pathname === "/authenticated/names") {
       setTabIndex(-1);
+    } else if (location.pathname === "/authenticated/home") {
+      setTabIndex(-1);
     }
   }, [location]);
 
