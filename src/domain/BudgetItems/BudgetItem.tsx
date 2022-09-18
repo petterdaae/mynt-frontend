@@ -92,8 +92,8 @@ function BudgetItem({
         isOpen={showDeleteBudgetItem}
         onClose={() => setShowDeleteBudgetItem(false)}
       >
-        <ModalOverlay />
-        <ModalContent>
+        <ModalOverlay bg="white" />
+        <ModalContent boxShadow="none">
           <ModalHeader>Delete item</ModalHeader>
           <ModalCloseButton />
           <ModalBody>

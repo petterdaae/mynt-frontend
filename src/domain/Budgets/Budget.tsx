@@ -100,8 +100,8 @@ function Budget({
         isOpen={showDeleteBudget}
         onClose={() => setShowDeleteBudget(false)}
       >
-        <ModalOverlay />
-        <ModalContent>
+        <ModalOverlay bg="white" />
+        <ModalContent boxShadow="none">
           <ModalHeader>Delete Budget</ModalHeader>
           <ModalCloseButton />
           <ModalBody>

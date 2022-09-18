@@ -103,8 +103,8 @@ function NewElement<T>({
 
   return (
     <ResponsiveModal onClose={onClose} isOpen={isOpen}>
-      <ModalOverlay />
-      <ModalContent>
+      <ModalOverlay bg="white" />
+      <ModalContent boxShadow="none">
         <ModalHeader>{element ? "Edit element" : "New element"}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>

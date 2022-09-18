@@ -91,8 +91,8 @@ function Category({
         isOpen={showDeleteCategory}
         onClose={() => setShowDeleteCategory(false)}
       >
-        <ModalOverlay />
-        <ModalContent>
+        <ModalOverlay bg="white" />
+        <ModalContent boxShadow="none">
           <ModalHeader>Delete Category</ModalHeader>
           <ModalCloseButton />
           <ModalBody>

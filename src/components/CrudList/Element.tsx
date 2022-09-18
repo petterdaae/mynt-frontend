@@ -76,8 +76,8 @@ function Element<T>({
         isOpen={showDeleteElement}
         onClose={() => setShowDeleteElement(false)}
       >
-        <ModalOverlay />
-        <ModalContent>
+        <ModalOverlay bg="white" />
+        <ModalContent boxShadow="none">
           <ModalHeader>Delete element</ModalHeader>
           <ModalCloseButton />
           <ModalBody>

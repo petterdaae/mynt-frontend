@@ -83,8 +83,8 @@ function NewBudget({
 
   return (
     <ResponsiveModal onClose={onClose} isOpen={isOpen}>
-      <ModalOverlay />
-      <ModalContent>
+      <ModalOverlay bg="white" />
+      <ModalContent boxShadow="none">
         <ModalHeader>{budget ? "Edit budget" : "New budget"}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>

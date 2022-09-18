@@ -43,8 +43,8 @@ function EditTransactionModal({
 
   return (
     <ResponsiveModal isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay />
-      <ModalContent>
+      <ModalOverlay bg="white" />
+      <ModalContent boxShadow="none">
         {categorizationBeingEdited !== null ? (
           <CategoryPickerModalContent
             setCategorizationBeingEdited={setCategorizationBeingEdited}

@@ -110,8 +110,8 @@ function NewCategory({
 
   return (
     <ResponsiveModal onClose={onClose} isOpen={isOpen}>
-      <ModalOverlay />
-      <ModalContent>
+      <ModalOverlay bg="white" />
+      <ModalContent boxShadow="none">
         {parentCategoryBeingEdited ? (
           <CategoryPickerModalContent
             categories={categories}
