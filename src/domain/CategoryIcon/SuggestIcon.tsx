@@ -3,11 +3,20 @@ import { StarIcon } from "@chakra-ui/icons";
 
 interface Props {
   size: string;
+  onClick: any;
 }
 
-function CategoryIcon({ size }: Props) {
+function CategoryIcon({ size, onClick }: Props) {
   return (
-    <Avatar bg={"lightgray"} icon={<StarIcon color={"silver"} />} size={size} />
+    <Avatar
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick();
+      }}
+      bg={"lightgray"}
+      icon={<StarIcon color={"silver"} />}
+      size={size}
+    />
   );
 }
 

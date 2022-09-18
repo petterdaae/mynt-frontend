@@ -54,6 +54,19 @@ function Transaction({
     return transaction.firstCategory?.name ?? suggestionText ?? "Uncategorized";
   }, [suggestion, transaction.firstCategory?.name]);
 
+  const acceptSuggestion = useCallback(
+    () =>
+      updateCategorizationsForTransaction(transaction, [
+        {
+          id: -1,
+          transactionId: transaction.id,
+          amount: transaction.amount,
+          categoryId: suggestion?.id,
+        },
+      ]),
+    [suggestion, transaction, updateCategorizationsForTransaction]
+  );
+
   return (
     <>
       <HStack
@@ -66,7 +79,7 @@ function Transaction({
       >
         <HStack>
           {suggestion && transaction.firstCategory === null ? (
-            <SuggestIcon size="md" />
+            <SuggestIcon size="md" onClick={acceptSuggestion} />
           ) : (
             <CategoryIcon
               color={transaction?.firstCategory?.color ?? "lightgray"}
