@@ -50,7 +50,9 @@ function Transaction({
   }, [suggest, transaction]);
 
   const smallText = useMemo(() => {
-    const suggestionText = suggestion ? `Suggesting: ${suggestion.name}` : null;
+    const suggestionText = suggestion
+      ? `Uncategorized (${suggestion.name}?)`
+      : null;
     return transaction.firstCategory?.name ?? suggestionText ?? "Uncategorized";
   }, [suggestion, transaction.firstCategory?.name]);
 

@@ -4,7 +4,6 @@ import {
   Button,
   Modal,
   ModalOverlay,
-  ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
@@ -19,6 +18,7 @@ import {
   Category as CategoryType,
   DraftCategory as DraftCategoryType,
 } from "../../types";
+import ResponsiveModalContent from "../../components/ResponsiveModalContent";
 
 interface Props {
   category: CategoryType;
@@ -92,7 +92,7 @@ function Category({
         onClose={() => setShowDeleteCategory(false)}
       >
         <ModalOverlay bg="white" />
-        <ModalContent boxShadow="none">
+        <ResponsiveModalContent>
           <ModalHeader>Delete Category</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
@@ -115,7 +115,7 @@ function Category({
               Cancel
             </Button>
           </ModalFooter>
-        </ModalContent>
+        </ResponsiveModalContent>
       </Modal>
     </>
   );

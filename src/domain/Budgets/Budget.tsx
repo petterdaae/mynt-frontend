@@ -4,7 +4,6 @@ import {
   Button,
   Modal,
   ModalOverlay,
-  ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
@@ -17,6 +16,7 @@ import { useState } from "react";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import NewBudget from "./NewBudget";
 import { Budget as BudgetType } from "../../types";
+import ResponsiveModalContent from "../../components/ResponsiveModalContent";
 
 interface Props {
   budget: BudgetType;
@@ -101,7 +101,7 @@ function Budget({
         onClose={() => setShowDeleteBudget(false)}
       >
         <ModalOverlay bg="white" />
-        <ModalContent boxShadow="none">
+        <ResponsiveModalContent>
           <ModalHeader>Delete Budget</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
@@ -121,7 +121,7 @@ function Budget({
               Cancel
             </Button>
           </ModalFooter>
-        </ModalContent>
+        </ResponsiveModalContent>
       </Modal>
     </>
   );

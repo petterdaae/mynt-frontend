@@ -3,7 +3,6 @@ import {
   Text,
   Button,
   ModalOverlay,
-  ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
@@ -15,6 +14,7 @@ import { useState } from "react";
 import NewElement from "./NewElement";
 import IElement from "./IElement";
 import ResponsiveModal from "../ResponsiveModal";
+import ResponsiveModalContent from "../ResponsiveModalContent";
 
 interface Props<T> {
   element: IElement<T>;
@@ -77,7 +77,7 @@ function Element<T>({
         onClose={() => setShowDeleteElement(false)}
       >
         <ModalOverlay bg="white" />
-        <ModalContent boxShadow="none">
+        <ResponsiveModalContent>
           <ModalHeader>Delete element</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
@@ -97,7 +97,7 @@ function Element<T>({
               Cancel
             </Button>
           </ModalFooter>
-        </ModalContent>
+        </ResponsiveModalContent>
       </ResponsiveModal>
     </>
   );

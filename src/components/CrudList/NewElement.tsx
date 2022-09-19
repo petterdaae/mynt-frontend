@@ -1,6 +1,5 @@
 import {
   ModalOverlay,
-  ModalContent,
   ModalHeader,
   ModalCloseButton,
   ModalBody,
@@ -14,6 +13,7 @@ import {
 import { useCallback, useMemo, useState } from "react";
 import IElement from "./IElement";
 import ResponsiveModal from "../../components/ResponsiveModal";
+import ResponsiveModalContent from "../ResponsiveModalContent";
 
 interface Props<T> {
   onClose: () => void;
@@ -104,7 +104,7 @@ function NewElement<T>({
   return (
     <ResponsiveModal onClose={onClose} isOpen={isOpen}>
       <ModalOverlay bg="white" />
-      <ModalContent boxShadow="none">
+      <ResponsiveModalContent>
         <ModalHeader>{element ? "Edit element" : "New element"}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
@@ -163,7 +163,7 @@ function NewElement<T>({
           </Button>
           <Button onClick={onClose}>Close</Button>
         </ModalFooter>
-      </ModalContent>
+      </ResponsiveModalContent>
     </ResponsiveModal>
   );
 }

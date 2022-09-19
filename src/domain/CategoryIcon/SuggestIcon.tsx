@@ -13,8 +13,8 @@ function CategoryIcon({ size, onClick }: Props) {
         e.stopPropagation();
         onClick();
       }}
-      bg={"lightgray"}
-      icon={<StarIcon color={"silver"} />}
+      bg={"gold"}
+      icon={<StarIcon color={"lightyellow"} />}
       size={size}
     />
   );
