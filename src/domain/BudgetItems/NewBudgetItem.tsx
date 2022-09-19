@@ -1,6 +1,5 @@
 import {
   ModalOverlay,
-  ModalContent,
   ModalHeader,
   ModalCloseButton,
   ModalBody,
@@ -21,6 +20,7 @@ import CurrencyInput from "../../components/CurrencyInput";
 import BudgetItemCustomItems from "./BudgetItemCustomItems";
 import EditableBudgetItemCustomItem from "../../types/EditableBudgetItemCustomItems";
 import ResponsiveModal from "../../components/ResponsiveModal";
+import ResponsiveModalContent from "../../components/ResponsiveModalContent";
 
 interface Props {
   onClose: () => void;
@@ -176,7 +176,7 @@ function NewBudgetItem({
   return (
     <ResponsiveModal onClose={onClose} isOpen={isOpen}>
       <ModalOverlay bg="white" />
-      <ModalContent boxShadow="none">
+      <ResponsiveModalContent>
         {showChooseCategories ? (
           <CategoryPickerModalContent
             onCancel={() => setShowChooseCategories(false)}
@@ -281,7 +281,7 @@ function NewBudgetItem({
             </ModalFooter>
           </>
         )}
-      </ModalContent>
+      </ResponsiveModalContent>
     </ResponsiveModal>
   );
 }

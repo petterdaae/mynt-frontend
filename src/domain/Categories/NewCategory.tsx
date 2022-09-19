@@ -1,6 +1,5 @@
 import {
   ModalOverlay,
-  ModalContent,
   ModalHeader,
   ModalCloseButton,
   ModalBody,
@@ -19,6 +18,7 @@ import { Category, DraftCategory } from "../../types";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import CategoryPickerModalContent from "../CategoryPicker/CategoryPickerModalContent";
 import ResponsiveModal from "../../components/ResponsiveModal";
+import ResponsiveModalContent from "../../components/ResponsiveModalContent";
 
 interface Props {
   onClose: () => void;
@@ -111,7 +111,7 @@ function NewCategory({
   return (
     <ResponsiveModal onClose={onClose} isOpen={isOpen}>
       <ModalOverlay bg="white" />
-      <ModalContent boxShadow="none">
+      <ResponsiveModalContent>
         {parentCategoryBeingEdited ? (
           <CategoryPickerModalContent
             categories={categories}
@@ -196,7 +196,7 @@ function NewCategory({
             </ModalFooter>
           </>
         )}
-      </ModalContent>
+      </ResponsiveModalContent>
     </ResponsiveModal>
   );
 }

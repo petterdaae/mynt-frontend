@@ -4,7 +4,6 @@ import {
   Button,
   Modal,
   ModalOverlay,
-  ModalContent,
   ModalHeader,
   ModalBody,
   ModalFooter,
@@ -18,6 +17,7 @@ import CategoryIcon from "../CategoryIcon/CategoryIcon";
 import NewBudgetItem from "./NewBudgetItem";
 import { formatCurrency } from "../utils";
 import { BudgetItem as BudgetItemType, Category } from "../../types";
+import ResponsiveModalContent from "../../components/ResponsiveModalContent";
 
 interface Props {
   budgetItem: BudgetItemType;
@@ -93,7 +93,7 @@ function BudgetItem({
         onClose={() => setShowDeleteBudgetItem(false)}
       >
         <ModalOverlay bg="white" />
-        <ModalContent boxShadow="none">
+        <ResponsiveModalContent>
           <ModalHeader>Delete item</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
@@ -116,7 +116,7 @@ function BudgetItem({
               Cancel
             </Button>
           </ModalFooter>
-        </ModalContent>
+        </ResponsiveModalContent>
       </Modal>
     </>
   );

@@ -1,4 +1,4 @@
-import { ModalOverlay, ModalContent } from "@chakra-ui/react";
+import { ModalOverlay } from "@chakra-ui/react";
 import { useState } from "react";
 import CategoryPickerModalContent from "./CategoryPickerModalContent";
 import EditTransactionModalContent from "./EditTransactionModalContent";
@@ -10,6 +10,7 @@ import {
   Category,
 } from "../../types";
 import ResponsiveModal from "../../components/ResponsiveModal";
+import ResponsiveModalContent from "../../components/ResponsiveModalContent";
 
 interface Props {
   transaction: RichTransaction;
@@ -44,7 +45,7 @@ function EditTransactionModal({
   return (
     <ResponsiveModal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay bg="white" />
-      <ModalContent boxShadow="none">
+      <ResponsiveModalContent>
         {categorizationBeingEdited !== null ? (
           <CategoryPickerModalContent
             setCategorizationBeingEdited={setCategorizationBeingEdited}
@@ -66,7 +67,7 @@ function EditTransactionModal({
             setCategorizationBeingEdited={setCategorizationBeingEdited}
           />
         )}
-      </ModalContent>
+      </ResponsiveModalContent>
     </ResponsiveModal>
   );
 }
