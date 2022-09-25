@@ -33,6 +33,12 @@ function Home() {
     categories,
   } = useRichTransactions(fromDate, toDate);
 
+  const uncategorizedTransactions = useMemo(
+    () =>
+      transactions.filter((transaction) => transaction.firstCategory === null),
+    [transactions]
+  );
+
   return (
     <>
       <Accounts />
@@ -41,7 +47,7 @@ function Home() {
         Uncategorized (this month)
       </Text>
       <TransactionList
-        transactions={transactions}
+        transactions={uncategorizedTransactions}
         loading={loading}
         updateTransaction={update}
         updateCategorizationsForTransaction={
