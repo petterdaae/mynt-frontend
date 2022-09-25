@@ -23,18 +23,14 @@ function Transaction({ transaction, account }: Props) {
 
   return (
     <>
-      <HStack
-        justify="space-between"
-        m="4px"
-        p="4px"
-        borderRadius="md"
-        _hover={{ background: "whitesmoke", cursor: "pointer" }}
-      >
+      <HStack justify="space-between" m="4px" p="4px" borderRadius="md">
         <HStack>
           <CategoryIcon color={"lightgray"} size="md" />
           <VStack align="left" spacing="1px">
             <Text fontSize="sm">{readableAccountingDate}</Text>
-            <Text fontWeight="bold">{transaction.text}</Text>
+            <Text fontWeight="bold" color="gray">
+              {transaction.text}
+            </Text>
             <Text fontSize="sm">{account.name}</Text>
           </VStack>
         </HStack>

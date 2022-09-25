@@ -159,6 +159,13 @@ function Authenticated({ children }: { children: React.ReactNode }) {
                 >
                   Names
                 </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    history.push("/authenticated/home");
+                  }}
+                >
+                  Home
+                </MenuItem>
               </MenuList>
             </Menu>
           </Flex>
