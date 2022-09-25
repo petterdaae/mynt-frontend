@@ -1,7 +1,15 @@
-import { HStack, Text, Box, Badge, VStack, Divider } from "@chakra-ui/react";
+import { Flex, HStack, Text, VStack } from "@chakra-ui/react";
+import styled from "@emotion/styled";
 import { useAccounts } from "../../hooks";
-import CategoryIcon from "../CategoryIcon/CategoryIcon";
+import AccountIcon from "../CategoryIcon/AccountIcon";
 import { formatCurrency } from "../utils";
+
+const Card = styled.div`
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
+    rgb(209, 213, 219) 0px 0px 0px 1px inset;
+  flex: 0 0 350px;
+`;
 
 function Accounts() {
   const { accounts, loading } = useAccounts();
@@ -10,32 +18,39 @@ function Accounts() {
   return loading ? (
     <>Loading</>
   ) : (
-    <div>
-      {accounts
-        .filter((account) => !["Studielån", "Utgifter"].includes(account.name))
-        .map((account) => (
-          <div key={account.id}>
-            <HStack justify="space-between" m="4px" p="4px">
-              <HStack align="left">
-                <CategoryIcon color={"lightgray"} size="md" />
-                <VStack align="left" spacing="1px">
-                  <Text fontSize="small">{account.accountNumber}</Text>
-                  <Text fontWeight="bold">{account.name}</Text>
-                  <Text fontSize="small">
-                    {formatCurrency(account.balance)}
-                  </Text>
-                </VStack>
+    <HStack overflowX="scroll" m="2" p="2">
+      {accounts.map((account) => (
+        <Card key={account.id}>
+          <VStack m="4" justify="space-evenly" align="left">
+            <HStack justify="space-between" mb="6">
+              <HStack pr="64px">
+                <AccountIcon size="sm" />
+                <Text fontSize="16px" fontWeight="bold">
+                  {account.name.replace("\n", "")}
+                </Text>
               </HStack>
-              <Box>
-                <Badge colorScheme={"blue"} fontSize="1.0em">
-                  {formatCurrency(account.available)}
-                </Badge>
-              </Box>
+              <Text fontSize="14px">{account.accountNumber}</Text>
             </HStack>
-            <Divider />
-          </div>
-        ))}
-    </div>
+            <HStack justify="space-between">
+              <Flex align="left" flexDir="column">
+                <Text fontWeight="bold" fontSize="12px">
+                  NOK
+                </Text>
+                <Text fontSize="26px" fontWeight="bold" mt="-10px">
+                  {formatCurrency(account.available)}
+                </Text>
+              </Flex>
+              <Flex align="left" flexDir="column">
+                <Text fontSize="12px">NOK</Text>
+                <Text fontSize="16px" mt="-5px">
+                  {formatCurrency(account.balance)}
+                </Text>
+              </Flex>
+            </HStack>
+          </VStack>
+        </Card>
+      ))}
+    </HStack>
   );
 }
 
