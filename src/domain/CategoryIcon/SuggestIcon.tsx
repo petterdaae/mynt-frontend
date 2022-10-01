@@ -1,5 +1,5 @@
 import { Avatar } from "@chakra-ui/react";
-import { StarIcon } from "@chakra-ui/icons";
+import { ImMagicWand } from "react-icons/im";
 
 interface Props {
   size: string;
@@ -13,8 +13,8 @@ function CategoryIcon({ size, onClick }: Props) {
         e.stopPropagation();
         onClick();
       }}
-      bg={"gold"}
-      icon={<StarIcon color={"lightyellow"} />}
+      bg="#cea2fd"
+      icon={<ImMagicWand color="black" />}
       size={size}
     />
   );
