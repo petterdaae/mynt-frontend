@@ -2,7 +2,7 @@ import { Badge, Text, Box, HStack, VStack } from "@chakra-ui/react";
 import { formatCurrency } from "../utils";
 import { useMemo, memo } from "react";
 import { Account } from "../../types";
-import CategoryIcon from "../Icons/UncategorizedIcon";
+import UncategorizedIcon from "../Icons/UncategorizedIcon";
 import IncomingTransaction from "../../types/IncomingTransaction";
 
 interface Props {
@@ -20,7 +20,7 @@ function Transaction({ transaction }: Props) {
     <>
       <HStack justify="space-between">
         <HStack>
-          <CategoryIcon color={"lightgray"} size="sm" />
+          <UncategorizedIcon color={"lightgray"} size="sm" />
           <VStack align="left">
             <Text color="gray">{transaction.text}</Text>
           </VStack>

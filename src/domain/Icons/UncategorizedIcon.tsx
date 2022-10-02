@@ -6,8 +6,8 @@ interface Props {
   size: string;
 }
 
-function CategoryIcon({ color, size }: Props) {
-  return <Avatar bg={color} icon={<BsClock />} size={size} />;
+function UncategorizedIcon({ color, size }: Props) {
+  return <Avatar p="1" bg={color} icon={<BsClock />} size={size} />;
 }
 
-export default CategoryIcon;
+export default UncategorizedIcon;
