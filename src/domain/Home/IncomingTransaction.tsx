@@ -1,5 +1,5 @@
 import { Badge, Text, Box, HStack, VStack } from "@chakra-ui/react";
-import { formatCurrency, formatReadableDate } from "../utils";
+import { formatCurrency } from "../utils";
 import { useMemo, memo } from "react";
 import { Account } from "../../types";
 import CategoryIcon from "../CategoryIcon/CategoryIcon";
@@ -16,18 +16,12 @@ function Transaction({ transaction, account }: Props) {
     [transaction]
   );
 
-  const readableAccountingDate = useMemo(
-    () => formatReadableDate(transaction.accountingDate),
-    [transaction]
-  );
-
   return (
     <>
-      <HStack justify="space-between" m="4px" p="4px" borderRadius="md">
+      <HStack justify="space-between">
         <HStack>
-          <CategoryIcon color={"lightgray"} size="md" />
+          <CategoryIcon color={"lightgray"} size="sm" />
           <VStack align="left" spacing="1px">
-            <Text fontSize="sm">{readableAccountingDate}</Text>
             <Text fontWeight="bold" color="gray">
               {transaction.text}
             </Text>

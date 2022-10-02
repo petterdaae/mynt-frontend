@@ -1,4 +1,4 @@
-import { HStack, Text, VStack } from "@chakra-ui/react";
+import { Badge, Box, HStack, Text, VStack } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { useAccounts } from "../../hooks";
 import AccountIcon from "../CategoryIcon/AccountIcon";
@@ -29,9 +29,14 @@ function Accounts() {
                   {account.name}
                 </Text>
               </HStack>
-              <Text fontSize="20px" fontWeight="bold">
-                {formatCurrency(account.available)}
-              </Text>
+              <Box>
+                <Badge
+                  colorScheme={account.available >= 0 ? "blue" : "red"}
+                  fontSize="1.0em"
+                >
+                  {formatCurrency(account.available)}
+                </Badge>
+              </Box>
             </HStack>
           </VStack>
         </Card>

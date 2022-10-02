@@ -1,4 +1,4 @@
-import { Divider, Spinner, Center } from "@chakra-ui/react";
+import { Spinner, Center, Divider, VStack } from "@chakra-ui/react";
 import { Account } from "../../types";
 import IncomingTransaction from "./IncomingTransaction";
 import IncomingTransactionType from "../../types/IncomingTransaction";
@@ -20,14 +20,14 @@ function TransactionList({ transactions, accounts, loading }: Props) {
       <Spinner size="xl" />
     </Center>
   ) : (
-    <>
+    <VStack p="4" align="left">
       {transactions.map((transaction) => (
         <div key={transaction.id}>
           <IncomingTransaction transaction={transaction} account={account} />
           <Divider />
         </div>
       ))}
-    </>
+    </VStack>
   );
 }
 
