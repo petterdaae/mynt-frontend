@@ -1,6 +1,6 @@
 import { HStack, Text, Badge } from "@chakra-ui/react";
 import { Category, Spending as SpendingType } from "../../types";
-import CategoryIcon from "../CategoryIcon/CategoryIcon";
+import CategoryIcon from "../Icons/CategoryIcon";
 import { formatCurrency } from "../utils";
 
 interface Props {

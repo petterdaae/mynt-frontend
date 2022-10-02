@@ -1,5 +1,5 @@
 import { HStack, Divider, Button, Text } from "@chakra-ui/react";
-import CategoryIcon from "../CategoryIcon/CategoryIcon";
+import CategoryIcon from "../Icons/CategoryIcon";
 import { useState } from "react";
 import { ArrowRightIcon } from "@chakra-ui/icons";
 import CategoryBreadcrumb from "../CategoryBreadcrumb/CategoryBreadcrumb";

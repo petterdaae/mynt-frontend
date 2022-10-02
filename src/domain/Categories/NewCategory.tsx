@@ -15,7 +15,7 @@ import {
 import ColorPicker from "../../components/ColorPicker";
 import { useCallback, useEffect, useState } from "react";
 import { Category, DraftCategory } from "../../types";
-import CategoryIcon from "../CategoryIcon/CategoryIcon";
+import CategoryIcon from "../Icons/CategoryIcon";
 import CategoryPickerModalContent from "../CategoryPicker/CategoryPickerModalContent";
 import ResponsiveModal from "../../components/ResponsiveModal";
 import ResponsiveModalContent from "../../components/ResponsiveModalContent";

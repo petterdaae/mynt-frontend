@@ -1,10 +1,10 @@
 import { Badge, Text, Box, HStack, VStack } from "@chakra-ui/react";
 import { formatCurrency, formatReadableDate } from "../utils";
 import EditTransactionModal from "../EditTransaction/EditTransactionModal";
-import SuggestIcon from "../CategoryIcon/SuggestIcon";
+import SuggestIcon from "../Icons/SuggestIcon";
 import { useCallback, useMemo, useState, memo } from "react";
 import { RichTransaction, Category } from "../../types";
-import CategoryIcon from "../CategoryIcon/CategoryIcon";
+import CategoryIcon from "../Icons/CategoryIcon";
 
 interface Props {
   transaction: RichTransaction;

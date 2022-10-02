@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { useCallback, useState, useMemo } from "react";
 import CategoryPickerModalContent from "../CategoryPicker/CategoryPickerModalContent";
-import CategoryIcon from "../CategoryIcon/CategoryIcon";
+import CategoryIcon from "../Icons/CategoryIcon";
 import { BudgetItem, Category } from "../../types";
 import CurrencyInput from "../../components/CurrencyInput";
 import BudgetItemCustomItems from "./BudgetItemCustomItems";

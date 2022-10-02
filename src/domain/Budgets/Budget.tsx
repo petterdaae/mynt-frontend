@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon, StarIcon } from "@chakra-ui/icons";
 import { useState } from "react";
-import CategoryIcon from "../CategoryIcon/CategoryIcon";
+import CategoryIcon from "../Icons/CategoryIcon";
 import NewBudget from "./NewBudget";
 import { Budget as BudgetType } from "../../types";
 import ResponsiveModalContent from "../../components/ResponsiveModalContent";

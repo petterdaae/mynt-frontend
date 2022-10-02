@@ -1,7 +1,7 @@
 import { Badge, Box, HStack, Text, VStack } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { Account } from "../../types";
-import AccountIcon from "../CategoryIcon/AccountIcon";
+import AccountIcon from "../Icons/AccountIcon";
 import { formatCurrency } from "../utils";
 
 const Card = styled.div`

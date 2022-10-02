@@ -1,6 +1,6 @@
 import { HStack, Text, VStack, IconButton, Button } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
-import CategoryIcon from "../CategoryIcon/CategoryIcon";
+import CategoryIcon from "../Icons/CategoryIcon";
 import { useEffect } from "react";
 import { Transaction, SetState, EditableCategorization } from "../../types";
 import CurrencyInput from "../../components/CurrencyInput";

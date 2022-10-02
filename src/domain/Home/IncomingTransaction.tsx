@@ -2,7 +2,7 @@ import { Badge, Text, Box, HStack, VStack } from "@chakra-ui/react";
 import { formatCurrency } from "../utils";
 import { useMemo, memo } from "react";
 import { Account } from "../../types";
-import CategoryIcon from "../CategoryIcon/UncategorizedIcon";
+import CategoryIcon from "../Icons/UncategorizedIcon";
 import IncomingTransaction from "../../types/IncomingTransaction";
 
 interface Props {
