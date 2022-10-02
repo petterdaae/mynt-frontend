@@ -1,6 +1,6 @@
 import { Badge, Box, HStack, Text, VStack } from "@chakra-ui/react";
 import styled from "@emotion/styled";
-import { useAccounts } from "../../hooks";
+import { Account } from "../../types";
 import AccountIcon from "../CategoryIcon/AccountIcon";
 import { formatCurrency } from "../utils";
 
@@ -11,36 +11,37 @@ const Card = styled.div`
   width: 100%;
 `;
 
-function Accounts() {
-  const { accounts, loading } = useAccounts();
-  console.log(accounts);
+interface Props {
+  accounts: Account[];
+}
 
-  return loading ? (
-    <>Loading</>
-  ) : (
+function Accounts({ accounts }: Props) {
+  return (
     <VStack m="4">
-      {accounts.map((account) => (
-        <Card key={account.id}>
-          <VStack p="4" align="left">
-            <HStack justify="space-between">
-              <HStack>
-                <AccountIcon size="md" isCard={account.name === "Kort"} />
-                <Text fontSize="16px" fontWeight="bold">
-                  {account.name}
-                </Text>
+      {accounts
+        .sort((account) => (account.name === "Kort" ? 0 : 1))
+        .map((account) => (
+          <Card key={account.id}>
+            <VStack p="4" align="left">
+              <HStack justify="space-between">
+                <HStack>
+                  <AccountIcon size="md" isCard={account.name === "Kort"} />
+                  <Text fontSize="16px" fontWeight="bold">
+                    {account.name}
+                  </Text>
+                </HStack>
+                <Box>
+                  <Badge
+                    colorScheme={account.available >= 0 ? "blue" : "red"}
+                    fontSize="1.0em"
+                  >
+                    {formatCurrency(account.available)}
+                  </Badge>
+                </Box>
               </HStack>
-              <Box>
-                <Badge
-                  colorScheme={account.available >= 0 ? "blue" : "red"}
-                  fontSize="1.0em"
-                >
-                  {formatCurrency(account.available)}
-                </Badge>
-              </Box>
-            </HStack>
-          </VStack>
-        </Card>
-      ))}
+            </VStack>
+          </Card>
+        ))}
     </VStack>
   );
 }
