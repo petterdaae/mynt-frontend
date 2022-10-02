@@ -76,19 +76,9 @@ function Authenticated({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (location.pathname === "/authenticated/transactions") {
       setTabIndex(0);
-    } else if (location.pathname === "/authenticated/categories") {
-      setTabIndex(-1);
     } else if (location.pathname === "/authenticated/spendings") {
       setTabIndex(1);
-    } else if (location.pathname === "/authenticated/settings") {
-      setTabIndex(-1);
-    } else if (location.pathname === "/authenticated/budgets") {
-      setTabIndex(-1);
-    } else if (location.pathname === "/authenticated/prediction") {
-      setTabIndex(-1);
-    } else if (location.pathname === "/authenticated/names") {
-      setTabIndex(-1);
-    } else if (location.pathname === "/authenticated/home") {
+    } else {
       setTabIndex(-1);
     }
   }, [location]);
@@ -126,6 +116,13 @@ function Authenticated({ children }: { children: React.ReactNode }) {
               <MenuList>
                 <MenuItem
                   onClick={() => {
+                    history.push("/authenticated/home");
+                  }}
+                >
+                  Home
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
                     history.push("/authenticated/categories");
                   }}
                 >
@@ -147,24 +144,10 @@ function Authenticated({ children }: { children: React.ReactNode }) {
                 </MenuItem>
                 <MenuItem
                   onClick={() => {
-                    history.push("/authenticated/prediction");
-                  }}
-                >
-                  Prediction
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
                     history.push("/authenticated/names");
                   }}
                 >
                   Names
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    history.push("/authenticated/home");
-                  }}
-                >
-                  Home
                 </MenuItem>
               </MenuList>
             </Menu>

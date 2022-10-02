@@ -9,7 +9,6 @@ import TransactionListWithFilters from "./domain/TransactionList/TransactionList
 import Spendings from "./domain/Spendings/Spendings";
 import Categories from "./domain/Categories/Categories";
 import Budgets from "./domain/Budgets/Budgets";
-import Prediction from "./domain/Prediction/Prediction";
 import Names from "./domain/Names/Names";
 import Synching from "./synching";
 import Home from "./domain/Home";
@@ -29,7 +28,6 @@ function App() {
           <Route path="/authenticated/spendings" component={Spendings} />
           <Route path="/authenticated/categories" component={Categories} />
           <Route path="/authenticated/budgets" component={Budgets} />
-          <Route path="/authenticated/prediction" component={Prediction} />
           <Route path="/authenticated/names" component={Names} />
           <Route path="/authenticated/home" component={Home} />
         </Authenticated>
