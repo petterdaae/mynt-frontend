@@ -2,7 +2,7 @@ import { Badge, Text, Box, HStack, VStack } from "@chakra-ui/react";
 import { formatCurrency } from "../utils";
 import { useMemo, memo } from "react";
 import { Account } from "../../types";
-import CategoryIcon from "../CategoryIcon/CategoryIcon";
+import CategoryIcon from "../CategoryIcon/UncategorizedIcon";
 import IncomingTransaction from "../../types/IncomingTransaction";
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
   account: Account;
 }
 
-function Transaction({ transaction, account }: Props) {
+function Transaction({ transaction }: Props) {
   const formattedCurrency = useMemo(
     () => formatCurrency(transaction.amount),
     [transaction]
@@ -21,11 +21,8 @@ function Transaction({ transaction, account }: Props) {
       <HStack justify="space-between">
         <HStack>
           <CategoryIcon color={"lightgray"} size="sm" />
-          <VStack align="left" spacing="1px">
-            <Text fontWeight="bold" color="gray">
-              {transaction.text}
-            </Text>
-            <Text fontSize="sm">{account.name}</Text>
+          <VStack align="left">
+            <Text color="gray">{transaction.text}</Text>
           </VStack>
         </HStack>
         <Box>

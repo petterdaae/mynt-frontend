@@ -71,6 +71,11 @@ function Home() {
       <Text fontWeight="bold" fontSize="20px" m="4">
         Innkommende transaksjoner
       </Text>
+      <Text ml="4" mr="4">
+        Transaksjoner kan ikke behandles av mynt før de er bokført.
+        Transaksjoner som ikke er bokført blir derfor liggende her til de er
+        bokført.
+      </Text>
       <IncomingTransactions
         transactions={incomingTransactions}
         accounts={accounts}

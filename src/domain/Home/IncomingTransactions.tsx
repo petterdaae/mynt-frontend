@@ -23,8 +23,8 @@ function TransactionList({ transactions, accounts, loading }: Props) {
     <VStack p="4" align="left">
       {transactions.map((transaction) => (
         <div key={transaction.id}>
+          <Divider mb="2" />
           <IncomingTransaction transaction={transaction} account={account} />
-          <Divider />
         </div>
       ))}
     </VStack>
