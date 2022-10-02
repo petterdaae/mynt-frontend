@@ -1,15 +1,16 @@
 import { Avatar } from "@chakra-ui/react";
-import { QuestionIcon } from "@chakra-ui/icons";
+import { BsPiggyBank, BsCreditCard } from "react-icons/bs";
 
 interface Props {
   size: string;
+  isCard: boolean | undefined;
 }
 
-function CategoryIcon({ size }: Props) {
+function CategoryIcon({ size, isCard }: Props) {
   return (
     <Avatar
       bg={"lightgray"}
-      icon={<QuestionIcon color={"lightgray"} />}
+      icon={isCard ? <BsCreditCard /> : <BsPiggyBank />}
       size={size}
     />
   );
