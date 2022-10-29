@@ -80,6 +80,7 @@ function EditTransactionModal({
             setCategorizations={setCategorizations}
             setCategorizationBeingEdited={setCategorizationBeingEdited}
             setSettingsOpen={setSettingsOpen}
+            settings={settings}
           />
         )}
       </ResponsiveModalContent>

@@ -1,11 +1,4 @@
-import {
-  VStack,
-  HStack,
-  Text,
-  Checkbox,
-  Input,
-  Button,
-} from "@chakra-ui/react";
+import { VStack, HStack, Text, Input, Button } from "@chakra-ui/react";
 import { useCallback } from "react";
 import { Transaction, SetState } from "../../types";
 
@@ -19,7 +12,6 @@ interface Props {
   error: string | null;
   setError: SetState<string | null>;
   customDateOpen: boolean;
-  setCustomDateOpen: (p: (open: boolean) => boolean) => void;
 }
 
 function CustomDate({
@@ -29,7 +21,6 @@ function CustomDate({
   error,
   setError,
   customDateOpen,
-  setCustomDateOpen,
 }: Props) {
   const onChangeCustomDate = useCallback(
     (e) => {
@@ -70,12 +61,6 @@ function CustomDate({
               {transaction.accountingDate.split("T")[0]}
             </Text>
           </VStack>
-          <Checkbox
-            isChecked={customDateOpen}
-            onChange={() => setCustomDateOpen((prev) => !prev)}
-          >
-            Set a custom date
-          </Checkbox>
         </HStack>
       </VStack>
       {customDateOpen && (
@@ -86,7 +71,7 @@ function CustomDate({
               disabled={!!error}
               onClick={decreaseMonth}
             >
-              -1 month
+              -
             </Button>
             <Input value={customDate} onChange={onChangeCustomDate} />
             <Button
@@ -94,7 +79,7 @@ function CustomDate({
               disabled={!!error}
               onClick={increaseMonth}
             >
-              +1 month
+              +
             </Button>
           </HStack>
           <Text color="red.500">{error}</Text>

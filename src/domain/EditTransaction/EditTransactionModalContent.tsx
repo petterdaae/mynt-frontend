@@ -23,6 +23,7 @@ import {
   Transaction,
 } from "../../types";
 import { BsGear } from "react-icons/bs";
+import EditTransctionSettingsType from "../../types/EditTransctionSettings";
 
 interface Props {
   transaction: RichTransaction;
@@ -36,6 +37,7 @@ interface Props {
   setCategorizations: SetState<EditableCategorization[]>;
   setCategorizationBeingEdited: SetState<number | null>;
   setSettingsOpen: SetState<boolean>;
+  settings: EditTransctionSettingsType;
 }
 
 function EditTransactionModalContent({
@@ -47,15 +49,13 @@ function EditTransactionModalContent({
   setCategorizations,
   setCategorizationBeingEdited,
   setSettingsOpen,
+  settings,
 }: Props) {
   const [customDateError, setCustomDateError] = useState<string | null>(null);
   const [customDate, setCustomDate] = useState(
     transaction.customDate
       ? transaction.customDate
       : transaction.accountingDate.split("T")[0]
-  );
-  const [customDateOpen, setCustomDateOpen] = useState(
-    !!transaction.customDate
   );
   const [categorizationsError, setCategorizationsError] = useState<
     string | null
@@ -69,7 +69,7 @@ function EditTransactionModalContent({
       categoryId: c.category?.id as number,
     }));
     updateCategorizationsForTransaction(transaction, mappedNewCategorizations);
-    const nullableNewCustomDate = customDateOpen ? customDate : null;
+    const nullableNewCustomDate = settings.customDate ? customDate : null;
     updateTransaction({ ...transaction, customDate: nullableNewCustomDate });
   }, [
     transaction,
@@ -78,7 +78,7 @@ function EditTransactionModalContent({
     updateCategorizationsForTransaction,
     categorizations,
     customDate,
-    customDateOpen,
+    settings.customDate,
   ]);
 
   return (
@@ -103,8 +103,7 @@ function EditTransactionModalContent({
             setCustomDate={setCustomDate}
             error={customDateError}
             setError={setCustomDateError}
-            customDateOpen={Boolean(customDateOpen)}
-            setCustomDateOpen={setCustomDateOpen}
+            customDateOpen={settings.customDate}
           />
           <Divider />
           <Text fontSize="sm">Account</Text>
