@@ -56,9 +56,18 @@ function CustomDate({
       <VStack align="left">
         <HStack justify="space-between">
           <VStack align="left">
-            <Text fontSize="sm">Date</Text>
-            <Text fontWeight="semibold">
-              {transaction.accountingDate.split("T")[0]}
+            <Text fontSize="sm" fontWeight="semibold">
+              Date
+            </Text>
+            <Text>
+              {new Date(
+                transaction.accountingDate.split("T")[0]
+              ).toLocaleDateString("no-NO", {
+                weekday: "long",
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
             </Text>
           </VStack>
         </HStack>

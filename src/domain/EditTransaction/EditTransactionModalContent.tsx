@@ -93,15 +93,36 @@ function EditTransactionModalContent({
       <ModalCloseButton />
       <ModalBody>
         <VStack align="left">
-          <Text fontSize="sm">Description</Text>
-          <Text fontWeight="semibold">{transaction.text}</Text>
-          <Divider />
-          <Text fontSize="sm">Amount</Text>
-          <HStack>
-            <Badge colorScheme={transaction.amount >= 0 ? "blue" : "red"}>
-              {formatCurrency(transaction.amount)}
-            </Badge>
+          <HStack justify="space-between">
+            <VStack align="left">
+              <Text fontSize="sm" fontWeight="semibold">
+                Amount
+              </Text>
+              <Badge
+                colorScheme={transaction.amount >= 0 ? "blue" : "red"}
+                fontSize="1em"
+              >
+                {formatCurrency(transaction.amount)}
+              </Badge>
+            </VStack>
+            <VStack>
+              <Text fontSize="sm" fontWeight="semibold">
+                Bank
+              </Text>
+              <Text>Sbanken</Text>
+            </VStack>
+            <VStack align="right">
+              <Text fontSize="sm" align="right" fontWeight="semibold">
+                Account
+              </Text>
+              <Text align="right">{transaction.account.name}</Text>
+            </VStack>
           </HStack>
+          <Divider />
+          <Text fontSize="sm" fontWeight="semibold">
+            Description
+          </Text>
+          <Text>{transaction.text}</Text>
           <Divider />
           <CustomDate
             transaction={transaction}
@@ -111,9 +132,6 @@ function EditTransactionModalContent({
             setError={setCustomDateError}
             customDateOpen={settings.customDate}
           />
-          <Divider />
-          <Text fontSize="sm">Account</Text>
-          <Text fontWeight="semibold">{transaction.account.name}</Text>
           <Divider />
           {(categorizations.length !== 1 || settings.splitTransaction) && (
             <>

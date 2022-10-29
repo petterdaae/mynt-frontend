@@ -50,7 +50,9 @@ function Categorizations({
 
   return (
     <VStack align="left">
-      <Text fontSize="sm">Categorizations</Text>
+      <Text fontSize="sm" fontWeight="semibold">
+        Categorizations
+      </Text>
       {categorizations.length === 0 ? (
         <HStack>
           <Text>No categorizations</Text>
@@ -63,9 +65,7 @@ function Categorizations({
                 color={categorization.category?.color ?? "lightgray"}
                 size="sm"
               />
-              <Text fontWeight="semibold">
-                {categorization.category?.name ?? "No category"}
-              </Text>
+              <Text>{categorization.category?.name ?? "No category"}</Text>
             </HStack>
             <HStack align="right">
               <CurrencyInput
