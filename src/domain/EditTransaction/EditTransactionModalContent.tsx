@@ -24,6 +24,7 @@ import {
 } from "../../types";
 import { BsGear } from "react-icons/bs";
 import EditTransctionSettingsType from "../../types/EditTransctionSettings";
+import ChangeCategory from "./ChangeCategory";
 
 interface Props {
   transaction: RichTransaction;
@@ -63,11 +64,16 @@ function EditTransactionModalContent({
 
   const onSave = useCallback(() => {
     onClose();
-    const mappedNewCategorizations = categorizations.map((c) => ({
-      ...c,
-      amount: c.amount as number,
-      categoryId: c.category?.id as number,
-    }));
+    const mappedNewCategorizations = categorizations
+      .filter((c) => !!c.category)
+      .map((c) => ({
+        ...c,
+        amount: c.amount as number,
+        categoryId: c.category?.id as number,
+      }));
+
+    console.log(mappedNewCategorizations);
+
     updateCategorizationsForTransaction(transaction, mappedNewCategorizations);
     const nullableNewCustomDate = settings.customDate ? customDate : null;
     updateTransaction({ ...transaction, customDate: nullableNewCustomDate });
@@ -109,15 +115,28 @@ function EditTransactionModalContent({
           <Text fontSize="sm">Account</Text>
           <Text fontWeight="semibold">{transaction.account.name}</Text>
           <Divider />
-          <Categorizations
-            setCategorizationBeingEdited={setCategorizationBeingEdited}
-            categorizations={categorizations}
-            setCategorizations={setCategorizations}
-            categorizationsError={categorizationsError}
-            setCategorizationsError={setCategorizationsError}
-            transaction={transaction}
-          />
-          <Divider />
+          {(categorizations.length !== 1 || settings.splitTransaction) && (
+            <>
+              <Categorizations
+                setCategorizationBeingEdited={setCategorizationBeingEdited}
+                categorizations={categorizations}
+                setCategorizations={setCategorizations}
+                categorizationsError={categorizationsError}
+                setCategorizationsError={setCategorizationsError}
+                transaction={transaction}
+              />
+              <Divider />
+            </>
+          )}
+          {categorizations.length === 1 && !settings.splitTransaction && (
+            <>
+              <ChangeCategory
+                setCategorizationBeingEdited={setCategorizationBeingEdited}
+                categorization={categorizations[0]}
+              />
+              <Divider />
+            </>
+          )}
         </VStack>
       </ModalBody>
       <ModalFooter>

@@ -23,6 +23,7 @@ function Categorizations({
   transaction,
 }: Props) {
   useEffect(() => {
+    console.log(categorizations);
     if (categorizations.length === 0) {
       setCategorizationsError(null);
       return;

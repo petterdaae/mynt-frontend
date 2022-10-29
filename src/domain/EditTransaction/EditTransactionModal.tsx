@@ -27,6 +27,22 @@ interface Props {
   loading: boolean;
 }
 
+function initialCategorizations(
+  transaction: RichTransaction
+): EditableCategorization[] {
+  if (transaction.categorizations.length === 0) {
+    return [
+      {
+        id: 1,
+        transactionId: transaction.id,
+        amount: transaction.amount,
+        category: null,
+      },
+    ];
+  }
+  return transaction.categorizations.map((c) => ({ ...c, newAmount: "" }));
+}
+
 function EditTransactionModal({
   transaction,
   isOpen,
@@ -38,7 +54,7 @@ function EditTransactionModal({
 }: Props) {
   const [categorizations, setCategorizations] = useState<
     EditableCategorization[]
-  >(transaction.categorizations.map((c) => ({ ...c, newAmount: "" })));
+  >(initialCategorizations(transaction));
 
   const [categorizationBeingEdited, setCategorizationBeingEdited] = useState<
     number | null

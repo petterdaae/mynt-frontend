@@ -6,7 +6,6 @@ function Synching() {
   const toast = useToast();
   const history = useHistory();
   useEffect(() => {
-    console.log("synching");
     fetch(`${process.env.REACT_APP_BACKEND_URL}/synchronize/sbanken`, {
       method: "POST",
       credentials: "include",
