@@ -11,6 +11,8 @@ import {
 } from "../../types";
 import ResponsiveModal from "../../components/ResponsiveModal";
 import ResponsiveModalContent from "../../components/ResponsiveModalContent";
+import EditTransactionSettings from "./EditTransactionSettings";
+import EditTransctionSettingsType from "../../types/EditTransctionSettings";
 
 interface Props {
   transaction: RichTransaction;
@@ -25,6 +27,22 @@ interface Props {
   loading: boolean;
 }
 
+function initialCategorizations(
+  transaction: RichTransaction
+): EditableCategorization[] {
+  if (transaction.categorizations.length === 0) {
+    return [
+      {
+        id: 1,
+        transactionId: transaction.id,
+        amount: transaction.amount,
+        category: null,
+      },
+    ];
+  }
+  return transaction.categorizations.map((c) => ({ ...c, newAmount: "" }));
+}
+
 function EditTransactionModal({
   transaction,
   isOpen,
@@ -36,17 +54,29 @@ function EditTransactionModal({
 }: Props) {
   const [categorizations, setCategorizations] = useState<
     EditableCategorization[]
-  >(transaction.categorizations.map((c) => ({ ...c, newAmount: "" })));
+  >(initialCategorizations(transaction));
 
   const [categorizationBeingEdited, setCategorizationBeingEdited] = useState<
     number | null
   >(null);
 
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [settings, setSettings] = useState<EditTransctionSettingsType>({
+    customDate: false,
+    splitTransaction: false,
+  });
+
   return (
     <ResponsiveModal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay bg="white" />
       <ResponsiveModalContent>
-        {categorizationBeingEdited !== null ? (
+        {settingsOpen ? (
+          <EditTransactionSettings
+            settings={settings}
+            setSettings={setSettings}
+            setSettingsOpen={setSettingsOpen}
+          />
+        ) : categorizationBeingEdited !== null ? (
           <CategoryPickerModalContent
             setCategorizationBeingEdited={setCategorizationBeingEdited}
             categorizationBeingEdited={categorizationBeingEdited}
@@ -65,6 +95,8 @@ function EditTransactionModal({
             categorizations={categorizations}
             setCategorizations={setCategorizations}
             setCategorizationBeingEdited={setCategorizationBeingEdited}
+            setSettingsOpen={setSettingsOpen}
+            settings={settings}
           />
         )}
       </ResponsiveModalContent>
