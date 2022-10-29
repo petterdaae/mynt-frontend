@@ -11,6 +11,8 @@ import {
 } from "../../types";
 import ResponsiveModal from "../../components/ResponsiveModal";
 import ResponsiveModalContent from "../../components/ResponsiveModalContent";
+import EditTransactionSettings from "./EditTransactionSettings";
+import EditTransctionSettingsType from "../../types/EditTransctionSettings";
 
 interface Props {
   transaction: RichTransaction;
@@ -42,11 +44,23 @@ function EditTransactionModal({
     number | null
   >(null);
 
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [settings, setSettings] = useState<EditTransctionSettingsType>({
+    customDate: false,
+    splitTransaction: false,
+  });
+
   return (
     <ResponsiveModal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay bg="white" />
       <ResponsiveModalContent>
-        {categorizationBeingEdited !== null ? (
+        {settingsOpen ? (
+          <EditTransactionSettings
+            settings={settings}
+            setSettings={setSettings}
+            setSettingsOpen={setSettingsOpen}
+          />
+        ) : categorizationBeingEdited !== null ? (
           <CategoryPickerModalContent
             setCategorizationBeingEdited={setCategorizationBeingEdited}
             categorizationBeingEdited={categorizationBeingEdited}
@@ -65,6 +79,7 @@ function EditTransactionModal({
             categorizations={categorizations}
             setCategorizations={setCategorizations}
             setCategorizationBeingEdited={setCategorizationBeingEdited}
+            setSettingsOpen={setSettingsOpen}
           />
         )}
       </ResponsiveModalContent>

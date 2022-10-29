@@ -9,6 +9,7 @@ import {
   Divider,
   Badge,
   HStack,
+  IconButton,
 } from "@chakra-ui/react";
 import CustomDate from "./CustomDate";
 import Categorizations from "./Categorizations";
@@ -21,6 +22,7 @@ import {
   EditableCategorization,
   Transaction,
 } from "../../types";
+import { BsGear } from "react-icons/bs";
 
 interface Props {
   transaction: RichTransaction;
@@ -33,6 +35,7 @@ interface Props {
   categorizations: EditableCategorization[];
   setCategorizations: SetState<EditableCategorization[]>;
   setCategorizationBeingEdited: SetState<number | null>;
+  setSettingsOpen: SetState<boolean>;
 }
 
 function EditTransactionModalContent({
@@ -43,6 +46,7 @@ function EditTransactionModalContent({
   categorizations,
   setCategorizations,
   setCategorizationBeingEdited,
+  setSettingsOpen,
 }: Props) {
   const [customDateError, setCustomDateError] = useState<string | null>(null);
   const [customDate, setCustomDate] = useState(
@@ -118,6 +122,12 @@ function EditTransactionModalContent({
         </VStack>
       </ModalBody>
       <ModalFooter>
+        <IconButton
+          aria-label="More"
+          icon={<BsGear />}
+          onClick={() => setSettingsOpen(true)}
+          mr="8px"
+        />
         <Button
           onClick={onSave}
           mr="8px"
