@@ -40,7 +40,7 @@ function initialCategorizations(
       },
     ];
   }
-  return transaction.categorizations.map((c) => ({ ...c, newAmount: "" }));
+  return transaction.categorizations;
 }
 
 function EditTransactionModal({
@@ -62,8 +62,8 @@ function EditTransactionModal({
 
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [settings, setSettings] = useState<EditTransctionSettingsType>({
-    customDate: false,
-    splitTransaction: false,
+    customDate: !!transaction.customDate,
+    splitTransaction: transaction.categorizations.length > 1,
   });
 
   return (

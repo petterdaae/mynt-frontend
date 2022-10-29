@@ -72,8 +72,6 @@ function EditTransactionModalContent({
         categoryId: c.category?.id as number,
       }));
 
-    console.log(mappedNewCategorizations);
-
     updateCategorizationsForTransaction(transaction, mappedNewCategorizations);
     const nullableNewCustomDate = settings.customDate ? customDate : null;
     updateTransaction({ ...transaction, customDate: nullableNewCustomDate });
@@ -175,12 +173,6 @@ function EditTransactionModalContent({
         <Button
           onClick={() => {
             onClose();
-            setCategorizations(
-              transaction.categorizations.map((c) => ({
-                ...c,
-                newAmount: "",
-              }))
-            );
           }}
         >
           Close
