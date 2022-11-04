@@ -22,7 +22,6 @@ function useSuggestions(richTransactions: RichTransaction[]) {
       const transactionPattern = transaction.text.replace(/[0-9]/g, "");
       for (const suggestion of suggestions) {
         if (transactionPattern === suggestion.pattern) {
-          console.log(suggestion);
           return suggestion.category;
         }
       }
