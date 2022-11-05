@@ -13,9 +13,11 @@ const Card = styled.div`
 
 interface Props {
   accounts: Account[];
+  setFavorite: (id: string, favorite: boolean) => void;
+  areFavorites: boolean;
 }
 
-function Accounts({ accounts }: Props) {
+function Accounts({ accounts, setFavorite, areFavorites }: Props) {
   return (
     <VStack m="4">
       {accounts
@@ -25,7 +27,11 @@ function Accounts({ accounts }: Props) {
             <VStack p="4" align="left">
               <HStack justify="space-between">
                 <HStack>
-                  <AccountIcon size="md" isCard={account.name === "Kort"} />
+                  <AccountIcon
+                    size="md"
+                    isCard={account.name === "Kort"}
+                    onClick={() => setFavorite(account.id, !areFavorites)}
+                  />
                   <Text fontSize="16px" fontWeight="bold">
                     {account.name}
                   </Text>

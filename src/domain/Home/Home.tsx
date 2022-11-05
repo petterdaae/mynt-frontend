@@ -4,6 +4,7 @@ import {
   AlertDescription,
   AlertIcon,
   Center,
+  Checkbox,
   Divider,
   Spinner,
   Text,
@@ -13,7 +14,7 @@ import useIncomingTransactions from "../../hooks/useIncomingTransactions";
 import { useAccounts, useRichTransactions } from "../../hooks";
 import IncomingTransactions from "./IncomingTransactions";
 import { formatDate } from "../utils";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "@emotion/styled";
 
@@ -36,7 +37,7 @@ function Home() {
     return formatDate(past);
   }, []);
 
-  const { accounts, loading: accountsLoading } = useAccounts();
+  const { accounts, loading: accountsLoading, setFavorite } = useAccounts();
 
   const {
     transactions: incomingTransactions,
@@ -57,6 +58,9 @@ function Home() {
 
   const loading =
     accountsLoading || incomingTransactionsLoading || transactionsLoading;
+
+  const [onlyShowFavoriteAccounts, setOnlyShowFavoriteAccounts] =
+    useState(true);
 
   return loading ? (
     <Center mt="8">
@@ -86,7 +90,29 @@ function Home() {
         )}
       </VStack>
       <Divider />
-      <Accounts accounts={accounts} />
+      <Checkbox
+        isChecked={onlyShowFavoriteAccounts}
+        onChange={() => setOnlyShowFavoriteAccounts((prev) => !prev)}
+        ml="4"
+        mt="4"
+      >
+        Only show favorite accounts
+      </Checkbox>
+      <Accounts
+        accounts={accounts.filter((account) => account.favorite)}
+        setFavorite={setFavorite}
+        areFavorites={true}
+      />
+      {!onlyShowFavoriteAccounts && (
+        <>
+          <Divider />
+          <Accounts
+            accounts={accounts.filter((account) => !account.favorite)}
+            setFavorite={setFavorite}
+            areFavorites={false}
+          />
+        </>
+      )}
       <Divider />
       <Text fontWeight="bold" fontSize="20px" m="4">
         Innkommende transaksjoner

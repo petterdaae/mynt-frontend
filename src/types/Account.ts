@@ -4,6 +4,7 @@ interface Account {
   name: string;
   available: number;
   balance: number;
+  favorite: boolean;
 }
 
 export default Account;
