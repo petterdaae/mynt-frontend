@@ -1,3 +1,5 @@
+Not maintained.
+
 # mynt-frontend
 
 Mynt is a web-application for managing personal finance. This repository contains the frontend-code and requires [mynt-backend](https://github.com/petterdaae/mynt-backend) to run.
