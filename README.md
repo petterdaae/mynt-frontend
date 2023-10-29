@@ -1,4 +1,6 @@
-Not maintained.
+*Not maintained.*
+
+---
 
 # mynt-frontend
 
